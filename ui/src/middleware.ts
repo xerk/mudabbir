@@ -76,10 +76,17 @@ export async function middleware(request: NextRequest) {
   const slug = request.cookies.get(ORG_SLUG_COOKIE)?.value;
   const first = pathname.split('/').filter(Boolean)[0] ?? '';
 
-  // A bare org route (e.g. /workflow) → redirect to /{slug}/workflow.
-  if (slug && ORG_ROUTES.has(first)) {
+  // A bare org route (e.g. /workflow/create) → redirect to /{slug}/...
+  if (ORG_ROUTES.has(first)) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${slug}${pathname}`;
+    if (slug) {
+      url.pathname = `/${slug}${pathname}`;
+      return NextResponse.redirect(url);
+    }
+    // No active-workspace cookie yet (fresh login or a direct/bookmarked
+    // link) — resolve the slug via /after-sign-in, preserving the target.
+    url.pathname = '/after-sign-in';
+    url.searchParams.set('next', pathname);
     return NextResponse.redirect(url);
   }
 

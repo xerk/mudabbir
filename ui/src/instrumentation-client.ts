@@ -56,45 +56,26 @@ if (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') {
 
 // Initialize PostHog - prioritize NEXT_PUBLIC env vars, fallback to API
 const initPostHog = () => {
-  const hasPublicConfig = process.env.NEXT_PUBLIC_POSTHOG_KEY;
-
-
-  if (hasPublicConfig) {
-    // Use client-side environment variables
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || '/ingest',
-      ui_host: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST || 'https://us.posthog.com',
-      capture_pageview: 'history_change',
-      capture_pageleave: true,
-      capture_exceptions: true,
-      cross_subdomain_cookie: true,
-      debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
-    });
-    console.log('PostHog initialized from NEXT_PUBLIC config');
-  } else {
-    // Fallback to API-based configuration
-    fetch('/api/config/posthog')
-      .then(res => res.json())
-      .then(config => {
-        if (config.enabled && config.key) {
-          posthog.init(config.key, {
-            api_host: config.host,
-            ui_host: config.uiHost,
-            capture_pageview: 'history_change',
-            capture_pageleave: true,
-            capture_exceptions: true,
-            cross_subdomain_cookie: true,
-            debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
-          });
-          console.log('PostHog initialized from API config');
-        } else {
-          console.log('PostHog disabled (not enabled or key not configured)');
-        }
-      })
-      .catch(err => {
-        console.error('Failed to fetch PostHog configuration:', err);
-      });
+  // PostHog is OFF unless you explicitly provide your OWN key via
+  // NEXT_PUBLIC_POSTHOG_KEY. The previous API-config fallback auto-enabled
+  // analytics using the upstream Dograh key — that's intentionally removed so
+  // no telemetry is sent from this deployment by default.
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  if (!key) {
+    console.log('PostHog disabled (set NEXT_PUBLIC_POSTHOG_KEY to enable)');
+    return;
   }
+
+  posthog.init(key, {
+    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || '/ingest',
+    ui_host: process.env.NEXT_PUBLIC_POSTHOG_UI_HOST || 'https://us.posthog.com',
+    capture_pageview: 'history_change',
+    capture_pageleave: true,
+    capture_exceptions: true,
+    cross_subdomain_cookie: true,
+    debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development',
+  });
+  console.log('PostHog initialized from NEXT_PUBLIC config');
 };
 
 if (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') {

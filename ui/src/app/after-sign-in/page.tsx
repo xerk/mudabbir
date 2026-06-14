@@ -8,7 +8,12 @@ import { getRedirectUrl } from "@/lib/utils";
 
 export const dynamic = 'force-dynamic';
 
-export default async function AfterSignInPage() {
+export default async function AfterSignInPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ next?: string }>;
+}) {
+    const { next } = await searchParams;
     logger.debug('[AfterSignInPage] Starting after-sign-in page');
     const authProvider = await getServerAuthProvider();
     logger.debug('[AfterSignInPage] Auth provider:', authProvider);
@@ -49,7 +54,18 @@ export default async function AfterSignInPage() {
             } catch (err) {
                 logger.error('[AfterSignInPage] Failed to resolve workspace slug:', err);
             }
-            const base = slug ? `/${slug}` : '';
+            // An authenticated user always has a workspace; if we couldn't
+            // resolve one, send to login rather than loop on bare paths.
+            if (!slug) {
+                redirect('/auth/login');
+            }
+            const base = `/${slug}`;
+
+            // Honor an explicit destination (e.g. a direct /workflow/create
+            // link captured by middleware), slug-prefixed.
+            if (next && next.startsWith('/')) {
+                redirect(`${base}${next}`);
+            }
 
             const countResponse = await getWorkflowCountApiV1WorkflowCountGet({
                 headers: {
@@ -70,7 +86,8 @@ export default async function AfterSignInPage() {
         logger.error('[AfterSignInPage] Error checking workflows:', error);
     }
 
-    // Default fallback
-    logger.debug('[AfterSignInPage] Final fallback redirect to /workflow/create');
-    redirect('/workflow/create');
+    // Default fallback — no token/slug resolvable; go to login (never a bare
+    // org path, which would loop back through middleware).
+    logger.debug('[AfterSignInPage] Final fallback redirect to /auth/login');
+    redirect('/auth/login');
 }
