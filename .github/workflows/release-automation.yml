@@ -1,9 +1,10 @@
 name: Release Please
 
+# Disabled automatic runs on this fork — release-please is an upstream
+# Dograh release process that doesn't apply here and fails on every push.
+# Kept available for manual runs only.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
