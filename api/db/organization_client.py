@@ -87,8 +87,21 @@ class OrganizationClient(BaseDBClient):
                     session.add(api_key)
                     await session.commit()
 
+                # New orgs created via signup/auth must get a URL slug for
+                # /{slug}/* routing — the column is nullable and only the
+                # migration backfilled pre-existing orgs. Without a slug the UI
+                # can't resolve the workspace and bounces users back to login.
+                if not organization.slug:
+                    organization.slug = f"workspace-{organization.id}"
+                    await session.commit()
                 await session.refresh(organization)
                 return organization, was_created
+
+            # Self-heal any older org that predates slugs / was created without one.
+            if not organization.slug:
+                organization.slug = f"workspace-{organization.id}"
+                await session.commit()
+                await session.refresh(organization)
             return organization, False
 
     async def add_user_to_organization(
