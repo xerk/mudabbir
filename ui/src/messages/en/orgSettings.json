@@ -1,0 +1,34 @@
+{
+  "backToAdmin": "Back to admin",
+  "regional": {
+    "title": "Regional Settings",
+    "subtitle": "Set the timezone, currency, and date/number formatting used across your organization.",
+    "timezone": "Timezone",
+    "currency": "Currency",
+    "dateFormat": "Date format",
+    "timeFormat": "Time format",
+    "numberFormat": "Number format",
+    "timeFormat12h": "12-hour",
+    "timeFormat24h": "24-hour",
+    "preview": "Preview",
+    "loadError": "Failed to load regional settings",
+    "saveSuccess": "Regional settings saved",
+    "saveError": "Failed to save regional settings"
+  },
+  "security": {
+    "title": "Security Settings",
+    "subtitle": "Control authentication and session policy for your organization.",
+    "requireTwoFactor": "Require two-factor authentication",
+    "requireTwoFactorNote": "Members must set up 2FA before they can access the organization.",
+    "sessionTimeout": "Session timeout (minutes)",
+    "sessionTimeoutNote": "Automatically sign members out after this many minutes of inactivity. Use 0 to never expire.",
+    "allowedDomains": "Allowed email domains",
+    "allowedDomainsNote": "Comma-separated list of email domains allowed to join. Leave empty to allow any domain.",
+    "loadError": "Failed to load security settings",
+    "saveSuccess": "Security settings saved",
+    "saveError": "Failed to save security settings"
+  },
+  "save": "Save",
+  "saving": "Saving...",
+  "loading": "Loading..."
+}

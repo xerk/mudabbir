@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertCircle, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { createCredentialApiV1CredentialsPost } from "@/client";
@@ -38,26 +39,29 @@ interface CredentialField {
     isSecret?: boolean;
 }
 
-const getCredentialDataFields = (type: WebhookCredentialType): CredentialField[] => {
+const getCredentialDataFields = (
+    type: WebhookCredentialType,
+    t: (key: string) => string,
+): CredentialField[] => {
     switch (type) {
         case "api_key":
             return [
-                { key: "header_name", label: "Header Name", placeholder: "X-API-Key" },
-                { key: "api_key", label: "API Key", placeholder: "your-api-key", isSecret: true },
+                { key: "header_name", label: t("http.createCredential.fields.headerName"), placeholder: "X-API-Key" },
+                { key: "api_key", label: t("http.createCredential.fields.apiKey"), placeholder: t("http.createCredential.placeholders.apiKey"), isSecret: true },
             ];
         case "bearer_token":
             return [
-                { key: "token", label: "Token", placeholder: "your-bearer-token", isSecret: true },
+                { key: "token", label: t("http.createCredential.fields.token"), placeholder: t("http.createCredential.placeholders.token"), isSecret: true },
             ];
         case "basic_auth":
             return [
-                { key: "username", label: "Username", placeholder: "username" },
-                { key: "password", label: "Password", placeholder: "password", isSecret: true },
+                { key: "username", label: t("http.createCredential.fields.username"), placeholder: t("http.createCredential.placeholders.username") },
+                { key: "password", label: t("http.createCredential.fields.password"), placeholder: t("http.createCredential.placeholders.password"), isSecret: true },
             ];
         case "custom_header":
             return [
-                { key: "header_name", label: "Header Name", placeholder: "X-Custom-Header" },
-                { key: "header_value", label: "Header Value", placeholder: "header-value", isSecret: true },
+                { key: "header_name", label: t("http.createCredential.fields.headerName"), placeholder: "X-Custom-Header" },
+                { key: "header_value", label: t("http.createCredential.fields.headerValue"), placeholder: t("http.createCredential.placeholders.headerValue"), isSecret: true },
             ];
         default:
             return [];
@@ -70,6 +74,7 @@ export function CreateCredentialDialog({
     onCreated,
 }: CreateCredentialDialogProps) {
     const { getAccessToken } = useAuth();
+    const t = useTranslations("misc");
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -98,7 +103,7 @@ export function CreateCredentialDialog({
 
             if (response.error) {
                 const errorDetail = (response.error as { detail?: string })?.detail
-                    || "Failed to create credential";
+                    || t("http.createCredential.errors.createFailed");
                 setError(errorDetail);
                 return;
             }
@@ -110,7 +115,7 @@ export function CreateCredentialDialog({
         } catch (err) {
             console.error("Failed to create credential:", err);
             setError(
-                err instanceof Error ? err.message : "An unexpected error occurred"
+                err instanceof Error ? err.message : t("http.createCredential.errors.unexpected")
             );
         } finally {
             setIsCreating(false);
@@ -134,15 +139,15 @@ export function CreateCredentialDialog({
         onOpenChange(newOpen);
     };
 
-    const fields = getCredentialDataFields(credentialType);
+    const fields = getCredentialDataFields(credentialType, t);
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Add Credential</DialogTitle>
+                    <DialogTitle>{t("http.createCredential.title")}</DialogTitle>
                     <DialogDescription>
-                        Create a new credential for authentication.
+                        {t("http.createCredential.description")}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -155,27 +160,27 @@ export function CreateCredentialDialog({
 
                 <div className="space-y-4 py-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="cred-name">Name *</Label>
+                        <Label htmlFor="cred-name">{t("http.createCredential.nameLabel")}</Label>
                         <Input
                             id="cred-name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="My API Key"
+                            placeholder={t("http.createCredential.namePlaceholder")}
                         />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="cred-description">Description</Label>
+                        <Label htmlFor="cred-description">{t("http.createCredential.descriptionLabel")}</Label>
                         <Input
                             id="cred-description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Optional description"
+                            placeholder={t("http.createCredential.descriptionPlaceholder")}
                         />
                     </div>
 
                     <div className="grid gap-2">
-                        <Label>Credential Type</Label>
+                        <Label>{t("http.createCredential.typeLabel")}</Label>
                         <Select
                             value={credentialType}
                             onValueChange={(v) => {
@@ -187,10 +192,10 @@ export function CreateCredentialDialog({
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="bearer_token">Bearer Token</SelectItem>
-                                <SelectItem value="api_key">API Key</SelectItem>
-                                <SelectItem value="basic_auth">Basic Auth</SelectItem>
-                                <SelectItem value="custom_header">Custom Header</SelectItem>
+                                <SelectItem value="bearer_token">{t("http.createCredential.types.bearerToken")}</SelectItem>
+                                <SelectItem value="api_key">{t("http.createCredential.types.apiKey")}</SelectItem>
+                                <SelectItem value="basic_auth">{t("http.createCredential.types.basicAuth")}</SelectItem>
+                                <SelectItem value="custom_header">{t("http.createCredential.types.customHeader")}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -220,7 +225,7 @@ export function CreateCredentialDialog({
                         onClick={handleClose}
                         disabled={isCreating}
                     >
-                        Cancel
+                        {t("http.createCredential.cancel")}
                     </Button>
                     <Button
                         onClick={handleCreate}
@@ -228,11 +233,11 @@ export function CreateCredentialDialog({
                     >
                         {isCreating ? (
                             <>
-                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Creating...
+                                <Loader2 className="h-4 w-4 me-2 animate-spin" />
+                                {t("http.createCredential.creating")}
                             </>
                         ) : (
-                            "Create"
+                            t("http.createCredential.create")
                         )}
                     </Button>
                 </DialogFooter>

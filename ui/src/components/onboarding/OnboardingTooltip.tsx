@@ -105,7 +105,7 @@ export const OnboardingTooltip = ({
                 <h3 className="text-lg font-semibold mb-3">{title}</h3>
 
                 {/* Message */}
-                <p className="text-sm leading-relaxed mb-4 pr-4">
+                <p className="text-sm leading-relaxed mb-4 pe-4">
                     {message}
                 </p>
 

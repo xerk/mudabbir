@@ -1,0 +1,85 @@
+{
+  "title": "إعداد نماذج الذكاء الاصطناعي",
+  "learnMore": "اعرف المزيد",
+  "legacyDescription": "اضبط نموذج الذكاء الاصطناعي والصوت وخدمات النسخ.",
+  "orgDescription": "إعدادات النموذج على مستوى المؤسسة.",
+  "badge": {
+    "legacy": "قديم",
+    "v1": "الإصدار 1"
+  },
+  "actions": {
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ...",
+    "saveConfiguration": "حفظ الإعداد"
+  },
+  "migration": {
+    "dialogTitle": "ترحيل إعداد النموذج إلى الإصدار 2؟",
+    "dialogDescription": "سيتم ترحيل إعداداتك إلى الإصدار 2. بعد الترحيل، تحقّق من إعدادك العام وتجاوزات نموذج سير العمل، ثم أجرِ مكالمة تجريبية للتأكد من أن كل شيء يعمل.",
+    "migrating": "جارٍ الترحيل...",
+    "migrateToV2": "الترحيل إلى الإصدار 2"
+  },
+  "messages": {
+    "loadFailed": "تعذّر تحميل إعداد النموذج",
+    "loadDefaultsFailed": "تعذّر تحميل الإعدادات الافتراضية للنموذج",
+    "saveFailed": "تعذّر حفظ إعداد النموذج",
+    "saved": "تم حفظ إعداد النموذج",
+    "configurationSaved": "تم حفظ الإعداد",
+    "migrateFailed": "تعذّر ترحيل إعداد النموذج",
+    "migrated": "تم ترحيل الإعداد إلى الإصدار 2",
+    "saveConfigurationFailed": "تعذّر حفظ الإعداد",
+    "unknownError": "حدث خطأ غير معروف"
+  },
+  "byok": {
+    "tab": "مفتاحك الخاص",
+    "serviceRequired": "إعداد {service} مطلوب"
+  },
+  "fields": {
+    "apiKey": "مفتاح API",
+    "apiKeyPlaceholder": "أدخل مفتاح API",
+    "apiKeysLabel": "مفاتيح API",
+    "apiKeyOverrideLabel": "مفتاح API (اتركه فارغًا لاستخدام الإعداد العام)",
+    "addApiKey": "إضافة مفتاح API",
+    "provider": "المزوّد",
+    "providerPlaceholder": "اختر المزوّد",
+    "model": "النموذج",
+    "modelPlaceholder": "اختر النموذج",
+    "modelNamePlaceholder": "أدخل اسم النموذج",
+    "addModelManually": "إضافة نموذج يدويًا",
+    "voice": "الصوت",
+    "voicePlaceholder": "اختر الصوت",
+    "speed": "السرعة",
+    "speedPlaceholder": "اختر السرعة",
+    "language": "اللغة",
+    "languagePlaceholder": "اختر اللغة",
+    "supportedLanguages": "اللغات المدعومة",
+    "enterField": "أدخل {field}",
+    "selectField": "اختر {field}",
+    "enterCustomValue": "أدخل قيمة مخصّصة"
+  },
+  "tabs": {
+    "llm": "نموذج اللغة",
+    "voice": "الصوت",
+    "transcriber": "النسخ",
+    "embedding": "التضمين",
+    "realtimeModel": "نموذج الوقت الحقيقي"
+  },
+  "realtime": {
+    "modeLabel": "وضع الوقت الحقيقي",
+    "modeDescription": "يستخدم نموذجًا واحدًا لتحويل الكلام إلى كلام (دون فصل تحويل الكلام إلى نص وتحويل النص إلى كلام). لا يزال نموذج اللغة مطلوبًا لاستخراج المتغيّرات وضمان الجودة."
+  },
+  "override": {
+    "overrideLabel": "تجاوز {label}",
+    "usingGlobal": "يستخدم الإعداد العام: {summary}",
+    "notConfigured": "غير مُعدّ"
+  },
+  "voice": {
+    "loadFailed": "تعذّر تحميل الأصوات",
+    "selectPlaceholder": "اختر صوتًا",
+    "voiceIdPlaceholder": "أدخل معرّف الصوت",
+    "addVoiceIdManually": "إضافة معرّف الصوت يدويًا",
+    "loading": "جارٍ تحميل الأصوات...",
+    "searchPlaceholder": "ابحث عن الأصوات...",
+    "noVoicesFound": "لم يتم العثور على أصوات",
+    "voicesAvailable": "{count} صوت متاح"
+  }
+}

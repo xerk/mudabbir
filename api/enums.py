@@ -94,6 +94,7 @@ class OrganizationConfigurationKey(Enum):
     )
     ORGANIZATION_PREFERENCES = "ORGANIZATION_PREFERENCES"  # Org-level defaults such as timezone/test call number
     MODEL_CONFIGURATION_PREFERENCES = "MODEL_CONFIGURATION_PREFERENCES"  # Deprecated; read fallback for old org preferences
+    ORG_SETTINGS = "ORG_SETTINGS"  # Regional + security settings (workspace settings hub)
 
 
 class WorkflowStatus(Enum):

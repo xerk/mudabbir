@@ -1,0 +1,58 @@
+{
+  "title": "المؤسسات",
+  "subtitle": "إدارة جميع مساحات العمل على المنصة.",
+  "searchPlaceholder": "ابحث عن المؤسسات بالاسم",
+  "createButton": "إنشاء مؤسسة",
+  "columns": {
+    "name": "الاسم",
+    "members": "الأعضاء",
+    "created": "تاريخ الإنشاء",
+    "actions": "الإجراءات"
+  },
+  "workspaceFallback": "مساحة عمل {id}",
+  "membersCount": "{count, plural, zero {لا يوجد أعضاء} one {عضو واحد} two {عضوان} few {# أعضاء} many {# عضواً} other {# عضو}}",
+  "actions": {
+    "open": "فتح القائمة",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "empty": {
+    "title": "لا توجد مؤسسات بعد",
+    "description": "أنشئ أول مؤسسة للبدء.",
+    "noResults": "لا توجد مؤسسات تطابق بحثك."
+  },
+  "createDialog": {
+    "title": "إنشاء مؤسسة",
+    "description": "امنح المؤسسة الجديدة اسماً.",
+    "nameLabel": "الاسم",
+    "namePlaceholder": "شركة أكمي",
+    "cancel": "إلغاء",
+    "submit": "إنشاء"
+  },
+  "editDialog": {
+    "title": "تعديل المؤسسة",
+    "description": "حدّث اسم المؤسسة وشعارها.",
+    "nameLabel": "الاسم",
+    "namePlaceholder": "شركة أكمي",
+    "logoLabel": "رابط الشعار",
+    "logoPlaceholder": "https://example.com/logo.png",
+    "cancel": "إلغاء",
+    "submit": "حفظ التغييرات"
+  },
+  "deleteDialog": {
+    "title": "حذف المؤسسة",
+    "description": "سيؤدي هذا إلى حذف \"{name}\" نهائياً. لا يمكن التراجع عن هذا الإجراء.",
+    "cancel": "إلغاء",
+    "confirm": "حذف"
+  },
+  "toasts": {
+    "loadError": "تعذّر تحميل المؤسسات.",
+    "nameRequired": "الاسم مطلوب.",
+    "createSuccess": "تم إنشاء المؤسسة.",
+    "createError": "تعذّر إنشاء المؤسسة.",
+    "updateSuccess": "تم تحديث المؤسسة.",
+    "updateError": "تعذّر تحديث المؤسسة.",
+    "deleteSuccess": "تم حذف المؤسسة.",
+    "deleteError": "تعذّر حذف المؤسسة."
+  }
+}

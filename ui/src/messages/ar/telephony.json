@@ -1,0 +1,82 @@
+{
+  "list": {
+    "title": "إعدادات الاتصال الهاتفي",
+    "description": "اربط حساباً واحداً أو أكثر من حسابات مزوّدي الاتصال الهاتفي. تستخدم كل حملة إعداداً واحداً؛ وتُوجَّه المكالمات الواردة إلى الإعداد الصحيح وفقاً لمعرّف الحساب.",
+    "learnMore": "اعرف المزيد",
+    "addConfiguration": "إضافة إعداد",
+    "emptyTitle": "لا توجد إعدادات اتصال هاتفي بعد",
+    "emptyDescription": "أضف إعداداً لتمكين المكالمات الصادرة واستقبال المكالمات الواردة.",
+    "defaultBadge": "افتراضي",
+    "phoneNumberCount": "{count, plural, zero {# رقم هاتف} one {# رقم هاتف} two {رقما هاتف} few {# أرقام هواتف} many {# رقم هاتف} other {# رقم هاتف}}",
+    "configurationId": "معرّف الإعداد: {id}",
+    "clickToCopy": "انقر للنسخ",
+    "setDefaultOutbound": "تعيين كإعداد صادر افتراضي",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "viewPhoneNumbers": "عرض أرقام الهواتف"
+  },
+  "warning": {
+    "title": "لم يُضبط المفتاح العام لخطاف الويب",
+    "bodyOne": "هناك إعداد واحد من Telnyx ينقصه مفتاح عام لخطاف الويب. وبدونه يجري رفض تحديثات حالة مكالمات Telnyx والمكالمات الواردة. انسخ مفتاحك العام من",
+    "bodyMany": "هناك {count} من إعدادات Telnyx ينقصها مفتاح عام لخطاف الويب. وبدونه يجري رفض تحديثات حالة مكالمات Telnyx والمكالمات الواردة. انسخ مفتاحك العام من",
+    "path": "Mission Control Portal ← Keys & Credentials ← Public Key",
+    "bodyAfter": "والصقه في إعداد Telnyx المتأثر أدناه."
+  },
+  "toast": {
+    "loadFailed": "تعذّر تحميل الإعدادات",
+    "loadOneFailed": "تعذّر تحميل الإعداد",
+    "setDefaultSuccess": "أصبح {name} هو الإعداد الصادر الافتراضي الآن",
+    "setDefaultFailed": "تعذّر تعيين الافتراضي",
+    "deleted": "تم حذف الإعداد",
+    "deleteFailed": "تعذّر حذف الإعداد",
+    "idCopied": "تم نسخ معرّف الإعداد",
+    "idCopyFailed": "تعذّر نسخ المعرّف",
+    "urlCopied": "تم نسخ عنوان خطاف الويب الوارد",
+    "urlCopyFailed": "تعذّر نسخ العنوان",
+    "callerSetSuccess": "أصبح {address} هو معرّف المتصل الافتراضي الآن",
+    "callerSetFailed": "تعذّر تعيين المتصل الافتراضي",
+    "phoneDeleted": "تم حذف رقم الهاتف",
+    "phoneDeleteFailed": "تعذّر حذف رقم الهاتف",
+    "setDefaultOutboundSuccess": "تم التعيين كإعداد صادر افتراضي"
+  },
+  "deleteDialog": {
+    "title": "هل تريد حذف الإعداد؟",
+    "description": "سيُحذف {name} وجميع أرقام هواتفه. وستمنع أي حملات تشير إلى هذا الإعداد عملية الحذف حتى تُعاد تهيئتها.",
+    "cancel": "إلغاء",
+    "confirm": "حذف"
+  },
+  "detail": {
+    "back": "رجوع",
+    "allConfigurations": "جميع الإعدادات",
+    "notFound": "لم يُعثر على الإعداد.",
+    "updated": "آخر تحديث {date}",
+    "setAsDefault": "تعيين كافتراضي",
+    "editCredentials": "تعديل بيانات الاعتماد",
+    "inboundWebhookUrl": "عنوان خطاف الويب الوارد",
+    "copyInboundWebhookUrl": "انقر لنسخ عنوان خطاف الويب الوارد",
+    "copyInboundWebhookUrlAria": "نسخ عنوان خطاف الويب الوارد",
+    "phoneNumbersTitle": "أرقام الهواتف",
+    "phoneNumbersDescription": "أرقام تُستخدم كمعرّف للمتصل في المكالمات الصادرة وتُقبَل لمطابقة المكالمات الواردة. تُدعم عناوين SIP والامتدادات إلى جانب أرقام PSTN.",
+    "inboundDocs": "توثيق المكالمات الواردة",
+    "addPhoneNumber": "إضافة رقم هاتف",
+    "noPhoneNumbers": "لا توجد أرقام هواتف بعد. أضف رقماً لبدء إجراء المكالمات أو استقبالها على هذا الإعداد.",
+    "columnAddress": "العنوان",
+    "columnType": "النوع",
+    "columnLabel": "التسمية",
+    "columnStatus": "الحالة",
+    "columnInboundWorkflow": "سير العمل الوارد",
+    "columnActions": "الإجراءات",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "defaultCaller": "المتصل الافتراضي",
+    "setDefaultCallerId": "تعيين كمعرّف متصل افتراضي",
+    "edit": "تعديل",
+    "delete": "حذف"
+  },
+  "deletePhoneDialog": {
+    "title": "هل تريد حذف رقم الهاتف؟",
+    "description": "لن يعود {address} يقبل المكالمات الواردة ولن يكون متاحاً كمعرّف للمتصل في هذا الإعداد.",
+    "cancel": "إلغاء",
+    "confirm": "حذف"
+  }
+}

@@ -25,6 +25,22 @@ UI_APP_URL = os.getenv("UI_APP_URL", "http://localhost:3010")
 DATABASE_URL = os.environ["DATABASE_URL"]
 REDIS_URL = os.environ["REDIS_URL"]
 
+# SMTP / outbound email configuration.
+# If SMTP_HOST is unset, the mail transport logs rendered emails instead of
+# sending them (dev fallback) -- no provider required to test invites locally.
+SMTP_HOST = os.getenv("SMTP_HOST") or None
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER = os.getenv("SMTP_USER") or None
+SMTP_PASS = os.getenv("SMTP_PASS") or None
+# Explicit override of the TLS mode; the transport derives it from the port for
+# the well-known ports and only consults this flag for non-standard ports.
+SMTP_SECURE = os.getenv("SMTP_SECURE", "false").lower() == "true"
+MAIL_FROM = os.getenv("MAIL_FROM", "mudabbir <no-reply@mudabbir.ai>")
+# Optional footer links shared across templates.
+MAIL_SUPPORT_EMAIL = os.getenv("MAIL_SUPPORT_EMAIL") or None
+# Platform name shown in the email footer ("Sent by ...").
+MAIL_PLATFORM_NAME = os.getenv("MAIL_PLATFORM_NAME", "mudabbir")
+
 DEPLOYMENT_MODE = os.getenv("DEPLOYMENT_MODE", "oss")
 CORS_ALLOWED_ORIGINS = [
     o.strip() for o in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if o.strip()

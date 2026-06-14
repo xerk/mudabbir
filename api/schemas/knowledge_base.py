@@ -41,9 +41,10 @@ class DocumentResponseSchema(BaseModel):
     id: int
     document_uuid: str
     filename: str
-    file_size_bytes: int
-    file_hash: str
-    mime_type: str
+    # Nullable in the DB: URL-sourced documents have no uploaded file bytes/hash/type.
+    file_size_bytes: Optional[int] = None
+    file_hash: Optional[str] = None
+    mime_type: Optional[str] = None
     processing_status: str  # pending, processing, completed, failed
     processing_error: Optional[str] = None
     total_chunks: int

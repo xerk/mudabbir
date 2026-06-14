@@ -1,0 +1,58 @@
+{
+  "title": "Knowledge Base Files",
+  "subtitlePrefix": "Upload and manage documents for your voice agents to reference. ",
+  "learnMore": "Learn more",
+  "card": {
+    "title": "Your Documents",
+    "description": "Documents shared across all agents in your organization",
+    "uploadButton": "Upload Document"
+  },
+  "uploadDialog": {
+    "title": "Upload Document",
+    "description": "Upload a PDF or document file to add to your knowledge base"
+  },
+  "list": {
+    "fetchError": "Failed to fetch documents",
+    "deleteError": "Failed to delete document",
+    "deleteConfirm": "Are you sure you want to delete \"{filename}\"?",
+    "deleteSuccess": "Deleted \"{filename}\"",
+    "searchPlaceholder": "Search documents...",
+    "noMatch": "No documents match your search",
+    "empty": "No documents uploaded yet",
+    "status": {
+      "completed": "Completed",
+      "processing": "Processing",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "retrievalMode": {
+      "fullDocument": "Full Document",
+      "chunked": "Chunked"
+    },
+    "chunks": "{count} chunks",
+    "error": "Error: {message}",
+    "duplicateOf": "Duplicate of another document"
+  },
+  "upload": {
+    "ossNoticeTitle": "Processed by an external service",
+    "ossNoticeBody": "Uploaded documents are sent to Dograh's managed Model Proxy Service for parsing and chunking. Dograh Model Proxy Service does not store or read your documents - the extracted text and embeddings are returned and stored locally in your self-hosted database.",
+    "unsupportedType": "Please select a supported file type: {types}",
+    "tooLarge": "File size must be less than 5MB",
+    "getUploadUrlError": "Failed to get upload URL",
+    "uploadToStorageError": "Failed to upload file to storage",
+    "triggerProcessingError": "Failed to trigger processing",
+    "uploadSuccess": "File uploaded: {filename}. Processing started.",
+    "uploadDocumentError": "Failed to upload document",
+    "retrievalQuestion": "How should the agent use this document?",
+    "fullDocumentTitle": "Full Document",
+    "fullDocumentDescription": "The entire document is provided to the agent on each retrieval. Best for menus, price lists, FAQs, and other small reference documents.",
+    "chunkedTitle": "Chunked Search",
+    "chunkedDescription": "The document is split into chunks and the most relevant ones are retrieved. Better for large documents like manuals or policies.",
+    "uploadAndProcess": "Upload & Process",
+    "uploading": "Uploading...",
+    "dropHere": "Drop your document here",
+    "clickToBrowse": "or click to browse",
+    "supportedFormats": "Supported formats: {types} (Max 5MB)",
+    "chooseFile": "Choose File"
+  }
+}

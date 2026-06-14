@@ -1,0 +1,82 @@
+{
+  "list": {
+    "title": "Telephony configurations",
+    "description": "Connect one or more telephony provider accounts. Each campaign uses one configuration; inbound calls are routed to the right one by account ID.",
+    "learnMore": "Learn more",
+    "addConfiguration": "Add configuration",
+    "emptyTitle": "No telephony configurations yet",
+    "emptyDescription": "Add one to enable outbound calls and receive inbound calls.",
+    "defaultBadge": "Default",
+    "phoneNumberCount": "{count, plural, one {# phone number} other {# phone numbers}}",
+    "configurationId": "Configuration ID: {id}",
+    "clickToCopy": "Click to copy",
+    "setDefaultOutbound": "Set as default outbound",
+    "edit": "Edit",
+    "delete": "Delete",
+    "viewPhoneNumbers": "View phone numbers"
+  },
+  "warning": {
+    "title": "Webhook public key not configured",
+    "bodyOne": "1 Telnyx configuration is missing a webhook public key. Without it, Telnyx call status updates and inbound calls are being rejected. Copy your public key from",
+    "bodyMany": "{count} Telnyx configurations are missing a webhook public key. Without it, Telnyx call status updates and inbound calls are being rejected. Copy your public key from",
+    "path": "Mission Control Portal → Keys & Credentials → Public Key",
+    "bodyAfter": "and paste it into the affected Telnyx configuration below."
+  },
+  "toast": {
+    "loadFailed": "Failed to load configurations",
+    "loadOneFailed": "Failed to load configuration",
+    "setDefaultSuccess": "{name} is now the default outbound configuration",
+    "setDefaultFailed": "Failed to set default",
+    "deleted": "Configuration deleted",
+    "deleteFailed": "Failed to delete configuration",
+    "idCopied": "Configuration ID copied",
+    "idCopyFailed": "Failed to copy ID",
+    "urlCopied": "Inbound webhook URL copied",
+    "urlCopyFailed": "Failed to copy URL",
+    "callerSetSuccess": "{address} is now the default caller ID",
+    "callerSetFailed": "Failed to set default caller",
+    "phoneDeleted": "Phone number deleted",
+    "phoneDeleteFailed": "Failed to delete phone number",
+    "setDefaultOutboundSuccess": "Set as default outbound"
+  },
+  "deleteDialog": {
+    "title": "Delete configuration?",
+    "description": "{name} and all of its phone numbers will be removed. Any campaigns that reference this configuration will block the deletion until they are reassigned.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "detail": {
+    "back": "Back",
+    "allConfigurations": "All configurations",
+    "notFound": "Configuration not found.",
+    "updated": "Updated {date}",
+    "setAsDefault": "Set as default",
+    "editCredentials": "Edit credentials",
+    "inboundWebhookUrl": "Inbound webhook URL",
+    "copyInboundWebhookUrl": "Click to copy inbound webhook URL",
+    "copyInboundWebhookUrlAria": "Copy inbound webhook URL",
+    "phoneNumbersTitle": "Phone numbers",
+    "phoneNumbersDescription": "Numbers used as caller ID for outbound and accepted for inbound matching. SIP URIs and extensions are supported alongside PSTN numbers.",
+    "inboundDocs": "Inbound docs",
+    "addPhoneNumber": "Add phone number",
+    "noPhoneNumbers": "No phone numbers yet. Add one to start placing or receiving calls on this configuration.",
+    "columnAddress": "Address",
+    "columnType": "Type",
+    "columnLabel": "Label",
+    "columnStatus": "Status",
+    "columnInboundWorkflow": "Inbound workflow",
+    "columnActions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "defaultCaller": "Default caller",
+    "setDefaultCallerId": "Set as default caller ID",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "deletePhoneDialog": {
+    "title": "Delete phone number?",
+    "description": "{address} will no longer accept inbound calls or be available as a caller ID for this configuration.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  }
+}

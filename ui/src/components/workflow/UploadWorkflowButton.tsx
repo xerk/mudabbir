@@ -1,6 +1,7 @@
 'use client';
 
 import { Upload } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
@@ -19,6 +20,7 @@ export function UploadWorkflowButton() {
     const [isDragging, setIsDragging] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { user, getAccessToken } = useAuth();
+    const t = useTranslations('workflow');
 
     const handleFileUpload = useCallback(async (file: File) => {
         try {
@@ -48,10 +50,10 @@ export function UploadWorkflowButton() {
                 setIsOpen(false);
             }
         } catch (err) {
-            setError('Failed to upload workflow. Please check if the file is valid.');
+            setError(t('list.uploadFailed'));
             logger.error(`Error uploading workflow: ${err}`);
         }
-    }, [router, user, getAccessToken]);
+    }, [router, user, getAccessToken, t]);
 
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -62,9 +64,9 @@ export function UploadWorkflowButton() {
         if (file && file.type === 'application/json') {
             handleFileUpload(file);
         } else {
-            setError('Please upload a valid JSON file');
+            setError(t('list.invalidJsonFile'));
         }
-    }, [handleFileUpload]);
+    }, [handleFileUpload, t]);
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -89,14 +91,14 @@ export function UploadWorkflowButton() {
                 onClick={() => setIsOpen(true)}
                 variant="outline"
             >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Agent Definition
+                <Upload className="w-4 h-4 me-2" />
+                {t('list.uploadAgentDefinition')}
             </Button>
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>Upload Agent Definition</DialogTitle>
+                        <DialogTitle>{t('list.uploadAgentDefinition')}</DialogTitle>
                     </DialogHeader>
                     <div
                         className={`mt-4 border-2 border-dashed rounded-lg p-8 text-center ${isDragging ? 'border-primary bg-primary/5' : 'border-gray-300'
@@ -107,7 +109,7 @@ export function UploadWorkflowButton() {
                     >
                         <Upload className="w-8 h-8 mx-auto mb-4 text-gray-400" />
                         <p className="text-sm text-gray-600 mb-4">
-                            Drag and drop your Workflow JSON File here, or Click to Select
+                            {t('list.dragAndDropJson')}
                         </p>
                         <input
                             type="file"
@@ -120,7 +122,7 @@ export function UploadWorkflowButton() {
                             variant="outline"
                             onClick={() => document.getElementById('workflow-upload')?.click()}
                         >
-                            Select File
+                            {t('list.selectFile')}
                         </Button>
                         {error && (
                             <p className="mt-4 text-sm text-red-600">{error}</p>

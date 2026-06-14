@@ -1,0 +1,378 @@
+"use client";
+
+import { Plus, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useId } from 'react';
+import TimezoneSelect, { type ITimezoneOption } from 'react-timezone-select';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+
+export type TimeSlot = { day_of_week: number; start_time: string; end_time: string };
+
+export interface CampaignAdvancedSettingsProps {
+    // Concurrency
+    maxConcurrency: string;
+    onMaxConcurrencyChange: (value: string) => void;
+    effectiveLimit: number;
+    orgConcurrentLimit: number;
+    fromNumbersCount: number;
+    // Retry config
+    retryEnabled: boolean;
+    onRetryEnabledChange: (value: boolean) => void;
+    maxRetries: string;
+    onMaxRetriesChange: (value: string) => void;
+    retryDelaySeconds: string;
+    onRetryDelaySecondsChange: (value: string) => void;
+    retryOnBusy: boolean;
+    onRetryOnBusyChange: (value: boolean) => void;
+    retryOnNoAnswer: boolean;
+    onRetryOnNoAnswerChange: (value: boolean) => void;
+    retryOnVoicemail: boolean;
+    onRetryOnVoicemailChange: (value: boolean) => void;
+    // Schedule config
+    scheduleEnabled: boolean;
+    onScheduleEnabledChange: (value: boolean) => void;
+    scheduleTimezone: ITimezoneOption | string;
+    onScheduleTimezoneChange: (value: ITimezoneOption | string) => void;
+    timeSlots: TimeSlot[];
+    onTimeSlotsChange: (value: TimeSlot[]) => void;
+    // Circuit breaker config
+    circuitBreakerEnabled: boolean;
+    onCircuitBreakerEnabledChange: (value: boolean) => void;
+    circuitBreakerFailureThreshold: string;
+    onCircuitBreakerFailureThresholdChange: (value: string) => void;
+    circuitBreakerWindowSeconds: string;
+    onCircuitBreakerWindowSecondsChange: (value: string) => void;
+    circuitBreakerMinCalls: string;
+    onCircuitBreakerMinCallsChange: (value: string) => void;
+}
+
+/** Extract the string timezone value from ITimezoneOption | string */
+export function getTimezoneValue(tz: ITimezoneOption | string): string {
+    return typeof tz === 'string' ? tz : tz.value;
+}
+
+const timezoneSelectStyles = {
+    control: (base: Record<string, unknown>, state: { isFocused: boolean }) => ({
+        ...base,
+        minHeight: '36px',
+        fontSize: '14px',
+        backgroundColor: 'var(--background)',
+        borderColor: state.isFocused ? 'var(--ring)' : 'var(--border)',
+        boxShadow: state.isFocused ? '0 0 0 2px color-mix(in srgb, var(--ring) 20%, transparent)' : 'none',
+        '&:hover': { borderColor: 'var(--border)' },
+    }),
+    menu: (base: Record<string, unknown>) => ({
+        ...base,
+        zIndex: 9999,
+        backgroundColor: 'var(--popover)',
+        border: '1px solid var(--border)',
+        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    }),
+    menuList: (base: Record<string, unknown>) => ({
+        ...base,
+        backgroundColor: 'var(--popover)',
+        padding: 0,
+    }),
+    option: (base: Record<string, unknown>, state: { isSelected: boolean; isFocused: boolean }) => ({
+        ...base,
+        backgroundColor: state.isSelected ? 'var(--accent)' : state.isFocused ? 'var(--accent)' : 'var(--popover)',
+        color: 'var(--foreground)',
+        cursor: 'pointer',
+        '&:active': { backgroundColor: 'var(--accent)' },
+    }),
+    singleValue: (base: Record<string, unknown>) => ({ ...base, color: 'var(--foreground)' }),
+    input: (base: Record<string, unknown>) => ({ ...base, color: 'var(--foreground)' }),
+    placeholder: (base: Record<string, unknown>) => ({ ...base, color: 'var(--muted-foreground)' }),
+    indicatorSeparator: (base: Record<string, unknown>) => ({ ...base, backgroundColor: 'var(--border)' }),
+    dropdownIndicator: (base: Record<string, unknown>) => ({
+        ...base,
+        color: 'var(--muted-foreground)',
+        '&:hover': { color: 'var(--foreground)' },
+    }),
+};
+
+export default function CampaignAdvancedSettings({
+    maxConcurrency, onMaxConcurrencyChange, effectiveLimit, orgConcurrentLimit, fromNumbersCount,
+    retryEnabled, onRetryEnabledChange, maxRetries, onMaxRetriesChange,
+    retryDelaySeconds, onRetryDelaySecondsChange,
+    retryOnBusy, onRetryOnBusyChange, retryOnNoAnswer, onRetryOnNoAnswerChange,
+    retryOnVoicemail, onRetryOnVoicemailChange,
+    scheduleEnabled, onScheduleEnabledChange, scheduleTimezone, onScheduleTimezoneChange,
+    timeSlots, onTimeSlotsChange,
+    circuitBreakerEnabled, onCircuitBreakerEnabledChange,
+    circuitBreakerFailureThreshold, onCircuitBreakerFailureThresholdChange,
+    circuitBreakerWindowSeconds, onCircuitBreakerWindowSecondsChange,
+    circuitBreakerMinCalls, onCircuitBreakerMinCallsChange,
+}: CampaignAdvancedSettingsProps) {
+    const t = useTranslations('campaigns');
+    const timezoneSelectId = useId();
+
+    return (
+        <div className="space-y-6">
+            {/* Max Concurrent Calls */}
+            <div className="space-y-2">
+                <Label htmlFor="max-concurrency">{t('advanced.maxConcurrentCalls')}</Label>
+                <Input
+                    id="max-concurrency"
+                    type="number"
+                    placeholder={t('advanced.maxConcurrencyPlaceholder', { limit: effectiveLimit })}
+                    value={maxConcurrency}
+                    onChange={(e) => onMaxConcurrencyChange(e.target.value)}
+                    min={1}
+                    max={effectiveLimit}
+                />
+                <p className="text-sm text-muted-foreground">
+                    {t('advanced.maxConcurrencyHelp', { limit: effectiveLimit })}
+                    {fromNumbersCount > 0 && t('advanced.maxConcurrencyCliInfo', { count: fromNumbersCount, orgLimit: orgConcurrentLimit })}
+                </p>
+                {fromNumbersCount > 0 && fromNumbersCount < orgConcurrentLimit && (
+                    <p className="text-sm text-amber-600 dark:text-amber-400">
+                        {t('advanced.concurrencyLimitedPrefix', { count: fromNumbersCount, orgLimit: orgConcurrentLimit })}<Link href="/telephony-configurations" className="underline font-medium">{t('advanced.concurrencyLimitedLink')}</Link>{t('advanced.concurrencyLimitedSuffix')}
+                    </p>
+                )}
+                {fromNumbersCount === 0 && (
+                    <p className="text-sm text-amber-600 dark:text-amber-400">
+                        {t('advanced.noNumbersPrefix')}<Link href="/telephony-configurations" className="underline font-medium">{t('advanced.noNumbersLink')}</Link>{t('advanced.noNumbersSuffix')}
+                    </p>
+                )}
+            </div>
+
+            {/* Retry Configuration */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Label htmlFor="retry-enabled">{t('advanced.enableRetries')}</Label>
+                        <p className="text-sm text-muted-foreground">
+                            {t('advanced.enableRetriesHelp')}
+                        </p>
+                    </div>
+                    <Switch
+                        id="retry-enabled"
+                        checked={retryEnabled}
+                        onCheckedChange={onRetryEnabledChange}
+                    />
+                </div>
+
+                {retryEnabled && (
+                    <div className="space-y-4 ps-4 border-s-2 border-muted">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="max-retries">{t('advanced.maxRetries')}</Label>
+                                <Input
+                                    id="max-retries"
+                                    type="number"
+                                    value={maxRetries}
+                                    onChange={(e) => onMaxRetriesChange(e.target.value)}
+                                    min={0}
+                                    max={10}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="retry-delay">{t('advanced.retryDelay')}</Label>
+                                <Input
+                                    id="retry-delay"
+                                    type="number"
+                                    value={retryDelaySeconds}
+                                    onChange={(e) => onRetryDelaySecondsChange(e.target.value)}
+                                    min={30}
+                                    max={3600}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <Label>{t('advanced.retryOn')}</Label>
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm">{t('advanced.busySignal')}</span>
+                                    <Switch checked={retryOnBusy} onCheckedChange={onRetryOnBusyChange} />
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm">{t('advanced.noAnswer')}</span>
+                                    <Switch checked={retryOnNoAnswer} onCheckedChange={onRetryOnNoAnswerChange} />
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm">{t('advanced.voicemail')}</span>
+                                    <Switch checked={retryOnVoicemail} onCheckedChange={onRetryOnVoicemailChange} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <Separator />
+
+            {/* Call Schedule */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Label htmlFor="schedule-enabled">{t('advanced.callSchedule')}</Label>
+                        <p className="text-sm text-muted-foreground">
+                            {t('advanced.callScheduleHelp')}
+                        </p>
+                    </div>
+                    <Switch
+                        id="schedule-enabled"
+                        checked={scheduleEnabled}
+                        onCheckedChange={onScheduleEnabledChange}
+                    />
+                </div>
+
+                {scheduleEnabled && (
+                    <div className="space-y-4 ps-4 border-s-2 border-muted">
+                        <div className="space-y-2">
+                            <Label>{t('advanced.timezone')}</Label>
+                            <TimezoneSelect
+                                instanceId={timezoneSelectId}
+                                value={scheduleTimezone}
+                                onChange={onScheduleTimezoneChange}
+                                styles={timezoneSelectStyles}
+                            />
+                        </div>
+
+                        <div className="space-y-3">
+                            <Label>{t('advanced.timeSlots')}</Label>
+                            {timeSlots.map((slot, index) => (
+                                <div key={index} className="flex items-center gap-2">
+                                    <Select
+                                        value={String(slot.day_of_week)}
+                                        onValueChange={(val) => {
+                                            const updated = [...timeSlots];
+                                            updated[index] = { ...updated[index], day_of_week: parseInt(val) };
+                                            onTimeSlotsChange(updated);
+                                        }}
+                                    >
+                                        <SelectTrigger className="w-[120px]">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const).map((day, i) => (
+                                                <SelectItem key={i} value={String(i)}>{t(`advanced.days.${day}`)}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <Input
+                                        type="time"
+                                        value={slot.start_time}
+                                        onChange={(e) => {
+                                            const updated = [...timeSlots];
+                                            updated[index] = { ...updated[index], start_time: e.target.value };
+                                            onTimeSlotsChange(updated);
+                                        }}
+                                        className="w-[130px]"
+                                    />
+                                    <span className="text-sm text-muted-foreground">{t('advanced.slotTo')}</span>
+                                    <Input
+                                        type="time"
+                                        value={slot.end_time}
+                                        onChange={(e) => {
+                                            const updated = [...timeSlots];
+                                            updated[index] = { ...updated[index], end_time: e.target.value };
+                                            onTimeSlotsChange(updated);
+                                        }}
+                                        className="w-[130px]"
+                                    />
+                                    {timeSlots.length > 1 && (
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => onTimeSlotsChange(timeSlots.filter((_, i) => i !== index))}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    )}
+                                </div>
+                            ))}
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => onTimeSlotsChange([...timeSlots, { day_of_week: 0, start_time: '09:00', end_time: '17:00' }])}
+                            >
+                                <Plus className="h-4 w-4 me-1" />
+                                {t('advanced.addTimeSlot')}
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <Separator />
+
+            {/* Circuit Breaker */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Label htmlFor="circuit-breaker-enabled">{t('advanced.circuitBreaker')}</Label>
+                        <p className="text-sm text-muted-foreground">
+                            {t('advanced.circuitBreakerHelp')}
+                        </p>
+                    </div>
+                    <Switch
+                        id="circuit-breaker-enabled"
+                        checked={circuitBreakerEnabled}
+                        onCheckedChange={onCircuitBreakerEnabledChange}
+                    />
+                </div>
+
+                {circuitBreakerEnabled && (
+                    <div className="space-y-4 ps-4 border-s-2 border-muted">
+                        <div className="space-y-2">
+                            <Label htmlFor="cb-failure-threshold">{t('advanced.failureThreshold')}</Label>
+                            <Input
+                                id="cb-failure-threshold"
+                                type="number"
+                                value={circuitBreakerFailureThreshold}
+                                onChange={(e) => onCircuitBreakerFailureThresholdChange(e.target.value)}
+                                min={1}
+                                max={100}
+                            />
+                            <p className="text-sm text-muted-foreground">
+                                {t('advanced.failureThresholdHelp')}
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="cb-window">{t('advanced.window')}</Label>
+                                <Input
+                                    id="cb-window"
+                                    type="number"
+                                    value={circuitBreakerWindowSeconds}
+                                    onChange={(e) => onCircuitBreakerWindowSecondsChange(e.target.value)}
+                                    min={30}
+                                    max={600}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="cb-min-calls">{t('advanced.minCalls')}</Label>
+                                <Input
+                                    id="cb-min-calls"
+                                    type="number"
+                                    value={circuitBreakerMinCalls}
+                                    onChange={(e) => onCircuitBreakerMinCallsChange(e.target.value)}
+                                    min={1}
+                                    max={100}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

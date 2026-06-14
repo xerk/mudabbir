@@ -1,0 +1,85 @@
+{
+  "title": "AI Models Configuration",
+  "learnMore": "Learn more",
+  "legacyDescription": "Configure your AI model, voice, and transcription services.",
+  "orgDescription": "Organization-scoped model settings.",
+  "badge": {
+    "legacy": "legacy",
+    "v1": "v1"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveConfiguration": "Save Configuration"
+  },
+  "migration": {
+    "dialogTitle": "Migrate model configuration to v2?",
+    "dialogDescription": "Your configurations will be migrated to v2. After migration, check your global configuration and workflow model overrides, then run a test call to make sure everything is working.",
+    "migrating": "Migrating...",
+    "migrateToV2": "Migrate to v2"
+  },
+  "messages": {
+    "loadFailed": "Failed to load model configuration",
+    "loadDefaultsFailed": "Failed to load model configuration defaults",
+    "saveFailed": "Failed to save model configuration",
+    "saved": "Model configuration saved",
+    "configurationSaved": "Configuration saved",
+    "migrateFailed": "Failed to migrate model configuration",
+    "migrated": "Configuration migrated to v2",
+    "saveConfigurationFailed": "Failed to save configuration",
+    "unknownError": "An unknown error occurred"
+  },
+  "byok": {
+    "tab": "BYOK",
+    "serviceRequired": "{service} configuration is required"
+  },
+  "fields": {
+    "apiKey": "API Key",
+    "apiKeyPlaceholder": "Enter API key",
+    "apiKeysLabel": "API Key(s)",
+    "apiKeyOverrideLabel": "API Key (leave empty to use global)",
+    "addApiKey": "Add API Key",
+    "provider": "Provider",
+    "providerPlaceholder": "Select provider",
+    "model": "Model",
+    "modelPlaceholder": "Select model",
+    "modelNamePlaceholder": "Enter model name",
+    "addModelManually": "Add Model Manually",
+    "voice": "Voice",
+    "voicePlaceholder": "Select voice",
+    "speed": "Speed",
+    "speedPlaceholder": "Select speed",
+    "language": "Language",
+    "languagePlaceholder": "Select language",
+    "supportedLanguages": "Supported languages",
+    "enterField": "Enter {field}",
+    "selectField": "Select {field}",
+    "enterCustomValue": "Enter Custom Value"
+  },
+  "tabs": {
+    "llm": "LLM",
+    "voice": "Voice",
+    "transcriber": "Transcriber",
+    "embedding": "Embedding",
+    "realtimeModel": "Realtime Model"
+  },
+  "realtime": {
+    "modeLabel": "Realtime Mode",
+    "modeDescription": "Uses a single speech-to-speech model (no separate STT/TTS). An LLM is still required for variable extraction and QA."
+  },
+  "override": {
+    "overrideLabel": "Override {label}",
+    "usingGlobal": "Using global: {summary}",
+    "notConfigured": "Not configured"
+  },
+  "voice": {
+    "loadFailed": "Failed to load voices",
+    "selectPlaceholder": "Select a voice",
+    "voiceIdPlaceholder": "Enter voice ID",
+    "addVoiceIdManually": "Add Voice ID Manually",
+    "loading": "Loading voices...",
+    "searchPlaceholder": "Search voices...",
+    "noVoicesFound": "No voices found",
+    "voicesAvailable": "{count} voices available"
+  }
+}

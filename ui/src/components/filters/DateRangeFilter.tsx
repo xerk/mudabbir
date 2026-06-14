@@ -104,11 +104,11 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-start font-normal",
                   !value.from && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="me-2 h-4 w-4" />
                 {formatDate(value.from)}
               </Button>
             </PopoverTrigger>
@@ -143,11 +143,11 @@ export const DateRangeFilter: React.FC<DateRangeFilterProps> = ({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-start font-normal",
                   !value.to && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="me-2 h-4 w-4" />
                 {formatDate(value.to)}
               </Button>
             </PopoverTrigger>

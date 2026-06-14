@@ -71,7 +71,7 @@ export const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
             )}
           >
             <span className="truncate">{getDisplayText()}</span>
-            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0">
@@ -83,7 +83,7 @@ export const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
                   placeholder="Search options..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
+                  className="ps-8"
                 />
               </div>
             )}

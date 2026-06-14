@@ -1,0 +1,46 @@
+{
+  "title": "Users",
+  "subtitle": "Manage platform users, super admin access, and impersonation.",
+  "search": {
+    "placeholder": "Search by email"
+  },
+  "columns": {
+    "email": "Email",
+    "superAdmin": "Super admin",
+    "organizations": "Organizations",
+    "created": "Created",
+    "actions": "Actions"
+  },
+  "badge": {
+    "yes": "Yes",
+    "no": "No"
+  },
+  "noEmail": "No email",
+  "actions": {
+    "open": "Open menu",
+    "label": "Actions",
+    "grantSuperAdmin": "Grant super admin",
+    "revokeSuperAdmin": "Revoke super admin",
+    "impersonate": "Impersonate",
+    "delete": "Delete user"
+  },
+  "toasts": {
+    "superuserGranted": "Super admin granted.",
+    "superuserRevoked": "Super admin revoked.",
+    "superuserFailed": "Failed to update super admin status.",
+    "deleted": "User deleted.",
+    "deleteFailed": "Failed to delete user.",
+    "loadFailed": "Failed to load users.",
+    "impersonateFailed": "Failed to impersonate user."
+  },
+  "deleteDialog": {
+    "title": "Delete user?",
+    "description": "This permanently deletes {email}. This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "empty": {
+    "title": "No users found",
+    "description": "No users match your search."
+  }
+}

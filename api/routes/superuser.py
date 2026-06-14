@@ -5,12 +5,72 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel
 
-from api.db import db_client
+from api.db import db_client, mail_log_client
 from api.db.models import UserModel
 from api.services.auth.depends import get_superuser
 from api.services.auth.stack_auth import stackauth
+from api.db.app_settings_client import (
+    SecuritySettings,
+    SecuritySettingsPatch,
+    SmtpSettings,
+    SmtpSettingsPatch,
+    get_security_settings as _get_security_settings,
+    get_smtp_settings as _get_smtp_settings,
+    update_security_settings as _update_security_settings,
+    update_smtp_settings as _update_smtp_settings,
+)
 
 router = APIRouter(prefix="/superuser", tags=["superuser"])
+
+
+@router.get("/security-settings", response_model=SecuritySettings)
+async def read_security_settings(_user: UserModel = Depends(get_superuser)):
+    """Return the platform-wide security policy (super-admin only)."""
+    return await _get_security_settings()
+
+
+@router.put("/security-settings", response_model=SecuritySettings)
+async def write_security_settings(
+    patch: SecuritySettingsPatch, _user: UserModel = Depends(get_superuser)
+):
+    """Update the platform-wide security policy (super-admin only)."""
+    return await _update_security_settings(patch)
+
+
+@router.get("/mail-settings", response_model=SmtpSettings)
+async def read_mail_settings(_user: UserModel = Depends(get_superuser)):
+    """Return the platform-wide outbound SMTP configuration (super-admin only)."""
+    return await _get_smtp_settings()
+
+
+@router.put("/mail-settings", response_model=SmtpSettings)
+async def write_mail_settings(
+    patch: SmtpSettingsPatch, _user: UserModel = Depends(get_superuser)
+):
+    """Update the platform-wide outbound SMTP configuration (super-admin only)."""
+    return await _update_smtp_settings(patch)
+
+
+class MailLogEntry(BaseModel):
+    id: int
+    to_email: str
+    subject: Optional[str]
+    template: Optional[str]
+    status: str
+    error: Optional[str]
+    provider_message_id: Optional[str]
+    created_at: datetime
+
+
+@router.get("/mail-log", response_model=List[MailLogEntry])
+async def read_mail_log(
+    limit: int = Query(100, ge=1, le=500, description="Max rows to return"),
+    offset: int = Query(0, ge=0, description="Rows to skip (pagination)"),
+    _user: UserModel = Depends(get_superuser),
+):
+    """Return recent outbound-email log entries, newest first (super-admin only)."""
+    rows = await mail_log_client.list_recent(limit=limit, offset=offset)
+    return [MailLogEntry(**row) for row in rows]
 
 
 class ImpersonateRequest(BaseModel):

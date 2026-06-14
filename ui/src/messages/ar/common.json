@@ -1,0 +1,10 @@
+{
+  "appName": "مدبّر",
+  "language": "اللغة",
+  "loading": "جارٍ التحميل...",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "backendConnectionFailed": "فشل الاتصال بالخادم الخلفي",
+  "backendNotReachable": "تعذّر الوصول إلى الخادم الخلفي على {backendUrl}.",
+  "retry": "إعادة المحاولة"
+}

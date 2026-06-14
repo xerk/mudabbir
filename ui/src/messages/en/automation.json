@@ -1,0 +1,11 @@
+{
+  "title": "Automation",
+  "subtitle": "Automate your workflows and processes",
+  "comingSoon": {
+    "title": "Coming Soon",
+    "description": "Automation features are currently under development",
+    "intro": "We're working on powerful automation features to help you streamline your workflows.",
+    "detail": "Automate repetitive tasks, trigger actions based on events, and create intelligent workflow pipelines.",
+    "checkBack": "Check back soon for updates!"
+  }
+}

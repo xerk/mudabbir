@@ -1,0 +1,68 @@
+{
+  "title": "Teams",
+  "subtitle": "Organize members into teams.",
+  "actions": {
+    "create": "Create team",
+    "edit": "Edit",
+    "delete": "Delete",
+    "manageMembers": "Manage members",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving…",
+    "add": "Add",
+    "remove": "Remove"
+  },
+  "list": {
+    "empty": "No teams yet.",
+    "membersCount": "{count, plural, =0 {No members} one {# member} other {# members}}",
+    "created": "Created"
+  },
+  "create": {
+    "title": "Create team",
+    "description": "Create a new team in this organization.",
+    "nameLabel": "Name",
+    "namePlaceholder": "e.g. Sales",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Optional description",
+    "submit": "Create team"
+  },
+  "edit": {
+    "title": "Edit team",
+    "description": "Update the team details.",
+    "submit": "Save changes"
+  },
+  "delete": {
+    "title": "Delete team?",
+    "description": "This permanently deletes {name}. Members will not be deleted, only the team.",
+    "confirm": "Delete team"
+  },
+  "members": {
+    "title": "Members of {name}",
+    "description": "Add or remove organization members for this team.",
+    "empty": "This team has no members yet.",
+    "email": "Email",
+    "role": "Role",
+    "actions": "Actions",
+    "addLabel": "Add a member",
+    "addPlaceholder": "Select a member",
+    "noAvailable": "All organization members are already in this team.",
+    "unknownEmail": "Unknown"
+  },
+  "toast": {
+    "created": "Team created",
+    "updated": "Team updated",
+    "deleted": "Team deleted",
+    "memberAdded": "Member added to team",
+    "memberRemoved": "Member removed from team"
+  },
+  "errors": {
+    "load": "Failed to load teams.",
+    "loadMembers": "Failed to load team members.",
+    "create": "Failed to create team.",
+    "update": "Failed to update team.",
+    "delete": "Failed to delete team.",
+    "addMember": "Failed to add member.",
+    "removeMember": "Failed to remove member.",
+    "nameRequired": "Name is required."
+  }
+}

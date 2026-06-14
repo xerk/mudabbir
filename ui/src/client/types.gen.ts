@@ -177,6 +177,100 @@ export type AwsBedrockLlmConfiguration = {
 };
 
 /**
+ * AcceptInvitationRequest
+ */
+export type AcceptInvitationRequest = {
+    /**
+     * Token
+     */
+    token: string;
+};
+
+/**
+ * AddTeamMemberRequest
+ */
+export type AddTeamMemberRequest = {
+    /**
+     * User Id
+     */
+    user_id: number;
+    /**
+     * Role
+     */
+    role?: string;
+};
+
+/**
+ * AdminOrganizationResponse
+ */
+export type AdminOrganizationResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Logo Url
+     */
+    logo_url?: string | null;
+    /**
+     * Member Count
+     */
+    member_count: number;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
+ * AdminStatsResponse
+ */
+export type AdminStatsResponse = {
+    /**
+     * Total Organizations
+     */
+    total_organizations: number;
+    /**
+     * Total Users
+     */
+    total_users: number;
+    /**
+     * Recent Users
+     */
+    recent_users: Array<RecentUser>;
+};
+
+/**
+ * AdminUserResponse
+ */
+export type AdminUserResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Is Superuser
+     */
+    is_superuser: boolean;
+    /**
+     * Organization Count
+     */
+    organization_count: number;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
  * AmbientNoiseUploadRequest
  */
 export type AmbientNoiseUploadRequest = {
@@ -1379,6 +1473,16 @@ export type CreateFolderRequest = {
 };
 
 /**
+ * CreateOrganizationRequest
+ */
+export type CreateOrganizationRequest = {
+    /**
+     * Name
+     */
+    name: string;
+};
+
+/**
  * CreateServiceKeyRequest
  */
 export type CreateServiceKeyRequest = {
@@ -1416,6 +1520,20 @@ export type CreateServiceKeyResponse = {
      * Expires At
      */
     expires_at?: string | null;
+};
+
+/**
+ * CreateTeamRequest
+ */
+export type CreateTeamRequest = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
 };
 
 /**
@@ -1941,15 +2059,15 @@ export type DocumentResponseSchema = {
     /**
      * File Size Bytes
      */
-    file_size_bytes: number;
+    file_size_bytes?: number | null;
     /**
      * File Hash
      */
-    file_hash: string;
+    file_hash?: string | null;
     /**
      * Mime Type
      */
-    mime_type: string;
+    mime_type?: string | null;
     /**
      * Processing Status
      */
@@ -3036,6 +3154,66 @@ export type InitiateCallRequest = {
 };
 
 /**
+ * InvitationResponse
+ */
+export type InvitationResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Email
+     */
+    email: string;
+    /**
+     * Role
+     */
+    role: string;
+    /**
+     * Team Id
+     */
+    team_id?: number | null;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Token
+     */
+    token: string;
+    /**
+     * Accept Path
+     */
+    accept_path: string;
+    /**
+     * Expires At
+     */
+    expires_at?: string | null;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
+ * InviteMemberRequest
+ */
+export type InviteMemberRequest = {
+    /**
+     * Email
+     */
+    email: string;
+    /**
+     * Role
+     */
+    role?: string;
+    /**
+     * Team Id
+     */
+    team_id?: number | null;
+};
+
+/**
  * ItemKind
  */
 export type ItemKind = 'node' | 'edge' | 'workflow';
@@ -3123,6 +3301,44 @@ export type MpsCreditsResponse = {
      * Total Quota
      */
     total_quota: number;
+};
+
+/**
+ * MailLogEntry
+ */
+export type MailLogEntry = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * To Email
+     */
+    to_email: string;
+    /**
+     * Subject
+     */
+    subject: string | null;
+    /**
+     * Template
+     */
+    template: string | null;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * Error
+     */
+    error: string | null;
+    /**
+     * Provider Message Id
+     */
+    provider_message_id: string | null;
+    /**
+     * Created At
+     */
+    created_at: string;
 };
 
 /**
@@ -3307,6 +3523,20 @@ export type MoveWorkflowToFolderRequest = {
      * Folder Id
      */
     folder_id?: number | null;
+};
+
+/**
+ * MyOrganizationsResponse
+ */
+export type MyOrganizationsResponse = {
+    /**
+     * Organizations
+     */
+    organizations: Array<OrganizationSummary>;
+    /**
+     * Selected Organization Id
+     */
+    selected_organization_id?: number | null;
 };
 
 /**
@@ -3581,6 +3811,16 @@ export type OpenRouterLlmConfiguration = {
 };
 
 /**
+ * OrgSettings
+ *
+ * Per-organization settings (regional + security).
+ */
+export type OrgSettings = {
+    regional?: RegionalSettings;
+    security?: ApiDbOrgSettingsClientSecuritySettings;
+};
+
+/**
  * OrganizationAIModelConfigurationResponse
  */
 export type OrganizationAiModelConfigurationResponse = {
@@ -3619,6 +3859,28 @@ export type OrganizationAiModelConfigurationV2 = {
 };
 
 /**
+ * OrganizationMemberResponse
+ */
+export type OrganizationMemberResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Role
+     */
+    role: string;
+    /**
+     * Joined
+     */
+    joined: string;
+};
+
+/**
  * OrganizationPreferences
  */
 export type OrganizationPreferences = {
@@ -3630,6 +3892,50 @@ export type OrganizationPreferences = {
      * Timezone
      */
     timezone?: string | null;
+};
+
+/**
+ * OrganizationProfileResponse
+ */
+export type OrganizationProfileResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Logo Url
+     */
+    logo_url?: string | null;
+};
+
+/**
+ * OrganizationSummary
+ */
+export type OrganizationSummary = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Slug
+     */
+    slug?: string | null;
+    /**
+     * Logo Url
+     */
+    logo_url?: string | null;
+    /**
+     * Role
+     */
+    role: string;
 };
 
 /**
@@ -4088,6 +4394,24 @@ export type ProviderSyncStatus = {
 };
 
 /**
+ * RecentUser
+ */
+export type RecentUser = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
  * RecordingCreateRequestSchema
  *
  * Request schema for creating a recording record after upload.
@@ -4284,6 +4608,60 @@ export type RedialCampaignRequest = {
      */
     retry_on_busy?: boolean;
     retry_config?: RetryConfigRequest | null;
+};
+
+/**
+ * RegionalSettings
+ *
+ * Regional / formatting preferences for an organization.
+ */
+export type RegionalSettings = {
+    /**
+     * Timezone
+     */
+    timezone?: string;
+    /**
+     * Dateformat
+     */
+    dateFormat?: string;
+    /**
+     * Timeformat
+     */
+    timeFormat?: string;
+    /**
+     * Currency
+     */
+    currency?: string;
+    /**
+     * Numberformat
+     */
+    numberFormat?: string;
+};
+
+/**
+ * RegionalSettingsPatch
+ */
+export type RegionalSettingsPatch = {
+    /**
+     * Timezone
+     */
+    timezone?: string | null;
+    /**
+     * Dateformat
+     */
+    dateFormat?: string | null;
+    /**
+     * Timeformat
+     */
+    timeFormat?: string | null;
+    /**
+     * Currency
+     */
+    currency?: string | null;
+    /**
+     * Numberformat
+     */
+    numberFormat?: string | null;
 };
 
 /**
@@ -4533,6 +4911,34 @@ export type ScheduleConfigResponse = {
 };
 
 /**
+ * SecuritySettingsPatch
+ */
+export type SecuritySettingsPatch = {
+    /**
+     * Requiretwofactor
+     */
+    requireTwoFactor?: boolean | null;
+    /**
+     * Sessiontimeoutminutes
+     */
+    sessionTimeoutMinutes?: number | null;
+    /**
+     * Allowedemaildomains
+     */
+    allowedEmailDomains?: string | null;
+};
+
+/**
+ * SelectOrganizationRequest
+ */
+export type SelectOrganizationRequest = {
+    /**
+     * Organization Id
+     */
+    organization_id: number;
+};
+
+/**
  * ServiceKeyResponse
  */
 export type ServiceKeyResponse = {
@@ -4575,6 +4981,16 @@ export type ServiceKeyResponse = {
 };
 
 /**
+ * SetSuperuserRequest
+ */
+export type SetSuperuserRequest = {
+    /**
+     * Is Superuser
+     */
+    is_superuser: boolean;
+};
+
+/**
  * SignupRequest
  */
 export type SignupRequest = {
@@ -4590,6 +5006,68 @@ export type SignupRequest = {
      * Name
      */
     name?: string | null;
+};
+
+/**
+ * SmtpSettings
+ *
+ * Platform-wide outbound SMTP configuration (super-admin managed).
+ */
+export type SmtpSettings = {
+    /**
+     * Host
+     */
+    host?: string;
+    /**
+     * Port
+     */
+    port?: number;
+    /**
+     * Username
+     */
+    username?: string;
+    /**
+     * Password
+     */
+    password?: string;
+    /**
+     * Secure
+     */
+    secure?: boolean;
+    /**
+     * From Email
+     */
+    from_email?: string;
+};
+
+/**
+ * SmtpSettingsPatch
+ */
+export type SmtpSettingsPatch = {
+    /**
+     * Host
+     */
+    host?: string | null;
+    /**
+     * Port
+     */
+    port?: number | null;
+    /**
+     * Username
+     */
+    username?: string | null;
+    /**
+     * Password
+     */
+    password?: string | null;
+    /**
+     * Secure
+     */
+    secure?: boolean | null;
+    /**
+     * From Email
+     */
+    from_email?: string | null;
 };
 
 /**
@@ -4828,6 +5306,62 @@ export type SuperuserWorkflowRunsListResponse = {
      * Total Pages
      */
     total_pages: number;
+};
+
+/**
+ * TeamMemberResponse
+ */
+export type TeamMemberResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * User Id
+     */
+    user_id: number;
+    /**
+     * Email
+     */
+    email?: string | null;
+    /**
+     * Role
+     */
+    role: string;
+    /**
+     * Created At
+     */
+    created_at: string;
+};
+
+/**
+ * TeamResponse
+ */
+export type TeamResponse = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Organization Id
+     */
+    organization_id: number;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Created At
+     */
+    created_at: string;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
 };
 
 /**
@@ -5533,6 +6067,68 @@ export type UpdateFolderRequest = {
      * Name
      */
     name: string;
+};
+
+/**
+ * UpdateMemberRoleRequest
+ */
+export type UpdateMemberRoleRequest = {
+    /**
+     * Role
+     */
+    role: string;
+};
+
+/**
+ * UpdateOrgSettingsRequest
+ *
+ * Patch an organization's settings (only sent groups/fields change).
+ */
+export type UpdateOrgSettingsRequest = {
+    regional?: RegionalSettingsPatch | null;
+    security?: SecuritySettingsPatch | null;
+};
+
+/**
+ * UpdateOrganizationProfileRequest
+ */
+export type UpdateOrganizationProfileRequest = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Logo Url
+     */
+    logo_url?: string | null;
+};
+
+/**
+ * UpdateOrganizationRequest
+ */
+export type UpdateOrganizationRequest = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Logo Url
+     */
+    logo_url?: string | null;
+};
+
+/**
+ * UpdateTeamRequest
+ */
+export type UpdateTeamRequest = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
 };
 
 /**
@@ -6527,6 +7123,46 @@ export type WorkflowVersionResponse = {
     } | null;
 };
 
+/**
+ * SecuritySettings
+ *
+ * Platform-wide security policy.
+ */
+export type ApiDbAppSettingsClientSecuritySettings = {
+    /**
+     * Requiretwofactor
+     */
+    requireTwoFactor?: boolean;
+    /**
+     * Sessiontimeoutminutes
+     */
+    sessionTimeoutMinutes?: number;
+    /**
+     * Allowedemaildomains
+     */
+    allowedEmailDomains?: string;
+};
+
+/**
+ * SecuritySettings
+ *
+ * Security policy for an organization.
+ */
+export type ApiDbOrgSettingsClientSecuritySettings = {
+    /**
+     * Requiretwofactor
+     */
+    requireTwoFactor?: boolean;
+    /**
+     * Sessiontimeoutminutes
+     */
+    sessionTimeoutMinutes?: number;
+    /**
+     * Allowedemaildomains
+     */
+    allowedEmailDomains?: string;
+};
+
 export type InitiateCallApiV1TelephonyInitiateCallPostData = {
     body: InitiateCallRequest;
     headers?: {
@@ -7010,6 +7646,216 @@ export type HandleVonageEventsApiV1TelephonyVonageEventsWorkflowRunIdPostRespons
      */
     200: unknown;
 };
+
+export type ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/superuser/security-settings';
+};
+
+export type ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetError = ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetErrors[keyof ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetErrors];
+
+export type ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: ApiDbAppSettingsClientSecuritySettings;
+};
+
+export type ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetResponse = ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetResponses[keyof ReadSecuritySettingsApiV1SuperuserSecuritySettingsGetResponses];
+
+export type WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutData = {
+    body: SecuritySettingsPatch;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/superuser/security-settings';
+};
+
+export type WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutError = WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutErrors[keyof WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutErrors];
+
+export type WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: ApiDbAppSettingsClientSecuritySettings;
+};
+
+export type WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutResponse = WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutResponses[keyof WriteSecuritySettingsApiV1SuperuserSecuritySettingsPutResponses];
+
+export type ReadMailSettingsApiV1SuperuserMailSettingsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/superuser/mail-settings';
+};
+
+export type ReadMailSettingsApiV1SuperuserMailSettingsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ReadMailSettingsApiV1SuperuserMailSettingsGetError = ReadMailSettingsApiV1SuperuserMailSettingsGetErrors[keyof ReadMailSettingsApiV1SuperuserMailSettingsGetErrors];
+
+export type ReadMailSettingsApiV1SuperuserMailSettingsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: SmtpSettings;
+};
+
+export type ReadMailSettingsApiV1SuperuserMailSettingsGetResponse = ReadMailSettingsApiV1SuperuserMailSettingsGetResponses[keyof ReadMailSettingsApiV1SuperuserMailSettingsGetResponses];
+
+export type WriteMailSettingsApiV1SuperuserMailSettingsPutData = {
+    body: SmtpSettingsPatch;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/superuser/mail-settings';
+};
+
+export type WriteMailSettingsApiV1SuperuserMailSettingsPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type WriteMailSettingsApiV1SuperuserMailSettingsPutError = WriteMailSettingsApiV1SuperuserMailSettingsPutErrors[keyof WriteMailSettingsApiV1SuperuserMailSettingsPutErrors];
+
+export type WriteMailSettingsApiV1SuperuserMailSettingsPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: SmtpSettings;
+};
+
+export type WriteMailSettingsApiV1SuperuserMailSettingsPutResponse = WriteMailSettingsApiV1SuperuserMailSettingsPutResponses[keyof WriteMailSettingsApiV1SuperuserMailSettingsPutResponses];
+
+export type ReadMailLogApiV1SuperuserMailLogGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: {
+        /**
+         * Limit
+         *
+         * Max rows to return
+         */
+        limit?: number;
+        /**
+         * Offset
+         *
+         * Rows to skip (pagination)
+         */
+        offset?: number;
+    };
+    url: '/api/v1/superuser/mail-log';
+};
+
+export type ReadMailLogApiV1SuperuserMailLogGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ReadMailLogApiV1SuperuserMailLogGetError = ReadMailLogApiV1SuperuserMailLogGetErrors[keyof ReadMailLogApiV1SuperuserMailLogGetErrors];
+
+export type ReadMailLogApiV1SuperuserMailLogGetResponses = {
+    /**
+     * Response Read Mail Log Api V1 Superuser Mail Log Get
+     *
+     * Successful Response
+     */
+    200: Array<MailLogEntry>;
+};
+
+export type ReadMailLogApiV1SuperuserMailLogGetResponse = ReadMailLogApiV1SuperuserMailLogGetResponses[keyof ReadMailLogApiV1SuperuserMailLogGetResponses];
 
 export type ImpersonateApiV1SuperuserImpersonatePostData = {
     body: ImpersonateRequest;
@@ -10876,6 +11722,1162 @@ export type GetCampaignDefaultsApiV1OrganizationsCampaignDefaultsGetResponses = 
 };
 
 export type GetCampaignDefaultsApiV1OrganizationsCampaignDefaultsGetResponse = GetCampaignDefaultsApiV1OrganizationsCampaignDefaultsGetResponses[keyof GetCampaignDefaultsApiV1OrganizationsCampaignDefaultsGetResponses];
+
+export type ListMyOrganizationsApiV1OrganizationsMineGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/mine';
+};
+
+export type ListMyOrganizationsApiV1OrganizationsMineGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListMyOrganizationsApiV1OrganizationsMineGetError = ListMyOrganizationsApiV1OrganizationsMineGetErrors[keyof ListMyOrganizationsApiV1OrganizationsMineGetErrors];
+
+export type ListMyOrganizationsApiV1OrganizationsMineGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: MyOrganizationsResponse;
+};
+
+export type ListMyOrganizationsApiV1OrganizationsMineGetResponse = ListMyOrganizationsApiV1OrganizationsMineGetResponses[keyof ListMyOrganizationsApiV1OrganizationsMineGetResponses];
+
+export type SelectOrganizationApiV1OrganizationsSelectPostData = {
+    body: SelectOrganizationRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/select';
+};
+
+export type SelectOrganizationApiV1OrganizationsSelectPostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type SelectOrganizationApiV1OrganizationsSelectPostError = SelectOrganizationApiV1OrganizationsSelectPostErrors[keyof SelectOrganizationApiV1OrganizationsSelectPostErrors];
+
+export type SelectOrganizationApiV1OrganizationsSelectPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: MyOrganizationsResponse;
+};
+
+export type SelectOrganizationApiV1OrganizationsSelectPostResponse = SelectOrganizationApiV1OrganizationsSelectPostResponses[keyof SelectOrganizationApiV1OrganizationsSelectPostResponses];
+
+export type ListMembersApiV1OrganizationsMembersGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/members';
+};
+
+export type ListMembersApiV1OrganizationsMembersGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListMembersApiV1OrganizationsMembersGetError = ListMembersApiV1OrganizationsMembersGetErrors[keyof ListMembersApiV1OrganizationsMembersGetErrors];
+
+export type ListMembersApiV1OrganizationsMembersGetResponses = {
+    /**
+     * Response List Members Api V1 Organizations Members Get
+     *
+     * Successful Response
+     */
+    200: Array<OrganizationMemberResponse>;
+};
+
+export type ListMembersApiV1OrganizationsMembersGetResponse = ListMembersApiV1OrganizationsMembersGetResponses[keyof ListMembersApiV1OrganizationsMembersGetResponses];
+
+export type InviteMemberApiV1OrganizationsMembersInvitePostData = {
+    body: InviteMemberRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/members/invite';
+};
+
+export type InviteMemberApiV1OrganizationsMembersInvitePostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type InviteMemberApiV1OrganizationsMembersInvitePostError = InviteMemberApiV1OrganizationsMembersInvitePostErrors[keyof InviteMemberApiV1OrganizationsMembersInvitePostErrors];
+
+export type InviteMemberApiV1OrganizationsMembersInvitePostResponses = {
+    /**
+     * Successful Response
+     */
+    200: InvitationResponse;
+};
+
+export type InviteMemberApiV1OrganizationsMembersInvitePostResponse = InviteMemberApiV1OrganizationsMembersInvitePostResponses[keyof InviteMemberApiV1OrganizationsMembersInvitePostResponses];
+
+export type UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutData = {
+    body: UpdateMemberRoleRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * User Id
+         */
+        user_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/members/{user_id}/role';
+};
+
+export type UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutError = UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutErrors[keyof UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutErrors];
+
+export type UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrganizationMemberResponse;
+};
+
+export type UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutResponse = UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutResponses[keyof UpdateMemberRoleApiV1OrganizationsMembersUserIdRolePutResponses];
+
+export type RemoveMemberApiV1OrganizationsMembersUserIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * User Id
+         */
+        user_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/members/{user_id}';
+};
+
+export type RemoveMemberApiV1OrganizationsMembersUserIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type RemoveMemberApiV1OrganizationsMembersUserIdDeleteError = RemoveMemberApiV1OrganizationsMembersUserIdDeleteErrors[keyof RemoveMemberApiV1OrganizationsMembersUserIdDeleteErrors];
+
+export type RemoveMemberApiV1OrganizationsMembersUserIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type ListInvitationsApiV1OrganizationsInvitationsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/invitations';
+};
+
+export type ListInvitationsApiV1OrganizationsInvitationsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListInvitationsApiV1OrganizationsInvitationsGetError = ListInvitationsApiV1OrganizationsInvitationsGetErrors[keyof ListInvitationsApiV1OrganizationsInvitationsGetErrors];
+
+export type ListInvitationsApiV1OrganizationsInvitationsGetResponses = {
+    /**
+     * Response List Invitations Api V1 Organizations Invitations Get
+     *
+     * Successful Response
+     */
+    200: Array<InvitationResponse>;
+};
+
+export type ListInvitationsApiV1OrganizationsInvitationsGetResponse = ListInvitationsApiV1OrganizationsInvitationsGetResponses[keyof ListInvitationsApiV1OrganizationsInvitationsGetResponses];
+
+export type RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Invitation Id
+         */
+        invitation_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/invitations/{invitation_id}';
+};
+
+export type RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteError = RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteErrors[keyof RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteErrors];
+
+export type RevokeInvitationApiV1OrganizationsInvitationsInvitationIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type AcceptInvitationApiV1OrganizationsInvitationsAcceptPostData = {
+    body: AcceptInvitationRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/invitations/accept';
+};
+
+export type AcceptInvitationApiV1OrganizationsInvitationsAcceptPostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type AcceptInvitationApiV1OrganizationsInvitationsAcceptPostError = AcceptInvitationApiV1OrganizationsInvitationsAcceptPostErrors[keyof AcceptInvitationApiV1OrganizationsInvitationsAcceptPostErrors];
+
+export type AcceptInvitationApiV1OrganizationsInvitationsAcceptPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrganizationSummary;
+};
+
+export type AcceptInvitationApiV1OrganizationsInvitationsAcceptPostResponse = AcceptInvitationApiV1OrganizationsInvitationsAcceptPostResponses[keyof AcceptInvitationApiV1OrganizationsInvitationsAcceptPostResponses];
+
+export type GetOrganizationProfileApiV1OrganizationsProfileGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/profile';
+};
+
+export type GetOrganizationProfileApiV1OrganizationsProfileGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetOrganizationProfileApiV1OrganizationsProfileGetError = GetOrganizationProfileApiV1OrganizationsProfileGetErrors[keyof GetOrganizationProfileApiV1OrganizationsProfileGetErrors];
+
+export type GetOrganizationProfileApiV1OrganizationsProfileGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrganizationProfileResponse;
+};
+
+export type GetOrganizationProfileApiV1OrganizationsProfileGetResponse = GetOrganizationProfileApiV1OrganizationsProfileGetResponses[keyof GetOrganizationProfileApiV1OrganizationsProfileGetResponses];
+
+export type UpdateOrganizationProfileApiV1OrganizationsProfilePutData = {
+    body: UpdateOrganizationProfileRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/profile';
+};
+
+export type UpdateOrganizationProfileApiV1OrganizationsProfilePutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateOrganizationProfileApiV1OrganizationsProfilePutError = UpdateOrganizationProfileApiV1OrganizationsProfilePutErrors[keyof UpdateOrganizationProfileApiV1OrganizationsProfilePutErrors];
+
+export type UpdateOrganizationProfileApiV1OrganizationsProfilePutResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrganizationProfileResponse;
+};
+
+export type UpdateOrganizationProfileApiV1OrganizationsProfilePutResponse = UpdateOrganizationProfileApiV1OrganizationsProfilePutResponses[keyof UpdateOrganizationProfileApiV1OrganizationsProfilePutResponses];
+
+export type ListTeamsApiV1OrganizationsTeamsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/teams';
+};
+
+export type ListTeamsApiV1OrganizationsTeamsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListTeamsApiV1OrganizationsTeamsGetError = ListTeamsApiV1OrganizationsTeamsGetErrors[keyof ListTeamsApiV1OrganizationsTeamsGetErrors];
+
+export type ListTeamsApiV1OrganizationsTeamsGetResponses = {
+    /**
+     * Response List Teams Api V1 Organizations Teams Get
+     *
+     * Successful Response
+     */
+    200: Array<TeamResponse>;
+};
+
+export type ListTeamsApiV1OrganizationsTeamsGetResponse = ListTeamsApiV1OrganizationsTeamsGetResponses[keyof ListTeamsApiV1OrganizationsTeamsGetResponses];
+
+export type CreateTeamApiV1OrganizationsTeamsPostData = {
+    body: CreateTeamRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/teams';
+};
+
+export type CreateTeamApiV1OrganizationsTeamsPostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateTeamApiV1OrganizationsTeamsPostError = CreateTeamApiV1OrganizationsTeamsPostErrors[keyof CreateTeamApiV1OrganizationsTeamsPostErrors];
+
+export type CreateTeamApiV1OrganizationsTeamsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: TeamResponse;
+};
+
+export type CreateTeamApiV1OrganizationsTeamsPostResponse = CreateTeamApiV1OrganizationsTeamsPostResponses[keyof CreateTeamApiV1OrganizationsTeamsPostResponses];
+
+export type DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Team Id
+         */
+        team_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/teams/{team_id}';
+};
+
+export type DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteError = DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteErrors[keyof DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteErrors];
+
+export type DeleteTeamApiV1OrganizationsTeamsTeamIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type UpdateTeamApiV1OrganizationsTeamsTeamIdPutData = {
+    body: UpdateTeamRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Team Id
+         */
+        team_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/teams/{team_id}';
+};
+
+export type UpdateTeamApiV1OrganizationsTeamsTeamIdPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateTeamApiV1OrganizationsTeamsTeamIdPutError = UpdateTeamApiV1OrganizationsTeamsTeamIdPutErrors[keyof UpdateTeamApiV1OrganizationsTeamsTeamIdPutErrors];
+
+export type UpdateTeamApiV1OrganizationsTeamsTeamIdPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: TeamResponse;
+};
+
+export type UpdateTeamApiV1OrganizationsTeamsTeamIdPutResponse = UpdateTeamApiV1OrganizationsTeamsTeamIdPutResponses[keyof UpdateTeamApiV1OrganizationsTeamsTeamIdPutResponses];
+
+export type ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Team Id
+         */
+        team_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/teams/{team_id}/members';
+};
+
+export type ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetError = ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetErrors[keyof ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetErrors];
+
+export type ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetResponses = {
+    /**
+     * Response List Team Members Api V1 Organizations Teams  Team Id  Members Get
+     *
+     * Successful Response
+     */
+    200: Array<TeamMemberResponse>;
+};
+
+export type ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetResponse = ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetResponses[keyof ListTeamMembersApiV1OrganizationsTeamsTeamIdMembersGetResponses];
+
+export type AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostData = {
+    body: AddTeamMemberRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Team Id
+         */
+        team_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/teams/{team_id}/members';
+};
+
+export type AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostError = AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostErrors[keyof AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostErrors];
+
+export type AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: TeamMemberResponse;
+};
+
+export type AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostResponse = AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostResponses[keyof AddTeamMemberApiV1OrganizationsTeamsTeamIdMembersPostResponses];
+
+export type RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Team Id
+         */
+        team_id: number;
+        /**
+         * User Id
+         */
+        user_id: number;
+    };
+    query?: never;
+    url: '/api/v1/organizations/teams/{team_id}/members/{user_id}';
+};
+
+export type RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteError = RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteErrors[keyof RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteErrors];
+
+export type RemoveTeamMemberApiV1OrganizationsTeamsTeamIdMembersUserIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type GetSettingsApiV1OrganizationsSettingsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/settings';
+};
+
+export type GetSettingsApiV1OrganizationsSettingsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetSettingsApiV1OrganizationsSettingsGetError = GetSettingsApiV1OrganizationsSettingsGetErrors[keyof GetSettingsApiV1OrganizationsSettingsGetErrors];
+
+export type GetSettingsApiV1OrganizationsSettingsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrgSettings;
+};
+
+export type GetSettingsApiV1OrganizationsSettingsGetResponse = GetSettingsApiV1OrganizationsSettingsGetResponses[keyof GetSettingsApiV1OrganizationsSettingsGetResponses];
+
+export type UpdateSettingsApiV1OrganizationsSettingsPutData = {
+    body: UpdateOrgSettingsRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/organizations/settings';
+};
+
+export type UpdateSettingsApiV1OrganizationsSettingsPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateSettingsApiV1OrganizationsSettingsPutError = UpdateSettingsApiV1OrganizationsSettingsPutErrors[keyof UpdateSettingsApiV1OrganizationsSettingsPutErrors];
+
+export type UpdateSettingsApiV1OrganizationsSettingsPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: OrgSettings;
+};
+
+export type UpdateSettingsApiV1OrganizationsSettingsPutResponse = UpdateSettingsApiV1OrganizationsSettingsPutResponses[keyof UpdateSettingsApiV1OrganizationsSettingsPutResponses];
+
+export type GetStatsApiV1AdminStatsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/stats';
+};
+
+export type GetStatsApiV1AdminStatsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetStatsApiV1AdminStatsGetError = GetStatsApiV1AdminStatsGetErrors[keyof GetStatsApiV1AdminStatsGetErrors];
+
+export type GetStatsApiV1AdminStatsGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminStatsResponse;
+};
+
+export type GetStatsApiV1AdminStatsGetResponse = GetStatsApiV1AdminStatsGetResponses[keyof GetStatsApiV1AdminStatsGetResponses];
+
+export type ListOrganizationsApiV1AdminOrganizationsGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/organizations';
+};
+
+export type ListOrganizationsApiV1AdminOrganizationsGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListOrganizationsApiV1AdminOrganizationsGetError = ListOrganizationsApiV1AdminOrganizationsGetErrors[keyof ListOrganizationsApiV1AdminOrganizationsGetErrors];
+
+export type ListOrganizationsApiV1AdminOrganizationsGetResponses = {
+    /**
+     * Response List Organizations Api V1 Admin Organizations Get
+     *
+     * Successful Response
+     */
+    200: Array<AdminOrganizationResponse>;
+};
+
+export type ListOrganizationsApiV1AdminOrganizationsGetResponse = ListOrganizationsApiV1AdminOrganizationsGetResponses[keyof ListOrganizationsApiV1AdminOrganizationsGetResponses];
+
+export type CreateOrganizationApiV1AdminOrganizationsPostData = {
+    body: CreateOrganizationRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/organizations';
+};
+
+export type CreateOrganizationApiV1AdminOrganizationsPostErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateOrganizationApiV1AdminOrganizationsPostError = CreateOrganizationApiV1AdminOrganizationsPostErrors[keyof CreateOrganizationApiV1AdminOrganizationsPostErrors];
+
+export type CreateOrganizationApiV1AdminOrganizationsPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminOrganizationResponse;
+};
+
+export type CreateOrganizationApiV1AdminOrganizationsPostResponse = CreateOrganizationApiV1AdminOrganizationsPostResponses[keyof CreateOrganizationApiV1AdminOrganizationsPostResponses];
+
+export type DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Org Id
+         */
+        org_id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/organizations/{org_id}';
+};
+
+export type DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteError = DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteErrors[keyof DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteErrors];
+
+export type DeleteOrganizationApiV1AdminOrganizationsOrgIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type UpdateOrganizationApiV1AdminOrganizationsOrgIdPutData = {
+    body: UpdateOrganizationRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * Org Id
+         */
+        org_id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/organizations/{org_id}';
+};
+
+export type UpdateOrganizationApiV1AdminOrganizationsOrgIdPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateOrganizationApiV1AdminOrganizationsOrgIdPutError = UpdateOrganizationApiV1AdminOrganizationsOrgIdPutErrors[keyof UpdateOrganizationApiV1AdminOrganizationsOrgIdPutErrors];
+
+export type UpdateOrganizationApiV1AdminOrganizationsOrgIdPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminOrganizationResponse;
+};
+
+export type UpdateOrganizationApiV1AdminOrganizationsOrgIdPutResponse = UpdateOrganizationApiV1AdminOrganizationsOrgIdPutResponses[keyof UpdateOrganizationApiV1AdminOrganizationsOrgIdPutResponses];
+
+export type ListUsersApiV1AdminUsersGetData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/v1/admin/users';
+};
+
+export type ListUsersApiV1AdminUsersGetErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ListUsersApiV1AdminUsersGetError = ListUsersApiV1AdminUsersGetErrors[keyof ListUsersApiV1AdminUsersGetErrors];
+
+export type ListUsersApiV1AdminUsersGetResponses = {
+    /**
+     * Response List Users Api V1 Admin Users Get
+     *
+     * Successful Response
+     */
+    200: Array<AdminUserResponse>;
+};
+
+export type ListUsersApiV1AdminUsersGetResponse = ListUsersApiV1AdminUsersGetResponses[keyof ListUsersApiV1AdminUsersGetResponses];
+
+export type SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutData = {
+    body: SetSuperuserRequest;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * User Id
+         */
+        user_id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/users/{user_id}/superuser';
+};
+
+export type SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutError = SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutErrors[keyof SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutErrors];
+
+export type SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutResponses = {
+    /**
+     * Successful Response
+     */
+    200: AdminUserResponse;
+};
+
+export type SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutResponse = SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutResponses[keyof SetUserSuperuserApiV1AdminUsersUserIdSuperuserPutResponses];
+
+export type DeleteUserApiV1AdminUsersUserIdDeleteData = {
+    body?: never;
+    headers?: {
+        /**
+         * Authorization
+         */
+        authorization?: string | null;
+        /**
+         * X-Api-Key
+         */
+        'X-API-Key'?: string | null;
+    };
+    path: {
+        /**
+         * User Id
+         */
+        user_id: number;
+    };
+    query?: never;
+    url: '/api/v1/admin/users/{user_id}';
+};
+
+export type DeleteUserApiV1AdminUsersUserIdDeleteErrors = {
+    /**
+     * Not found
+     */
+    404: unknown;
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteUserApiV1AdminUsersUserIdDeleteError = DeleteUserApiV1AdminUsersUserIdDeleteErrors[keyof DeleteUserApiV1AdminUsersUserIdDeleteErrors];
+
+export type DeleteUserApiV1AdminUsersUserIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
 
 export type GetSignedUrlApiV1S3SignedUrlGetData = {
     body?: never;

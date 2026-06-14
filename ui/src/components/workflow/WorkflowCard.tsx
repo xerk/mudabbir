@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 interface WorkflowCardProps {
@@ -10,6 +11,7 @@ interface WorkflowCardProps {
 
 export function WorkflowCard({ id, name, createdAt }: WorkflowCardProps) {
     const router = useRouter();
+    const t = useTranslations('workflow');
 
     const handleClick = () => {
         router.push(`/workflow/${id}`);
@@ -23,7 +25,7 @@ export function WorkflowCard({ id, name, createdAt }: WorkflowCardProps) {
             <div>
                 <h3 className="text-lg font-semibold mb-2">{name}</h3>
                 <p className="text-gray-600 mb-2">
-                    Created: {new Date(createdAt).toLocaleDateString()}
+                    {t('list.createdLabel', { date: new Date(createdAt).toLocaleDateString() })}
                 </p>
             </div>
         </div>

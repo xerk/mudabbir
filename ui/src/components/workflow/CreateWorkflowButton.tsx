@@ -1,6 +1,7 @@
 'use client';
 
 import { Bot, ChevronDown, LayoutTemplate, PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -48,6 +49,7 @@ export function CreateWorkflowButton() {
     const router = useRouter();
     const { user, getAccessToken } = useAuth();
     const [isCreating, setIsCreating] = useState(false);
+    const t = useTranslations('workflow');
 
     const handleAgentBuilder = () => {
         router.push('/workflow/create');
@@ -75,7 +77,7 @@ export function CreateWorkflowButton() {
             }
         } catch (err) {
             logger.error(`Error creating blank workflow: ${err}`);
-            toast.error('Failed to create workflow');
+            toast.error(t('list.createFailed'));
         } finally {
             setIsCreating(false);
         }
@@ -86,23 +88,23 @@ export function CreateWorkflowButton() {
             <DropdownMenuTrigger asChild>
                 <Button disabled={isCreating}>
                     <PlusIcon className="w-4 h-4" />
-                    {isCreating ? 'Creating...' : 'Create Agent'}
+                    {isCreating ? t('list.creating') : t('list.createAgent')}
                     <ChevronDown className="w-4 h-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={handleAgentBuilder} className="cursor-pointer">
-                    <Bot className="w-4 h-4 mr-2" />
+                    <Bot className="w-4 h-4 me-2" />
                     <div>
-                        <div className="font-medium">Use Agent Builder</div>
-                        <div className="text-xs text-muted-foreground">AI generates a workflow from your description</div>
+                        <div className="font-medium">{t('list.useAgentBuilder')}</div>
+                        <div className="text-xs text-muted-foreground">{t('list.agentBuilderDescription')}</div>
                     </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleBlankCanvas} disabled={isCreating} className="cursor-pointer">
-                    <LayoutTemplate className="w-4 h-4 mr-2" />
+                    <LayoutTemplate className="w-4 h-4 me-2" />
                     <div>
-                        <div className="font-medium">Blank Canvas</div>
-                        <div className="text-xs text-muted-foreground">Start from scratch with an empty workflow</div>
+                        <div className="font-medium">{t('list.blankCanvas')}</div>
+                        <div className="text-xs text-muted-foreground">{t('list.blankCanvasDescription')}</div>
                     </div>
                 </DropdownMenuItem>
             </DropdownMenuContent>

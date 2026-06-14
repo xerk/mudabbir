@@ -1,0 +1,181 @@
+{
+  "http": {
+    "parameterEditor": {
+      "empty": "No parameters defined. Add a parameter to specify what data this tool needs.",
+      "parameterN": "Parameter {index}",
+      "nameLabel": "Name",
+      "nameHelp": "Name of the parameter, like \"order_id\" or \"customer_name\"",
+      "namePlaceholder": "e.g., customer_name",
+      "typeLabel": "Type",
+      "typeHelp": "Type of the parameter, like \"string\" or \"number\" or \"boolean\"",
+      "typePlaceholder": "Select type",
+      "descriptionLabel": "Description",
+      "descriptionHelp": "Description of the parameter, which makes it easy for LLM to understand, like \"The ID of the Customer to fetch Order Details\"",
+      "descriptionPlaceholder": "Describe what this parameter is for...",
+      "required": "Required",
+      "addParameter": "Add Parameter",
+      "paramType": {
+        "string": "String",
+        "number": "Number",
+        "boolean": "Boolean",
+        "object": "Object",
+        "array": "Array"
+      }
+    },
+    "presetParameterEditor": {
+      "empty": "No preset parameters defined. Add one to inject a fixed value or workflow context into the request.",
+      "parameterN": "Preset Parameter {index}",
+      "nameLabel": "Name",
+      "nameHelp": "Key sent to the API, like \"phone_number\" or \"customer_id\"",
+      "namePlaceholder": "e.g., phone_number",
+      "typeLabel": "Type",
+      "typeHelp": "JSON type to send to the API",
+      "typePlaceholder": "Select type",
+      "valueLabel": "Value or Template",
+      "valueHelp": "Use a fixed value or a template like {example1} or {example2}",
+      "required": "Required",
+      "addParameter": "Add Preset Parameter"
+    },
+    "createCredential": {
+      "title": "Add Credential",
+      "description": "Create a new credential for authentication.",
+      "nameLabel": "Name *",
+      "namePlaceholder": "My API Key",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Optional description",
+      "typeLabel": "Credential Type",
+      "cancel": "Cancel",
+      "create": "Create",
+      "creating": "Creating...",
+      "types": {
+        "bearerToken": "Bearer Token",
+        "apiKey": "API Key",
+        "basicAuth": "Basic Auth",
+        "customHeader": "Custom Header"
+      },
+      "fields": {
+        "headerName": "Header Name",
+        "apiKey": "API Key",
+        "token": "Token",
+        "username": "Username",
+        "password": "Password",
+        "headerValue": "Header Value"
+      },
+      "placeholders": {
+        "apiKey": "your-api-key",
+        "token": "your-bearer-token",
+        "username": "username",
+        "password": "password",
+        "headerValue": "header-value"
+      },
+      "errors": {
+        "createFailed": "Failed to create credential",
+        "unexpected": "An unexpected error occurred"
+      }
+    },
+    "keyValueEditor": {
+      "keyPlaceholder": "Key",
+      "valuePlaceholder": "Value",
+      "add": "Add"
+    }
+  },
+  "filters": {
+    "title": "Filter Workflow Runs",
+    "description": "Build custom filters to find specific workflow runs",
+    "templates": "Templates",
+    "filterTemplates": "Filter Templates",
+    "selectAttribute": "Select attribute to filter by",
+    "activeFilters": "Active Filters",
+    "clearAll": "Clear All",
+    "autoRefresh": "Auto-refresh every 5s",
+    "applyFilters": "Apply filters",
+    "applying": "Applying...",
+    "applyWithShortcut": "Apply ({shortcut}+Enter)",
+    "summary": {
+      "noOptions": "No options selected",
+      "noValue": "No value",
+      "noTags": "No tags",
+      "andMore": "{items} +{count} more"
+    }
+  },
+  "telephony": {
+    "phoneNumber": {
+      "addTitle": "Add phone number",
+      "editTitle": "Edit phone number",
+      "dialogDescription": "PSTN numbers (E.164), SIP URIs (sip:user@host), and SIP extensions are all supported.",
+      "addressLabel": "Address",
+      "addressPlaceholder": "+19781899185, sip:101@asterisk.local, or 101",
+      "addressImmutable": "Address cannot be changed. Delete this number and create a new one to change it.",
+      "storedAs": "Stored as {normalized} ({type})",
+      "countryLabel": "Country (ISO-2)",
+      "labelLabel": "Label",
+      "labelPlaceholder": "e.g. Boston caller ID",
+      "inboundWorkflowLabel": "Inbound workflow",
+      "none": "(none)",
+      "inboundWorkflowHelp": "Used when per-number inbound routing is enabled. Today, inbound calls still route by the workflow_id in the webhook URL.",
+      "active": "Active",
+      "defaultCallerId": "Default caller ID for this configuration",
+      "defaultCallerIdHelp": "Used as the from-number for test calls when set.",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save changes",
+      "add": "Add",
+      "toast": {
+        "updated": "Phone number updated",
+        "added": "Phone number added",
+        "syncFailed": "Saved, but failed to sync inbound webhook to the provider."
+      },
+      "errors": {
+        "addressRequired": "Address is required",
+        "pstnNeedsCountry": "PSTN addresses without a leading '+' need a Country (ISO-2) hint, or include the country code in the address (e.g. +14155551234).",
+        "saveFailed": "Failed to save phone number"
+      }
+    },
+    "config": {
+      "addTitle": "Add telephony configuration",
+      "editTitle": "Edit telephony configuration",
+      "addDescription": "Connect a telephony provider account. Phone numbers are added after the configuration is created.",
+      "editDescription": "Update credentials for this configuration. Phone numbers are managed separately.",
+      "configIdLabel": "Configuration ID",
+      "clickToCopy": "Click to copy",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g. Twilio US prod",
+      "providerLabel": "Provider",
+      "selectProvider": "Select a provider",
+      "providerLocked": "Provider cannot be changed after creation.",
+      "providerDocs": "{provider} docs",
+      "setDefaultOutbound": "Set as default for outbound calls",
+      "setDefaultOutboundHelp": "Used by test calls and campaigns when no specific config is selected.",
+      "optional": "(optional)",
+      "phoneNumbersManagedSeparately": "Phone numbers are managed separately on the configuration page.",
+      "leaveMasked": "Leave masked to keep existing",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save changes",
+      "create": "Create",
+      "toast": {
+        "updated": "Configuration updated",
+        "created": "Configuration created",
+        "idCopied": "Configuration ID copied",
+        "copyFailed": "Failed to copy ID"
+      },
+      "errors": {
+        "nameRequired": "Name is required",
+        "saveFailed": "Failed to save configuration",
+        "saveFailedShort": "Failed to save"
+      }
+    }
+  },
+  "usage": {
+    "dailyTable": {
+      "title": "Daily Usage Breakdown",
+      "description": "Last 7 days of usage",
+      "noData": "No usage data available",
+      "columnDate": "Date",
+      "columnUsage": "Usage (minutes)",
+      "columnCost": "Cost (USD)",
+      "columnCalls": "Calls",
+      "total": "Total"
+    }
+  }
+}

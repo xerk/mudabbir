@@ -54,7 +54,7 @@ export default function ThemeToggle({
         !showLabel && "absolute"
       )} />
       {showLabel && theme && (
-        <span className="ml-2">{theme === "light" ? "Light" : "Dark"} Mode</span>
+        <span className="ms-2">{theme === "light" ? "Light" : "Dark"} Mode</span>
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>

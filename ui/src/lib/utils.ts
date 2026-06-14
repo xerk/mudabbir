@@ -56,8 +56,8 @@ export async function getRedirectUrl(token: string, permissions: { id: string }[
       userId: authUser.data?.id
     });
     if (authUser.data?.is_superuser) {
-      console.log('[getRedirectUrl] User is superuser, redirecting to /superadmin');
-      return "/superadmin";
+      console.log('[getRedirectUrl] User is superuser, redirecting to /admin');
+      return "/admin";
     }
 
     const hasAdminPermission = permissions.some(p => p.id === 'admin');

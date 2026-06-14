@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, Loader2, Search, Volume2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
 import { getVoicesApiV1UserConfigurationsVoicesProviderGet } from "@/client/sdk.gen";
@@ -33,6 +34,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
     language,
     className,
 }) => {
+    const t = useTranslations("models");
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [isManualInput, setIsManualInput] = useState(false);
@@ -85,12 +87,12 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
             }
         } catch (err) {
             console.error("Failed to fetch voices:", err);
-            setError("Failed to load voices");
+            setError(t("voice.loadFailed"));
             setVoices([]);
         } finally {
             setIsLoading(false);
         }
-    }, [provider, model, language, getProviderKey]);
+    }, [provider, model, language, getProviderKey, t]);
 
     useEffect(() => {
         if (provider) {
@@ -171,7 +173,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
             return value;
         }
         const voice = voices.find((v) => v.voice_id === value);
-        return voice?.name || value || "Select a voice";
+        return voice?.name || value || t("voice.selectPlaceholder");
     };
 
     const playPreview = (previewUrl: string, voiceId: string) => {
@@ -211,7 +213,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
             <div className={cn("space-y-2", className)}>
                 <Input
                     type="text"
-                    placeholder="Enter voice ID"
+                    placeholder={t("voice.voiceIdPlaceholder")}
                     value={value || ""}
                     onChange={(e) => onChange(e.target.value)}
                 />
@@ -224,7 +226,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
             <div className={cn("space-y-2", className)}>
                 <Input
                     type="text"
-                    placeholder="Enter voice ID"
+                    placeholder={t("voice.voiceIdPlaceholder")}
                     value={manualVoiceId}
                     onChange={(e) => handleManualVoiceIdChange(e.target.value)}
                 />
@@ -238,7 +240,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                         htmlFor="manual-voice-input"
                         className="text-sm font-normal cursor-pointer"
                     >
-                        Add Voice ID Manually
+                        {t("voice.addVoiceIdManually")}
                     </Label>
                 </div>
             </div>
@@ -260,24 +262,24 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                         disabled={isLoading}
                     >
                         <span className="truncate">
-                            {isLoading ? "Loading voices..." : getSelectedVoiceName()}
+                            {isLoading ? t("voice.loading") : getSelectedVoiceName()}
                         </span>
                         {isLoading ? (
-                            <Loader2 className="ml-2 h-4 w-4 shrink-0 animate-spin" />
+                            <Loader2 className="ms-2 h-4 w-4 shrink-0 animate-spin" />
                         ) : (
-                            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronDown className="ms-2 h-4 w-4 shrink-0 opacity-50" />
                         )}
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[400px] p-0" align="start">
                     <div className="p-2 space-y-2">
                         <div className="relative">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Search className="absolute start-2 top-2.5 h-4 w-4 text-muted-foreground" />
                             <Input
-                                placeholder="Search voices..."
+                                placeholder={t("voice.searchPlaceholder")}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-8"
+                                className="ps-8"
                             />
                         </div>
 
@@ -292,7 +294,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                 </div>
                             ) : filteredVoices.length === 0 ? (
                                 <p className="text-sm text-muted-foreground text-center py-4">
-                                    No voices found
+                                    {t("voice.noVoicesFound")}
                                 </p>
                             ) : (
                                 filteredVoices.map((voice) => (
@@ -373,11 +375,11 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                     htmlFor="manual-voice-input-popup"
                                     className="text-sm font-normal cursor-pointer"
                                 >
-                                    Add Voice ID Manually
+                                    {t("voice.addVoiceIdManually")}
                                 </Label>
                             </div>
                             <p className="text-xs text-muted-foreground">
-                                {voices.length} voices available
+                                {t("voice.voicesAvailable", { count: voices.length })}
                             </p>
                         </div>
                     </div>

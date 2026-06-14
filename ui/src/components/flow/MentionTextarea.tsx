@@ -8,6 +8,8 @@ import {
     useState,
 } from "react";
 
+import { useTranslations } from "next-intl";
+
 import type { RecordingResponseSchema } from "@/client/types.gen";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +35,7 @@ export function MentionTextarea({
     className,
     recordings = [],
 }: MentionTextareaProps) {
+    const t = useTranslations("flow");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -186,7 +189,7 @@ export function MentionTextarea({
                             type="button"
                             data-selected={index === selectedIndex}
                             className={cn(
-                                "flex w-full flex-col gap-0.5 px-3 py-2 text-left text-sm cursor-pointer hover:bg-accent",
+                                "flex w-full flex-col gap-0.5 px-3 py-2 text-start text-sm cursor-pointer hover:bg-accent",
                                 index === selectedIndex && "bg-accent"
                             )}
                             onMouseDown={(e) => {
@@ -207,7 +210,7 @@ export function MentionTextarea({
             )}
             {showDropdown && filtered.length === 0 && items.length === 0 && (
                 <div className="absolute z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md p-3 text-sm text-muted-foreground">
-                    No recordings found. Upload recordings via the Recordings panel.
+                    {t("properties.mention.noRecordings")}
                 </div>
             )}
         </div>

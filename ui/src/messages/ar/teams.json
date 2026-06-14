@@ -1,0 +1,68 @@
+{
+  "title": "الفِرَق",
+  "subtitle": "نظّم الأعضاء في فِرَق.",
+  "actions": {
+    "create": "إنشاء فريق",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "manageMembers": "إدارة الأعضاء",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ…",
+    "add": "إضافة",
+    "remove": "إزالة"
+  },
+  "list": {
+    "empty": "لا توجد فِرَق بعد.",
+    "membersCount": "{count, plural, =0 {لا يوجد أعضاء} one {عضو واحد} two {عضوان} few {# أعضاء} many {# عضوًا} other {# عضو}}",
+    "created": "تاريخ الإنشاء"
+  },
+  "create": {
+    "title": "إنشاء فريق",
+    "description": "أنشئ فريقًا جديدًا في هذه المؤسسة.",
+    "nameLabel": "الاسم",
+    "namePlaceholder": "مثال: المبيعات",
+    "descriptionLabel": "الوصف",
+    "descriptionPlaceholder": "وصف اختياري",
+    "submit": "إنشاء الفريق"
+  },
+  "edit": {
+    "title": "تعديل الفريق",
+    "description": "حدّث تفاصيل الفريق.",
+    "submit": "حفظ التغييرات"
+  },
+  "delete": {
+    "title": "حذف الفريق؟",
+    "description": "سيؤدي هذا إلى حذف {name} نهائيًا. لن يُحذف الأعضاء، الفريق فقط.",
+    "confirm": "حذف الفريق"
+  },
+  "members": {
+    "title": "أعضاء {name}",
+    "description": "أضف أو أزل أعضاء المؤسسة من هذا الفريق.",
+    "empty": "لا يوجد أعضاء في هذا الفريق بعد.",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "actions": "إجراءات",
+    "addLabel": "إضافة عضو",
+    "addPlaceholder": "اختر عضوًا",
+    "noAvailable": "جميع أعضاء المؤسسة موجودون بالفعل في هذا الفريق.",
+    "unknownEmail": "غير معروف"
+  },
+  "toast": {
+    "created": "تم إنشاء الفريق",
+    "updated": "تم تحديث الفريق",
+    "deleted": "تم حذف الفريق",
+    "memberAdded": "تمت إضافة العضو إلى الفريق",
+    "memberRemoved": "تمت إزالة العضو من الفريق"
+  },
+  "errors": {
+    "load": "فشل تحميل الفِرَق.",
+    "loadMembers": "فشل تحميل أعضاء الفريق.",
+    "create": "فشل إنشاء الفريق.",
+    "update": "فشل تحديث الفريق.",
+    "delete": "فشل حذف الفريق.",
+    "addMember": "فشل إضافة العضو.",
+    "removeMember": "فشل إزالة العضو.",
+    "nameRequired": "الاسم مطلوب."
+  }
+}

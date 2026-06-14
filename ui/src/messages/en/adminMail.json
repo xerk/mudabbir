@@ -1,0 +1,39 @@
+{
+  "config": {
+    "title": "Mail configuration",
+    "description": "SMTP server used to send platform emails. Leave the host empty to fall back to environment configuration.",
+    "host": "SMTP host",
+    "hostPlaceholder": "smtp.example.com",
+    "port": "Port",
+    "username": "Username",
+    "password": "Password",
+    "passwordHint": "Leave unchanged to keep the current password.",
+    "secure": "Use TLS/SSL",
+    "secureHint": "Enable for implicit TLS (usually port 465).",
+    "fromEmail": "From address",
+    "fromEmailPlaceholder": "no-reply@example.com",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "saved": "Mail settings updated",
+    "saveError": "Failed to update mail settings"
+  },
+  "log": {
+    "title": "Mail log",
+    "description": "Recent outbound emails sent by the platform.",
+    "empty": "No emails have been sent yet.",
+    "columns": {
+      "to": "Recipient",
+      "subject": "Subject",
+      "template": "Template",
+      "status": "Status",
+      "sentAt": "Sent at",
+      "error": "Error"
+    },
+    "status": {
+      "sent": "Sent",
+      "skipped": "Skipped",
+      "failed": "Failed"
+    },
+    "refresh": "Refresh"
+  }
+}

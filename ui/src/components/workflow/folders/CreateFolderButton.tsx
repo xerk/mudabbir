@@ -1,6 +1,7 @@
 'use client';
 
 import { FolderPlus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -12,6 +13,7 @@ import { FolderFormDialog } from './FolderFormDialog';
 
 export function CreateFolderButton() {
     const router = useRouter();
+    const t = useTranslations('workflow');
     const [isOpen, setIsOpen] = useState(false);
 
     const handleCreate = async (name: string) => {
@@ -20,25 +22,25 @@ export function CreateFolderButton() {
             // 409 = duplicate name; surface the server's message when present.
             const detail =
                 (response.error as { detail?: string })?.detail ??
-                'Failed to create folder';
+                t('list.folders.createFailed');
             toast.error(detail);
             throw new Error(detail);
         }
-        toast.success(`Folder "${name}" created`);
+        toast.success(t('list.folders.createSuccess', { name }));
         router.refresh();
     };
 
     return (
         <>
             <Button variant="outline" onClick={() => setIsOpen(true)}>
-                <FolderPlus className="w-4 h-4 mr-2" />
-                New Folder
+                <FolderPlus className="w-4 h-4 me-2" />
+                {t('list.folders.newFolder')}
             </Button>
             <FolderFormDialog
                 open={isOpen}
                 onOpenChange={setIsOpen}
-                title="Create folder"
-                submitLabel="Create"
+                title={t('list.folders.createDialogTitle')}
+                submitLabel={t('list.folders.create')}
                 onSubmit={handleCreate}
             />
         </>

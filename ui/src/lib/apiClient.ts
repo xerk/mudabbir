@@ -33,6 +33,13 @@ export function setupAuthInterceptor(apiClient: Client, getAccessToken: () => Pr
     interceptorRegistered = true;
 
     apiClient.interceptors.request.use(async (request) => {
+        // Attach the active locale so the backend can localize error messages.
+        if (typeof document !== 'undefined') {
+            const match = document.cookie.match(/(?:^|;\s*)mudabbir_locale=([^;]+)/);
+            const locale = match?.[1] === 'ar' ? 'ar' : 'en';
+            request.headers.set('x-locale', locale);
+            request.headers.set('Accept-Language', locale);
+        }
         if (request.headers.get('Authorization')) {
             return request;
         }

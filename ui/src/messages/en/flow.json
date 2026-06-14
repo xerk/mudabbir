@@ -1,0 +1,164 @@
+{
+  "nodes": {
+    "badges": {
+      "node": "Node",
+      "startNode": "Start Node",
+      "agentNode": "Agent Node",
+      "endNode": "End Node",
+      "globalNode": "Global Node",
+      "apiTrigger": "API Trigger",
+      "webhook": "Webhook",
+      "qaAnalysis": "QA Analysis"
+    },
+    "edit": {
+      "docs": "Docs",
+      "description": "Configure the settings for this node in your workflow.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "readOnly": "Read Only",
+      "discardTitle": "Discard changes?",
+      "discardDescription": "You have unsaved changes. Are you sure you want to discard them?",
+      "keepEditing": "Keep Editing",
+      "discard": "Discard"
+    },
+    "deleteNode": "Delete node",
+    "editNode": "Edit Node",
+    "editNamed": "Edit {name}",
+    "promptLabel": "Prompt",
+    "detailsLabel": "Details",
+    "apiEndpoint": "API Endpoint:",
+    "generating": "Generating...",
+    "notConfigured": "Not configured",
+    "workflowLlm": "Workflow LLM",
+    "noPromptConfigured": "No prompt configured",
+    "toolsLabel": "Tools:",
+    "documentsLabel": "Documents:",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "clickToCopy": "Click to copy",
+    "copied": "Copied!",
+    "clickToCopyUrl": "Click to copy URL",
+    "clickToCopyCurl": "Click to copy curl",
+    "exampleRequest": "Example Request",
+    "webhookUrls": "Webhook URLs",
+    "webhookUrlsDescription": "Test mode runs the latest draft so you can verify changes before publishing. Production runs the published agent. Both require an API key in the X-API-Key header.",
+    "getApiKey": "Get your API key",
+    "testUrl": "Test URL",
+    "productionUrl": "Production URL",
+    "testUrlHelper": "Runs the latest draft, falling back to the published agent when no draft exists.",
+    "productionUrlHelper": "Runs the published agent."
+  },
+  "properties": {
+    "unknownType": "Unknown property type: {type}",
+    "removeRow": "Remove row {number}",
+    "add": "Add",
+    "mention": {
+      "noRecordings": "No recordings found. Upload recordings via the Recordings panel."
+    }
+  },
+  "tools": {
+    "label": "Tools",
+    "description": "Select tools that the agent can use during the conversation.",
+    "learnMore": "Learn more",
+    "noToolsAvailable": "No tools available.",
+    "createTool": "Create a Tool",
+    "httpTab": "HTTP & Tools ({count})",
+    "mcpTab": "MCP ({count})",
+    "noHttpTools": "No HTTP/native tools.",
+    "noMcpTools": "No MCP tools.",
+    "mcpFnCount": "{selected}/{total} tools",
+    "refreshTools": "Refresh tools",
+    "noToolsDiscovered": "No tools discovered — Refresh.",
+    "unavailableFn": "{name} (unavailable)",
+    "manageTools": "Manage Tools",
+    "selectedCount": "{count, plural, one {# tool selected} other {# tools selected}}",
+    "loading": "Loading...",
+    "documents": {
+      "label": "Knowledge Base Documents",
+      "description": "Select documents that the agent can reference during conversations.",
+      "learnMore": "Learn more",
+      "noDocumentsAvailable": "No documents available. Upload documents to the knowledge base first.",
+      "uploadDocuments": "Upload Documents",
+      "fullDocument": "Full Document",
+      "chunkCount": "{count, plural, one {# chunk} other {# chunks}}",
+      "manageDocuments": "Manage Documents",
+      "selectedCount": "{count, plural, one {# document selected} other {# documents selected}}",
+      "loading": "Loading..."
+    },
+    "addNode": {
+      "title": "Add New Node",
+      "viewDocumentation": "View Nodes Documentation",
+      "sections": {
+        "triggers": "Triggers",
+        "agentNodes": "Agent Nodes",
+        "globalNodes": "Global Nodes",
+        "integrations": "Integrations"
+      },
+      "nodeSpecs": {
+        "agentNode": {
+          "name": "Agent Node",
+          "description": "Conversational step — the LLM runs one focused exchange."
+        },
+        "endCall": {
+          "name": "End Call",
+          "description": "Closes the conversation and hangs up."
+        },
+        "globalNode": {
+          "name": "Global Node",
+          "description": "Persona/tone appended to every agent node's prompt."
+        },
+        "qa": {
+          "name": "QA Analysis",
+          "description": "Run LLM quality analysis on the call transcript."
+        },
+        "startCall": {
+          "name": "Start Call",
+          "description": "Entry point of the workflow — plays a greeting and opens the conversation."
+        },
+        "trigger": {
+          "name": "API Trigger",
+          "description": "Public HTTP endpoints that launch the workflow."
+        },
+        "tuner": {
+          "name": "Tuner",
+          "description": "Export the completed call to Tuner for Agent Observability."
+        },
+        "webhook": {
+          "name": "Webhook",
+          "description": "Send HTTP request after the workflow completes."
+        }
+      }
+    }
+  },
+  "edges": {
+    "dialog": {
+      "title": "Edit Condition",
+      "conditionLabel": "Condition Label",
+      "conditionLabelHelper": "Enter a short label which helps identify this pathway in logs",
+      "charCount": "{count}/64 characters",
+      "condition": "Condition",
+      "conditionHelper": "Describe a condition that will be evaluated to determine if this pathway should be taken",
+      "transitionSpeech": "Transition Speech",
+      "transitionSpeechHelper": "Optional text or audio the assistant will play right before transitioning to the node. This will not be attached in Conversation Context. Use this as simple filler to reduce latency.",
+      "transitionSpeechPlaceholder": "e.g. Let me transfer you to our billing department...",
+      "cancel": "Cancel",
+      "save": "Save",
+      "readOnly": "Read Only"
+    },
+    "label": {
+      "condition": "Condition",
+      "clickToSet": "Click to set condition",
+      "noCondition": "No condition"
+    },
+    "audio": {
+      "staticTextWarning": "This text is spoken as-is. For multilingual workflows, choose your phrasing carefully. Realtime (speech-to-speech) models can't play static text.",
+      "text": "Text",
+      "audio": "Audio",
+      "selectHelper": "Select a pre-recorded audio file to play.",
+      "selectRecording": "Select a recording",
+      "noRecordings": "No recordings available",
+      "searchPlaceholder": "Search by ID, transcript, or filename...",
+      "noMatch": "No recordings match “{query}”"
+    }
+  }
+}

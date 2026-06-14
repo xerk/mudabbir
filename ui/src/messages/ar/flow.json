@@ -1,0 +1,164 @@
+{
+  "nodes": {
+    "badges": {
+      "node": "عقدة",
+      "startNode": "عقدة البداية",
+      "agentNode": "عقدة الوكيل",
+      "endNode": "عقدة النهاية",
+      "globalNode": "عقدة عامة",
+      "apiTrigger": "مُشغّل API",
+      "webhook": "Webhook",
+      "qaAnalysis": "تحليل الجودة"
+    },
+    "edit": {
+      "docs": "التوثيق",
+      "description": "اضبط إعدادات هذه العقدة في سير عملك.",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "readOnly": "للقراءة فقط",
+      "discardTitle": "تجاهل التغييرات؟",
+      "discardDescription": "لديك تغييرات غير محفوظة. هل أنت متأكد أنك تريد تجاهلها؟",
+      "keepEditing": "متابعة التعديل",
+      "discard": "تجاهل"
+    },
+    "deleteNode": "حذف العقدة",
+    "editNode": "تعديل العقدة",
+    "editNamed": "تعديل {name}",
+    "promptLabel": "الموجّه",
+    "detailsLabel": "التفاصيل",
+    "apiEndpoint": "نقطة نهاية API:",
+    "generating": "جارٍ الإنشاء...",
+    "notConfigured": "غير مُهيّأ",
+    "workflowLlm": "نموذج سير العمل",
+    "noPromptConfigured": "لا يوجد موجّه مُهيّأ",
+    "toolsLabel": "الأدوات:",
+    "documentsLabel": "المستندات:",
+    "enabled": "مُفعّل",
+    "disabled": "مُعطّل",
+    "clickToCopy": "انقر للنسخ",
+    "copied": "تم النسخ!",
+    "clickToCopyUrl": "انقر لنسخ الرابط",
+    "clickToCopyCurl": "انقر لنسخ أمر curl",
+    "exampleRequest": "مثال على الطلب",
+    "webhookUrls": "روابط Webhook",
+    "webhookUrlsDescription": "يُشغّل وضع الاختبار أحدث مسودة لتتمكن من التحقق من التغييرات قبل النشر. ويُشغّل الإنتاج الوكيل المنشور. يتطلب كلاهما مفتاح API في ترويسة X-API-Key.",
+    "getApiKey": "احصل على مفتاح API الخاص بك",
+    "testUrl": "رابط الاختبار",
+    "productionUrl": "رابط الإنتاج",
+    "testUrlHelper": "يُشغّل أحدث مسودة، مع الرجوع إلى الوكيل المنشور عند عدم وجود مسودة.",
+    "productionUrlHelper": "يُشغّل الوكيل المنشور."
+  },
+  "properties": {
+    "unknownType": "نوع خاصية غير معروف: {type}",
+    "removeRow": "إزالة الصف {number}",
+    "add": "إضافة",
+    "mention": {
+      "noRecordings": "لم يتم العثور على تسجيلات. قم برفع التسجيلات من خلال لوحة التسجيلات."
+    }
+  },
+  "tools": {
+    "label": "الأدوات",
+    "description": "اختر الأدوات التي يمكن للوكيل استخدامها أثناء المحادثة.",
+    "learnMore": "اعرف المزيد",
+    "noToolsAvailable": "لا توجد أدوات متاحة.",
+    "createTool": "إنشاء أداة",
+    "httpTab": "HTTP والأدوات ({count})",
+    "mcpTab": "MCP ({count})",
+    "noHttpTools": "لا توجد أدوات HTTP أو أصلية.",
+    "noMcpTools": "لا توجد أدوات MCP.",
+    "mcpFnCount": "{selected}/{total} أداة",
+    "refreshTools": "تحديث الأدوات",
+    "noToolsDiscovered": "لم يتم اكتشاف أي أدوات — قم بالتحديث.",
+    "unavailableFn": "{name} (غير متاحة)",
+    "manageTools": "إدارة الأدوات",
+    "selectedCount": "{count, plural, zero {لم يتم اختيار أي أداة} one {تم اختيار أداة واحدة} two {تم اختيار أداتين} few {تم اختيار # أدوات} many {تم اختيار # أداة} other {تم اختيار # أداة}}",
+    "loading": "جارٍ التحميل...",
+    "documents": {
+      "label": "مستندات قاعدة المعرفة",
+      "description": "اختر المستندات التي يمكن للوكيل الرجوع إليها أثناء المحادثات.",
+      "learnMore": "اعرف المزيد",
+      "noDocumentsAvailable": "لا توجد مستندات متاحة. قم أولاً برفع المستندات إلى قاعدة المعرفة.",
+      "uploadDocuments": "رفع المستندات",
+      "fullDocument": "المستند الكامل",
+      "chunkCount": "{count, plural, zero {لا توجد مقاطع} one {مقطع واحد} two {مقطعان} few {# مقاطع} many {# مقطعًا} other {# مقطع}}",
+      "manageDocuments": "إدارة المستندات",
+      "selectedCount": "{count, plural, zero {لم يتم اختيار أي مستند} one {تم اختيار مستند واحد} two {تم اختيار مستندين} few {تم اختيار # مستندات} many {تم اختيار # مستندًا} other {تم اختيار # مستند}}",
+      "loading": "جارٍ التحميل..."
+    },
+    "addNode": {
+      "title": "إضافة عقدة جديدة",
+      "viewDocumentation": "عرض وثائق العقد",
+      "sections": {
+        "triggers": "المُشغّلات",
+        "agentNodes": "عُقد الوكيل",
+        "globalNodes": "العُقد العامة",
+        "integrations": "التكاملات"
+      },
+      "nodeSpecs": {
+        "agentNode": {
+          "name": "عقدة الوكيل",
+          "description": "خطوة محادثة — ينفّذ النموذج اللغوي تبادلاً واحداً مركّزاً."
+        },
+        "endCall": {
+          "name": "إنهاء المكالمة",
+          "description": "يُغلق المحادثة ويُنهي الاتصال."
+        },
+        "globalNode": {
+          "name": "العقدة العامة",
+          "description": "شخصية/نبرة تُضاف إلى موجّه كل عقدة وكيل."
+        },
+        "qa": {
+          "name": "تحليل الجودة",
+          "description": "تشغيل تحليل الجودة بالنموذج اللغوي على نص المكالمة."
+        },
+        "startCall": {
+          "name": "بدء المكالمة",
+          "description": "نقطة بداية مسار العمل — تُشغّل ترحيباً وتفتح المحادثة."
+        },
+        "trigger": {
+          "name": "مُشغّل API",
+          "description": "نقاط نهاية HTTP عامة تُطلق مسار العمل."
+        },
+        "tuner": {
+          "name": "Tuner",
+          "description": "تصدير المكالمة المكتملة إلى Tuner لمراقبة الوكيل."
+        },
+        "webhook": {
+          "name": "Webhook",
+          "description": "إرسال طلب HTTP بعد اكتمال مسار العمل."
+        }
+      }
+    }
+  },
+  "edges": {
+    "dialog": {
+      "title": "تعديل الشرط",
+      "conditionLabel": "تسمية الشرط",
+      "conditionLabelHelper": "أدخل تسمية قصيرة تساعد على تحديد هذا المسار في السجلات",
+      "charCount": "{count}/64 حرف",
+      "condition": "الشرط",
+      "conditionHelper": "صف شرطًا سيتم تقييمه لتحديد ما إذا كان يجب اتباع هذا المسار",
+      "transitionSpeech": "كلام الانتقال",
+      "transitionSpeechHelper": "نص أو صوت اختياري يشغّله المساعد قبل الانتقال إلى العقدة مباشرةً. لن يُرفق هذا بسياق المحادثة. استخدمه كحشو بسيط لتقليل التأخير.",
+      "transitionSpeechPlaceholder": "مثال: دعني أحوّلك إلى قسم الفواتير...",
+      "cancel": "إلغاء",
+      "save": "حفظ",
+      "readOnly": "للقراءة فقط"
+    },
+    "label": {
+      "condition": "الشرط",
+      "clickToSet": "انقر لتعيين الشرط",
+      "noCondition": "لا يوجد شرط"
+    },
+    "audio": {
+      "staticTextWarning": "يُنطق هذا النص كما هو. للسيرات المتعددة اللغات، اختر صياغتك بعناية. لا تستطيع نماذج الوقت الفعلي (الصوت إلى الصوت) تشغيل النص الثابت.",
+      "text": "النص",
+      "audio": "الصوت",
+      "selectHelper": "اختر ملف صوتي مسجلاً مسبقاً لتشغيله.",
+      "selectRecording": "اختر تسجيلاً",
+      "noRecordings": "لا توجد تسجيلات متاحة",
+      "searchPlaceholder": "ابحث بالمعرّف أو النص المكتوب أو اسم الملف...",
+      "noMatch": "لا توجد تسجيلات تطابق “{query}”"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "title": "الأعضاء",
+  "subtitle": "إدارة من لديه حق الوصول إلى هذه المؤسسة.",
+  "nav": {
+    "heading": "الإعدادات",
+    "general": "عام",
+    "members": "الأعضاء",
+    "teams": "الفِرَق",
+    "regional": "الإقليمية",
+    "security": "الأمان"
+  },
+  "table": {
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "joined": "تاريخ الانضمام",
+    "actions": "إجراءات",
+    "you": "أنت",
+    "unknownEmail": "غير معروف",
+    "empty": "لا يوجد أعضاء بعد."
+  },
+  "roles": {
+    "owner": "مالك",
+    "admin": "مسؤول",
+    "member": "عضو"
+  },
+  "actions": {
+    "invite": "دعوة عضو",
+    "remove": "إزالة",
+    "changeRole": "تغيير الدور",
+    "copyLink": "نسخ رابط الدعوة",
+    "revoke": "إلغاء",
+    "cancel": "إلغاء"
+  },
+  "invite": {
+    "title": "دعوة عضو",
+    "description": "أرسل دعوة للانضمام إلى هذه المؤسسة.",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "name@example.com",
+    "roleLabel": "الدور",
+    "teamLabel": "الفريق (اختياري)",
+    "teamPlaceholder": "بدون فريق",
+    "noTeam": "بدون فريق",
+    "submit": "إرسال الدعوة",
+    "submitting": "جارٍ الإرسال…",
+    "successTitle": "تم إنشاء الدعوة",
+    "successDescription": "شارك هذا الرابط مع المدعو ليتمكن من قبوله والانضمام.",
+    "linkLabel": "رابط الدعوة",
+    "done": "تم"
+  },
+  "remove": {
+    "title": "إزالة العضو؟",
+    "description": "سيؤدي هذا إلى إزالة {email} من المؤسسة، وسيفقد حق الوصول فورًا.",
+    "confirm": "إزالة العضو",
+    "selfBlocked": "لا يمكنك إزالة نفسك من المؤسسة."
+  },
+  "invitations": {
+    "title": "الدعوات المعلّقة",
+    "description": "الدعوات التي لم يتم قبولها بعد.",
+    "empty": "لا توجد دعوات معلّقة.",
+    "sentTo": "تمت الدعوة",
+    "status": "الحالة",
+    "expires": "تنتهي في",
+    "noExpiry": "بدون انتهاء"
+  },
+  "toast": {
+    "linkCopied": "تم نسخ رابط الدعوة إلى الحافظة",
+    "copyFailed": "تعذّر نسخ الرابط",
+    "roleUpdated": "تم تحديث الدور",
+    "memberRemoved": "تمت إزالة العضو",
+    "invitationRevoked": "تم إلغاء الدعوة",
+    "invited": "تم إرسال الدعوة"
+  },
+  "errors": {
+    "load": "فشل تحميل الأعضاء.",
+    "invite": "فشل إرسال الدعوة.",
+    "updateRole": "فشل تحديث الدور.",
+    "remove": "فشل إزالة العضو.",
+    "revoke": "فشل إلغاء الدعوة.",
+    "emailRequired": "البريد الإلكتروني مطلوب."
+  },
+  "accept": {
+    "title": "لقد تمت دعوتك",
+    "heading": "لقد تمت دعوتك للانضمام إلى {org}",
+    "description": "اقبل الدعوة للانضمام إلى المؤسسة.",
+    "accept": "قبول الدعوة",
+    "accepting": "جارٍ القبول…",
+    "successTitle": "تم قبول الدعوة",
+    "successDescription": "مرحبًا بك في {org}.",
+    "goHome": "الذهاب إلى لوحة التحكم",
+    "invalidTitle": "الدعوة غير متاحة",
+    "invalidDescription": "هذه الدعوة غير صالحة أو منتهية الصلاحية أو تم قبولها بالفعل.",
+    "missingToken": "لم يتم تقديم رمز دعوة.",
+    "backHome": "العودة إلى الصفحة الرئيسية"
+  }
+}

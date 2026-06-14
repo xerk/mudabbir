@@ -1,4 +1,5 @@
 import { PlusIcon, Trash2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import type {
     DocumentResponseSchema,
@@ -47,6 +48,7 @@ export interface PropertyInputProps {
  * mounting them.
  */
 export function PropertyInput({ spec, value, onChange, context }: PropertyInputProps) {
+    const t = useTranslations("flow");
     switch (spec.type) {
         case "string":
             return <StringWidget spec={spec} value={value} onChange={onChange} />;
@@ -117,7 +119,7 @@ export function PropertyInput({ spec, value, onChange, context }: PropertyInputP
             const exhaustiveCheck: never = spec.type;
             return (
                 <div className="text-xs text-destructive">
-                    Unknown property type: {String(exhaustiveCheck)}
+                    {t("properties.unknownType", { type: String(exhaustiveCheck) })}
                 </div>
             );
         }
@@ -131,7 +133,7 @@ function StackedLabel({ spec }: { spec: PropertySpec }) {
         <>
             <Label>
                 {spec.display_name}
-                {spec.required && <span className="text-destructive ml-1">*</span>}
+                {spec.required && <span className="text-destructive ms-1">*</span>}
             </Label>
             {spec.description && (
                 <Label className="text-xs text-muted-foreground">{spec.description}</Label>
@@ -202,7 +204,7 @@ function BooleanWidget({ spec, value, onChange }: WidgetProps) {
             <Switch id={`prop-${spec.name}`} checked={v} onCheckedChange={onChange} />
             <Label htmlFor={`prop-${spec.name}`}>{spec.display_name}</Label>
             {spec.description && (
-                <Label className="text-xs text-muted-foreground ml-2">
+                <Label className="text-xs text-muted-foreground ms-2">
                     {spec.description}
                 </Label>
             )}
@@ -272,6 +274,7 @@ function FixedCollectionWidget({
     onChange,
     context,
 }: WidgetProps & { context: RendererContext }) {
+    const t = useTranslations("flow");
     const rows = (value as Array<Record<string, unknown>> | undefined) ?? [];
     const subProps = spec.properties ?? [];
 
@@ -320,7 +323,7 @@ function FixedCollectionWidget({
                                 variant="outline"
                                 size="icon"
                                 onClick={() => handleRemove(idx)}
-                                aria-label={`Remove row ${idx + 1}`}
+                                aria-label={t("properties.removeRow", { number: idx + 1 })}
                             >
                                 <Trash2Icon className="w-4 h-4" />
                             </Button>
@@ -328,7 +331,7 @@ function FixedCollectionWidget({
                     </div>
                 ))}
                 <Button variant="outline" size="sm" className="w-fit" onClick={handleAdd}>
-                    <PlusIcon className="w-4 h-4 mr-1" /> Add
+                    <PlusIcon className="w-4 h-4 me-1" /> {t("properties.add")}
                 </Button>
             </div>
         </div>

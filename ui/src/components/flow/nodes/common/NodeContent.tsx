@@ -1,4 +1,5 @@
 import { Position } from "@xyflow/react";
+import { useTranslations } from "next-intl";
 import { ReactNode } from "react";
 
 import { BaseHandle } from "@/components/flow/nodes/BaseHandle";
@@ -25,7 +26,7 @@ interface NodeContentProps {
 }
 
 // Get badge styling based on node type
-const DEFAULT_BADGE = { label: 'Node', className: 'bg-zinc-500 text-white' };
+const DEFAULT_BADGE_CLASSNAME = 'bg-zinc-500 text-white';
 
 export const NodeContent = ({
     selected,
@@ -37,7 +38,7 @@ export const NodeContent = ({
     icon,
     badgeLabel,
     badgeClassName,
-    contentLabel = "Prompt",
+    contentLabel,
     hasSourceHandle = false,
     hasTargetHandle = false,
     children,
@@ -45,10 +46,12 @@ export const NodeContent = ({
     onDoubleClick,
     nodeId,
 }: NodeContentProps) => {
+    const t = useTranslations("flow");
     const badge = {
-        label: badgeLabel ?? DEFAULT_BADGE.label,
-        className: badgeClassName ?? DEFAULT_BADGE.className,
+        label: badgeLabel ?? t("nodes.badges.node"),
+        className: badgeClassName ?? DEFAULT_BADGE_CLASSNAME,
     };
+    const resolvedContentLabel = contentLabel ?? t("nodes.promptLabel");
 
     return (
         <BaseNode
@@ -79,7 +82,7 @@ export const NodeContent = ({
                     <h3 className="text-sm font-semibold text-foreground truncate">
                         {title}
                         {nodeId && (
-                            <span className="ml-2 text-xs font-normal text-muted-foreground">
+                            <span className="ms-2 text-xs font-normal text-muted-foreground">
                                 #{nodeId}
                             </span>
                         )}
@@ -90,7 +93,7 @@ export const NodeContent = ({
             {/* Content area with prompt label */}
             <div className="p-4">
                 <div className="text-xs text-muted-foreground mb-1.5 font-medium">
-                    {contentLabel}:
+                    {resolvedContentLabel}:
                 </div>
                 {children}
             </div>

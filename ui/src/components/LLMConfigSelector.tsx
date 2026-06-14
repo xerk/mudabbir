@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { getDefaultConfigurationsApiV1UserConfigurationsDefaultsGet } from "@/client/sdk.gen";
@@ -45,6 +46,7 @@ export function LLMConfigSelector({
     apiKey,
     onApiKeyChange,
 }: LLMConfigSelectorProps) {
+    const t = useTranslations("models");
     const [schemas, setSchemas] = useState<Record<string, ProviderSchema>>({});
     const [isManualModelInput, setIsManualModelInput] = useState(false);
 
@@ -104,10 +106,10 @@ export function LLMConfigSelector({
         <div className="space-y-4 p-3 border rounded-md bg-muted/10">
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <Label>Provider</Label>
+                    <Label>{t("fields.provider")}</Label>
                     <Select value={provider} onValueChange={handleProviderChange}>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select provider" />
+                            <SelectValue placeholder={t("fields.providerPlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
                             {availableProviders.map((p) => (
@@ -120,12 +122,12 @@ export function LLMConfigSelector({
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Model</Label>
+                    <Label>{t("fields.model")}</Label>
                     {isManualModelInput ? (
                         <div className="space-y-2">
                             <Input
                                 type="text"
-                                placeholder="Enter model name"
+                                placeholder={t("fields.modelNamePlaceholder")}
                                 value={model}
                                 onChange={(e) => onModelChange(e.target.value)}
                             />
@@ -144,7 +146,7 @@ export function LLMConfigSelector({
                                     htmlFor="qa-manual-model"
                                     className="text-sm font-normal cursor-pointer"
                                 >
-                                    Add Model Manually
+                                    {t("fields.addModelManually")}
                                 </Label>
                             </div>
                         </div>
@@ -157,7 +159,7 @@ export function LLMConfigSelector({
                                 }}
                             >
                                 <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Select model" />
+                                    <SelectValue placeholder={t("fields.modelPlaceholder")} />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {modelOptions.map((m) => (
@@ -179,14 +181,14 @@ export function LLMConfigSelector({
                                     htmlFor="qa-manual-model-dropdown"
                                     className="text-sm font-normal cursor-pointer"
                                 >
-                                    Add Model Manually
+                                    {t("fields.addModelManually")}
                                 </Label>
                             </div>
                         </div>
                     ) : (
                         <Input
                             type="text"
-                            placeholder="Enter model name"
+                            placeholder={t("fields.modelNamePlaceholder")}
                             value={model}
                             onChange={(e) => onModelChange(e.target.value)}
                         />
@@ -195,10 +197,10 @@ export function LLMConfigSelector({
             </div>
 
             <div className="space-y-2">
-                <Label>API Key</Label>
+                <Label>{t("fields.apiKey")}</Label>
                 <Input
                     type="text"
-                    placeholder="Enter API key"
+                    placeholder={t("fields.apiKeyPlaceholder")}
                     value={apiKey}
                     onChange={(e) => onApiKeyChange(e.target.value)}
                 />

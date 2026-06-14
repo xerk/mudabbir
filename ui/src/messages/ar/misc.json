@@ -1,0 +1,181 @@
+{
+  "http": {
+    "parameterEditor": {
+      "empty": "لا توجد معاملات محددة. أضف معاملاً لتحديد البيانات التي تحتاجها هذه الأداة.",
+      "parameterN": "المعامل {index}",
+      "nameLabel": "الاسم",
+      "nameHelp": "اسم المعامل، مثل \"order_id\" أو \"customer_name\"",
+      "namePlaceholder": "مثال: customer_name",
+      "typeLabel": "النوع",
+      "typeHelp": "نوع المعامل، مثل \"string\" أو \"number\" أو \"boolean\"",
+      "typePlaceholder": "اختر النوع",
+      "descriptionLabel": "الوصف",
+      "descriptionHelp": "وصف المعامل، مما يسهّل على النموذج اللغوي فهمه، مثل \"معرّف العميل لجلب تفاصيل الطلب\"",
+      "descriptionPlaceholder": "صف الغرض من هذا المعامل...",
+      "required": "مطلوب",
+      "addParameter": "إضافة معامل",
+      "paramType": {
+        "string": "نص",
+        "number": "رقم",
+        "boolean": "قيمة منطقية",
+        "object": "كائن",
+        "array": "مصفوفة"
+      }
+    },
+    "presetParameterEditor": {
+      "empty": "لا توجد معاملات معدّة مسبقاً. أضف واحداً لإدراج قيمة ثابتة أو سياق سير العمل في الطلب.",
+      "parameterN": "المعامل المعدّ مسبقاً {index}",
+      "nameLabel": "الاسم",
+      "nameHelp": "المفتاح المُرسل إلى الواجهة البرمجية، مثل \"phone_number\" أو \"customer_id\"",
+      "namePlaceholder": "مثال: phone_number",
+      "typeLabel": "النوع",
+      "typeHelp": "نوع JSON المُرسل إلى الواجهة البرمجية",
+      "typePlaceholder": "اختر النوع",
+      "valueLabel": "القيمة أو القالب",
+      "valueHelp": "استخدم قيمة ثابتة أو قالباً مثل {example1} أو {example2}",
+      "required": "مطلوب",
+      "addParameter": "إضافة معامل معدّ مسبقاً"
+    },
+    "createCredential": {
+      "title": "إضافة بيانات اعتماد",
+      "description": "أنشئ بيانات اعتماد جديدة للمصادقة.",
+      "nameLabel": "الاسم *",
+      "namePlaceholder": "مفتاح الواجهة البرمجية الخاص بي",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري",
+      "typeLabel": "نوع بيانات الاعتماد",
+      "cancel": "إلغاء",
+      "create": "إنشاء",
+      "creating": "جارٍ الإنشاء...",
+      "types": {
+        "bearerToken": "رمز Bearer",
+        "apiKey": "مفتاح الواجهة البرمجية",
+        "basicAuth": "مصادقة أساسية",
+        "customHeader": "ترويسة مخصصة"
+      },
+      "fields": {
+        "headerName": "اسم الترويسة",
+        "apiKey": "مفتاح الواجهة البرمجية",
+        "token": "الرمز",
+        "username": "اسم المستخدم",
+        "password": "كلمة المرور",
+        "headerValue": "قيمة الترويسة"
+      },
+      "placeholders": {
+        "apiKey": "مفتاح-الواجهة-البرمجية-الخاص-بك",
+        "token": "رمز-bearer-الخاص-بك",
+        "username": "اسم المستخدم",
+        "password": "كلمة المرور",
+        "headerValue": "قيمة-الترويسة"
+      },
+      "errors": {
+        "createFailed": "فشل إنشاء بيانات الاعتماد",
+        "unexpected": "حدث خطأ غير متوقع"
+      }
+    },
+    "keyValueEditor": {
+      "keyPlaceholder": "المفتاح",
+      "valuePlaceholder": "القيمة",
+      "add": "إضافة"
+    }
+  },
+  "filters": {
+    "title": "تصفية تشغيلات سير العمل",
+    "description": "أنشئ عوامل تصفية مخصصة للعثور على تشغيلات سير عمل محددة",
+    "templates": "القوالب",
+    "filterTemplates": "قوالب التصفية",
+    "selectAttribute": "اختر سمة للتصفية بها",
+    "activeFilters": "عوامل التصفية النشطة",
+    "clearAll": "مسح الكل",
+    "autoRefresh": "تحديث تلقائي كل 5 ثوانٍ",
+    "applyFilters": "تطبيق عوامل التصفية",
+    "applying": "جارٍ التطبيق...",
+    "applyWithShortcut": "تطبيق ({shortcut}+Enter)",
+    "summary": {
+      "noOptions": "لم يتم تحديد أي خيارات",
+      "noValue": "لا توجد قيمة",
+      "noTags": "لا توجد وسوم",
+      "andMore": "{items} +{count} أخرى"
+    }
+  },
+  "telephony": {
+    "phoneNumber": {
+      "addTitle": "إضافة رقم هاتف",
+      "editTitle": "تعديل رقم الهاتف",
+      "dialogDescription": "أرقام PSTN (E.164) وعناوين SIP (sip:user@host) وامتدادات SIP كلها مدعومة.",
+      "addressLabel": "العنوان",
+      "addressPlaceholder": "‎+19781899185 أو sip:101@asterisk.local أو 101",
+      "addressImmutable": "لا يمكن تغيير العنوان. احذف هذا الرقم وأنشئ رقماً جديداً لتغييره.",
+      "storedAs": "مخزّن باسم {normalized} ({type})",
+      "countryLabel": "الدولة (ISO-2)",
+      "labelLabel": "التسمية",
+      "labelPlaceholder": "مثال: معرّف المتصل في بوسطن",
+      "inboundWorkflowLabel": "سير عمل المكالمات الواردة",
+      "none": "(بلا)",
+      "inboundWorkflowHelp": "يُستخدم عند تفعيل توجيه المكالمات الواردة لكل رقم. حالياً، لا تزال المكالمات الواردة تُوجَّه حسب workflow_id في رابط الويب هوك.",
+      "active": "نشط",
+      "defaultCallerId": "معرّف المتصل الافتراضي لهذا الإعداد",
+      "defaultCallerIdHelp": "يُستخدم كرقم المُرسِل لمكالمات الاختبار عند تعيينه.",
+      "cancel": "إلغاء",
+      "saving": "جارٍ الحفظ...",
+      "saveChanges": "حفظ التغييرات",
+      "add": "إضافة",
+      "toast": {
+        "updated": "تم تحديث رقم الهاتف",
+        "added": "تمت إضافة رقم الهاتف",
+        "syncFailed": "تم الحفظ، لكن فشلت مزامنة ويب هوك المكالمات الواردة مع المزوّد."
+      },
+      "errors": {
+        "addressRequired": "العنوان مطلوب",
+        "pstnNeedsCountry": "تحتاج عناوين PSTN التي لا تبدأ بعلامة '+' إلى تلميح الدولة (ISO-2)، أو ضمّن رمز الدولة في العنوان (مثال: ‎+14155551234).",
+        "saveFailed": "فشل حفظ رقم الهاتف"
+      }
+    },
+    "config": {
+      "addTitle": "إضافة إعداد اتصال هاتفي",
+      "editTitle": "تعديل إعداد الاتصال الهاتفي",
+      "addDescription": "اربط حساب مزوّد اتصال هاتفي. تُضاف أرقام الهاتف بعد إنشاء الإعداد.",
+      "editDescription": "حدّث بيانات اعتماد هذا الإعداد. تُدار أرقام الهاتف بشكل منفصل.",
+      "configIdLabel": "معرّف الإعداد",
+      "clickToCopy": "انقر للنسخ",
+      "nameLabel": "الاسم",
+      "namePlaceholder": "مثال: Twilio US prod",
+      "providerLabel": "المزوّد",
+      "selectProvider": "اختر مزوّداً",
+      "providerLocked": "لا يمكن تغيير المزوّد بعد الإنشاء.",
+      "providerDocs": "وثائق {provider}",
+      "setDefaultOutbound": "التعيين كافتراضي للمكالمات الصادرة",
+      "setDefaultOutboundHelp": "يُستخدم في مكالمات الاختبار والحملات عند عدم تحديد إعداد معيّن.",
+      "optional": "(اختياري)",
+      "phoneNumbersManagedSeparately": "تُدار أرقام الهاتف بشكل منفصل في صفحة الإعداد.",
+      "leaveMasked": "اتركه مخفياً للإبقاء على القيمة الحالية",
+      "cancel": "إلغاء",
+      "saving": "جارٍ الحفظ...",
+      "saveChanges": "حفظ التغييرات",
+      "create": "إنشاء",
+      "toast": {
+        "updated": "تم تحديث الإعداد",
+        "created": "تم إنشاء الإعداد",
+        "idCopied": "تم نسخ معرّف الإعداد",
+        "copyFailed": "فشل نسخ المعرّف"
+      },
+      "errors": {
+        "nameRequired": "الاسم مطلوب",
+        "saveFailed": "فشل حفظ الإعداد",
+        "saveFailedShort": "فشل الحفظ"
+      }
+    }
+  },
+  "usage": {
+    "dailyTable": {
+      "title": "تفصيل الاستخدام اليومي",
+      "description": "آخر 7 أيام من الاستخدام",
+      "noData": "لا توجد بيانات استخدام متاحة",
+      "columnDate": "التاريخ",
+      "columnUsage": "الاستخدام (بالدقائق)",
+      "columnCost": "التكلفة (دولار أمريكي)",
+      "columnCalls": "المكالمات",
+      "total": "الإجمالي"
+    }
+  }
+}

@@ -27,11 +27,14 @@ if SENTRY_DSN and (
 
 from contextlib import asynccontextmanager
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from loguru import logger
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from api.constants import REDIS_URL
+from api.i18n import current_locale, resolve_locale, translate
 from api.mcp_server import mcp
 from api.routes.main import router as main_router
 from api.services.pipecat.tracing_config import (
@@ -125,6 +128,34 @@ def _add_public_embed_cors_middleware() -> None:
 
 
 _add_public_embed_cors_middleware()
+
+
+@app.middleware("http")
+async def locale_middleware(request: Request, call_next):
+    """Set the per-request locale from headers so downstream code (notably the
+    HTTPException handler) can localize user-facing messages. English is the
+    default, so non-localized requests behave exactly as before."""
+    token = current_locale.set(resolve_locale(request.headers))
+    try:
+        return await call_next(request)
+    finally:
+        current_locale.reset(token)
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Localize ``HTTPException`` detail messages centrally, preserving status
+    code and headers. Only string details are translated; structured details
+    (dict/list) and non-catalog messages pass through unchanged."""
+    detail = exc.detail
+    if isinstance(detail, str):
+        detail = translate(detail, current_locale.get())
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": detail},
+        headers=getattr(exc, "headers", None),
+    )
+
 
 api_router = APIRouter()
 

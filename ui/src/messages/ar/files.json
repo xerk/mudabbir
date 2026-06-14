@@ -1,0 +1,58 @@
+{
+  "title": "ملفات قاعدة المعرفة",
+  "subtitlePrefix": "ارفع المستندات وأدِرها ليستند إليها وكلاؤك الصوتيون. ",
+  "learnMore": "اعرف المزيد",
+  "card": {
+    "title": "مستنداتك",
+    "description": "مستندات مشتركة بين جميع الوكلاء في مؤسستك",
+    "uploadButton": "رفع مستند"
+  },
+  "uploadDialog": {
+    "title": "رفع مستند",
+    "description": "ارفع ملف PDF أو مستنداً لإضافته إلى قاعدة معرفتك"
+  },
+  "list": {
+    "fetchError": "تعذّر جلب المستندات",
+    "deleteError": "تعذّر حذف المستند",
+    "deleteConfirm": "هل أنت متأكد من حذف \"{filename}\"؟",
+    "deleteSuccess": "تم حذف \"{filename}\"",
+    "searchPlaceholder": "ابحث في المستندات...",
+    "noMatch": "لا توجد مستندات تطابق بحثك",
+    "empty": "لم يتم رفع أي مستندات بعد",
+    "status": {
+      "completed": "مكتمل",
+      "processing": "قيد المعالجة",
+      "pending": "قيد الانتظار",
+      "failed": "فشل"
+    },
+    "retrievalMode": {
+      "fullDocument": "المستند الكامل",
+      "chunked": "مقسّم"
+    },
+    "chunks": "{count} مقطع",
+    "error": "خطأ: {message}",
+    "duplicateOf": "نسخة مكرّرة من مستند آخر"
+  },
+  "upload": {
+    "ossNoticeTitle": "تتم المعالجة بواسطة خدمة خارجية",
+    "ossNoticeBody": "تُرسَل المستندات المرفوعة إلى خدمة Dograh Model Proxy المُدارة للتحليل والتقسيم. لا تخزّن خدمة Dograh Model Proxy مستنداتك أو تطّلع عليها - يُعاد النص المستخرَج والتضمينات وتُخزَّن محلياً في قاعدة بياناتك المستضافة ذاتياً.",
+    "unsupportedType": "يرجى اختيار نوع ملف مدعوم: {types}",
+    "tooLarge": "يجب أن يكون حجم الملف أقل من 5 ميغابايت",
+    "getUploadUrlError": "تعذّر الحصول على رابط الرفع",
+    "uploadToStorageError": "تعذّر رفع الملف إلى التخزين",
+    "triggerProcessingError": "تعذّر بدء المعالجة",
+    "uploadSuccess": "تم رفع الملف: {filename}. بدأت المعالجة.",
+    "uploadDocumentError": "تعذّر رفع المستند",
+    "retrievalQuestion": "كيف ينبغي للوكيل استخدام هذا المستند؟",
+    "fullDocumentTitle": "المستند الكامل",
+    "fullDocumentDescription": "يُزوَّد الوكيل بالمستند كاملاً في كل عملية استرجاع. الأنسب للقوائم وقوائم الأسعار والأسئلة الشائعة وغيرها من المستندات المرجعية الصغيرة.",
+    "chunkedTitle": "البحث المقسّم",
+    "chunkedDescription": "يُقسَّم المستند إلى مقاطع ويُسترجَع أكثرها صلة. الأنسب للمستندات الكبيرة مثل الأدلة أو السياسات.",
+    "uploadAndProcess": "رفع ومعالجة",
+    "uploading": "جارٍ الرفع...",
+    "dropHere": "أفلِت مستندك هنا",
+    "clickToBrowse": "أو انقر للتصفّح",
+    "supportedFormats": "الصيغ المدعومة: {types} (بحد أقصى 5 ميغابايت)",
+    "chooseFile": "اختر ملفاً"
+  }
+}

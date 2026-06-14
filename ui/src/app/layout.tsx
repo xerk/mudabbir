@@ -1,7 +1,10 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Rubik } from "next/font/google";
+import { DirectionProvider } from "@radix-ui/react-direction";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { Suspense } from "react";
 
 import ChatwootWidget from "@/components/ChatwootWidget";
@@ -14,12 +17,16 @@ import { AppConfigProvider } from "@/context/AppConfigContext";
 import { OnboardingProvider } from "@/context/OnboardingContext";
 import { TelephonyConfigWarningsProvider } from "@/context/TelephonyConfigWarningsContext";
 import { UserConfigProvider } from "@/context/UserConfigContext";
+import { isRtl } from "@/i18n/config";
 import { AuthProvider } from "@/lib/auth";
 
 
-const geistSans = Geist({
+// Rubik is the single app typeface — it covers both Latin and Arabic, so it
+// serves LTR and RTL alike. Wired through --font-geist-sans (the body font var).
+const rubik = Rubik({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["arabic", "latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -28,18 +35,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dograh",
-  description: "Open Source Voice Assistant Workflow Builder",
+  title: "mudabbir",
+  description: "Voice AI agent platform",
 };
 
-export default function RootLayout({
-  children
+export default async function RootLayout({
+  children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  const dir = isRtl(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <head>
         {/* Inline script to prevent flash of light theme - runs before React hydrates */}
         <script
@@ -60,27 +70,32 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SentryErrorBoundary>
-          <AuthProvider>
-            <AppConfigProvider>
-              <Suspense fallback={<SpinLoader />}>
-                <UserConfigProvider>
-                  <TelephonyConfigWarningsProvider>
-                    <OnboardingProvider>
-                      <PostHogIdentify />
-                      <AppLayout>
-                        {children}
-                      </AppLayout>
-                      <Toaster />
-                      <ChatwootWidget />
-                    </OnboardingProvider>
-                  </TelephonyConfigWarningsProvider>
-                </UserConfigProvider>
-              </Suspense>
-            </AppConfigProvider>
-          </AuthProvider>
-        </SentryErrorBoundary>
+        suppressHydrationWarning
+        className={`${rubik.variable} ${geistMono.variable} antialiased`}>
+        <DirectionProvider dir={dir}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SentryErrorBoundary>
+            <AuthProvider>
+              <AppConfigProvider>
+                <Suspense fallback={<SpinLoader />}>
+                  <UserConfigProvider>
+                    <TelephonyConfigWarningsProvider>
+                      <OnboardingProvider>
+                        <PostHogIdentify />
+                        <AppLayout>
+                          {children}
+                        </AppLayout>
+                        <Toaster />
+                        <ChatwootWidget />
+                      </OnboardingProvider>
+                    </TelephonyConfigWarningsProvider>
+                  </UserConfigProvider>
+                </Suspense>
+              </AppConfigProvider>
+            </AuthProvider>
+          </SentryErrorBoundary>
+        </NextIntlClientProvider>
+        </DirectionProvider>
       </body>
     </html>
   );

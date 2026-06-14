@@ -2,6 +2,7 @@
 
 import asyncio
 import re
+import socket
 from typing import Optional
 
 import aiohttp
@@ -48,6 +49,18 @@ class TunnelURLProvider:
             # Try to connect to cloudflared metrics endpoint
             # The service name in docker-compose is 'cloudflared'
             metrics_url = "http://cloudflared:2000/metrics"
+
+            # Fast-fail when 'cloudflared' can't be resolved quickly (e.g.
+            # host-managed dev without the docker cloudflared service), so the
+            # health endpoint doesn't block on a slow DNS timeout. In docker the
+            # service name resolves and this check is a near-instant no-op.
+            loop = asyncio.get_event_loop()
+            try:
+                await asyncio.wait_for(
+                    loop.getaddrinfo("cloudflared", 2000), timeout=0.5
+                )
+            except (asyncio.TimeoutError, socket.gaierror, OSError):
+                return None
 
             async with aiohttp.ClientSession() as session:
                 async with session.get(

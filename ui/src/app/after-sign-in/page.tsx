@@ -1,7 +1,7 @@
 import { isNextRouterError } from "next/dist/client/components/is-next-router-error";
 import { redirect } from "next/navigation";
 
-import { getWorkflowCountApiV1WorkflowCountGet } from "@/client/sdk.gen";
+import { getWorkflowCountApiV1WorkflowCountGet, listMyOrganizationsApiV1OrganizationsMineGet } from "@/client/sdk.gen";
 import { getServerAccessToken,getServerAuthProvider, getServerUser } from "@/lib/auth/server";
 import logger from '@/lib/logger';
 import { getRedirectUrl } from "@/lib/utils";
@@ -35,23 +35,32 @@ export default async function AfterSignInPage() {
     try {
         const accessToken = await getServerAccessToken();
         if (accessToken) {
+            // Resolve the active workspace slug for /{slug}/* routing.
+            let slug: string | undefined;
+            try {
+                const mine = await listMyOrganizationsApiV1OrganizationsMineGet({
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                const orgs = mine.data?.organizations ?? [];
+                slug =
+                    orgs.find((o) => o.id === mine.data?.selected_organization_id)?.slug ??
+                    orgs[0]?.slug ??
+                    undefined;
+            } catch (err) {
+                logger.error('[AfterSignInPage] Failed to resolve workspace slug:', err);
+            }
+            const base = slug ? `/${slug}` : '';
+
             const countResponse = await getWorkflowCountApiV1WorkflowCountGet({
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
 
-            logger.debug('[AfterSignInPage] Found workflows:', {
-                total: countResponse.data?.total,
-                active: countResponse.data?.active
-            });
-
             if (countResponse.data && countResponse.data.active > 0) {
-                logger.debug('[AfterSignInPage] Redirecting to /workflow - user has workflows');
-                redirect('/workflow');
+                redirect(`${base}/workflow`);
             } else {
-                logger.debug('[AfterSignInPage] Redirecting to /workflow/create - no workflows found');
-                redirect('/workflow/create');
+                redirect(`${base}/workflow/create`);
             }
         }
     } catch (error) {

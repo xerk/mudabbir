@@ -213,7 +213,7 @@ export function OrganizationPreferencesSection() {
         </div>
       </div>
       <Button type="submit" disabled={saving}>
-        <Save className="mr-2 h-4 w-4" />
+        <Save className="me-2 h-4 w-4" />
         {saving ? "Saving..." : "Save"}
       </Button>
     </form>

@@ -6,31 +6,42 @@ import {
   ArrowUpCircle,
   AudioLines,
   Brain,
+  Building2,
   ChevronLeft,
   ChevronRight,
+  ChevronsUpDown,
   CircleDollarSign,
   Database,
   FileText,
   Home,
   Key,
+  List,
   LogOut,
   type LucideIcon,
+  Mail,
   Megaphone,
+  Monitor,
+  Moon,
   Phone,
   Settings,
+  ShieldCheck,
+  Sun,
   TrendingUp,
+  Users,
   Workflow,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import React, { useEffect, useRef, useState } from "react";
 
-import ThemeToggle from "@/components/ThemeSwitcher";
-import { Button } from "@/components/ui/button";
+import { getAuthUserApiV1UserAuthUserGet } from "@/client/sdk.gen";
+import { OrgSwitcher } from "@/components/org-switcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -54,6 +65,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useAppConfig } from "@/context/AppConfigContext";
 import { useTelephonyConfigWarnings } from "@/context/TelephonyConfigWarningsContext";
 import { useLatestReleaseVersion } from "@/hooks/useLatestReleaseVersion";
+import { isRtl } from "@/i18n/config";
 import type { LocalUser } from "@/lib/auth";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -70,77 +82,94 @@ type SidebarNavSection = {
   items: SidebarNavItem[];
 };
 
-const TELEPHONY_WARNING_COPY = "Action required";
+// Telephony warning copy uses the nav translation key "telephonyActionRequired".
+const TELEPHONY_WARNING_KEY = "telephonyActionRequired";
 
 const NAV_SECTIONS: SidebarNavSection[] = [
   {
     items: [
       {
-        title: "Overview",
+        title: "overview",
         url: "/overview",
         icon: Home,
       },
     ],
   },
   {
-    label: "BUILD",
+    label: "sectionBuild",
     items: [
       {
-        title: "Voice Agents",
+        title: "voiceAgents",
         url: "/workflow",
         icon: Workflow,
       },
       {
-        title: "Campaigns",
+        title: "campaigns",
         url: "/campaigns",
         icon: Megaphone,
       },
       {
-        title: "Models",
+        title: "models",
         url: "/model-configurations",
         icon: Brain,
       },
       {
-        title: "Telephony",
+        title: "telephony",
         url: "/telephony-configurations",
         icon: Phone,
         showsTelephonyWarning: true,
       },
       {
-        title: "Tools",
+        title: "tools",
         url: "/tools",
         icon: Wrench,
       },
       {
-        title: "Files",
+        title: "files",
         url: "/files",
         icon: Database,
       },
       {
-        title: "Recordings",
+        title: "recordings",
         url: "/recordings",
         icon: AudioLines,
       },
       {
-        title: "Developers",
+        title: "developers",
         url: "/api-keys",
         icon: Key,
       },
     ],
   },
   {
-    label: "OBSERVE",
+    label: "sectionObserve",
     items: [
       {
-        title: "Agent Runs",
+        title: "agentRuns",
         url: "/usage",
         icon: TrendingUp,
       },
       {
-        title: "Reports",
+        title: "reports",
         url: "/reports",
         icon: FileText,
       },
+    ],
+  },
+];
+
+// Global-admin nav (shown when in /admin/* — super-admin only).
+const ADMIN_NAV_SECTIONS: SidebarNavSection[] = [
+  {
+    label: "sectionAdmin",
+    items: [
+      { title: "adminDashboard", url: "/admin", icon: Home },
+      { title: "adminOrganizations", url: "/admin/organizations", icon: Building2 },
+      { title: "adminUsers", url: "/admin/users", icon: Users },
+      { title: "adminRuns", url: "/admin/runs", icon: List },
+      { title: "adminMail", url: "/admin/mail", icon: Mail },
+      { title: "adminMailLog", url: "/admin/mail-log", icon: List },
+      { title: "adminSecurity", url: "/admin/security", icon: ShieldCheck },
     ],
   },
 ];
@@ -153,14 +182,84 @@ const StackTeamSwitcher = React.lazy(() =>
 );
 
 export function AppSidebar() {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  // The sidebar lives at the inline-start edge: left in LTR, right in RTL.
+  // shadcn's <Sidebar> is fully physical + side-gated, so we flip via `side`.
+  const sidebarSide = isRtl(locale) ? "right" : "left";
   const pathname = usePathname();
   const router = useRouter();
   const { state, isMobile, setOpenMobile } = useSidebar();
-  const { provider, getSelectedTeam, logout, user } = useAuth();
+  const { provider, getSelectedTeam, logout, user, getAccessToken } = useAuth();
   const { config } = useAppConfig();
   const { telnyxMissingWebhookPublicKeyCount } = useTelephonyConfigWarnings();
   const hasTelephonyWarning = telnyxMissingWebhookPublicKeyCount > 0;
   const isCollapsed = !isMobile && state === "collapsed";
+
+  // Context-aware nav. Org + settings pages live under /[slug]/*; admin is
+  // top-level. The first path segment is the workspace slug (org mode).
+  const segments = pathname.split("/").filter(Boolean);
+  const isAdminMode = segments[0] === "admin";
+  const slug = !isAdminMode ? segments[0] ?? "" : "";
+  // Workspace settings keep the main workspace sidebar; the settings sub-nav
+  // (General / Members / Teams / Regional) lives as tabs inside the page.
+  const navSections = isAdminMode ? ADMIN_NAV_SECTIONS : NAV_SECTIONS;
+  // Slug-prefix org/settings nav hrefs; admin items are already absolute.
+  const hrefFor = (url: string) => (isAdminMode || !slug ? url : `/${slug}${url}`);
+
+  // Surface the Admin (super-admin) entry only for superusers.
+  const [isSuperuser, setIsSuperuser] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      try {
+        const token = await getAccessToken();
+        const res = await getAuthUserApiV1UserAuthUserGet({
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (active && res.data) setIsSuperuser(Boolean(res.data.is_superuser));
+      } catch {
+        // Non-superusers (or errors) simply don't see the admin entry.
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [getAccessToken]);
+
+  // Theme preference (light / dark / system). "system" means no stored value —
+  // the inline script in layout.tsx applies prefers-color-scheme on load.
+  type ThemePref = "light" | "dark" | "system";
+  const [themePref, setThemePref] = useState<ThemePref>("system");
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    setThemePref(stored === "light" || stored === "dark" ? stored : "system");
+  }, []);
+  const applyTheme = (pref: ThemePref) => {
+    setThemePref(pref);
+    if (pref === "system") {
+      localStorage.removeItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", prefersDark);
+    } else {
+      localStorage.setItem("theme", pref);
+      document.documentElement.classList.toggle("dark", pref === "dark");
+    }
+  };
+
+  // Unified user display fields across auth providers.
+  const isStack = provider === "stack";
+  const userEmail = isStack
+    ? (user as { primaryEmail?: string } | undefined)?.primaryEmail
+    : (user as LocalUser | undefined)?.email;
+  const displayName = user?.displayName || userEmail?.split("@")[0] || "User";
+  const userInitials =
+    (user?.displayName || userEmail || "U")
+      .split(/[\s@.]/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((s: string) => s[0]?.toUpperCase())
+      .join("") || "U";
 
   // Get selected team for Stack auth (cast to Team type from Stack)
   // Stabilize the reference so SelectedTeamSwitcher only sees a change when the team ID changes,
@@ -181,7 +280,12 @@ export function AppSidebar() {
     { enabled: config?.deploymentMode === "oss" },
   );
 
-  const isActive = (path: string) => pathname.startsWith(path);
+  const isActive = (url: string) => {
+    const full = hrefFor(url);
+    // Index routes (admin dashboard, settings general) match exactly.
+    if (full === "/admin" || full === `/${slug}/settings`) return pathname === full;
+    return pathname === full || pathname.startsWith(`${full}/`);
+  };
 
   const handleMobileNavClick = () => {
     if (isMobile) {
@@ -196,19 +300,19 @@ export function AppSidebar() {
     const tooltip = {
       children: (
         <div className="notranslate" translate="no">
-          <p>{item.title}</p>
+          <p>{t(item.title)}</p>
           {showWarningDot && (
-            <p className="text-amber-600 dark:text-amber-400">{TELEPHONY_WARNING_COPY}</p>
+            <p className="text-amber-600 dark:text-amber-400">{t(TELEPHONY_WARNING_KEY)}</p>
           )}
         </div>
       ),
     };
     const warningIndicator = (
       <AlertTriangle
-        aria-label="Action required on a telephony configuration"
+        aria-label={t(TELEPHONY_WARNING_KEY)}
         className={cn(
           "text-amber-500",
-          isCollapsed ? "absolute -right-0.5 -top-0.5 h-3 w-3" : "ml-auto h-3.5 w-3.5"
+          isCollapsed ? "absolute -end-0.5 -top-0.5 h-3 w-3" : "ms-auto h-3.5 w-3.5"
         )}
       />
     );
@@ -223,7 +327,7 @@ export function AppSidebar() {
         )}
       >
         <Link
-          href={item.url}
+          href={hrefFor(item.url)}
           onClick={handleMobileNavClick}
           className={cn("relative", isCollapsed && "justify-center")}
           translate="no"
@@ -233,7 +337,7 @@ export function AppSidebar() {
             className={cn("notranslate min-w-0 flex-1 truncate", isCollapsed && "sr-only")}
             translate="no"
           >
-            {item.title}
+            {t(item.title)}
           </span>
           {showWarningDot && (
             isCollapsed ? (
@@ -243,8 +347,8 @@ export function AppSidebar() {
                 <TooltipTrigger asChild>
                   {warningIndicator}
                 </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>{TELEPHONY_WARNING_COPY}</p>
+                <TooltipContent side={sidebarSide === "right" ? "left" : "right"}>
+                  <p>{t(TELEPHONY_WARNING_KEY)}</p>
                 </TooltipContent>
               </Tooltip>
             )
@@ -255,62 +359,17 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon" className="border-r">
+    <Sidebar side={sidebarSide} collapsible="icon" className="border-e">
       <SidebarHeader className="border-b px-2 py-3 notranslate" translate="no">
-        <div className="flex items-center justify-between">
-          <div className={cn("flex items-center gap-2", isCollapsed && "hidden")}>
-            <Link
-              href="/"
-              className="notranslate flex items-center gap-2 px-2 text-xl font-bold"
-              translate="no"
-            >
-              Dograh
-              {versionInfo && (
-                <span
-                  className="notranslate text-xs font-normal text-muted-foreground"
-                  translate="no"
-                >
-                  v{versionInfo.ui}
-                </span>
-              )}
-            </Link>
-            {isBehind && latestRelease && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href="https://docs.dograh.com/deployment/update"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-md border bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-900 transition-opacity hover:opacity-80 dark:bg-amber-950 dark:text-amber-200"
-                  >
-                    <ArrowUpCircle className="h-3 w-3" />
-                    Update
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Latest: {latestRelease} — click to see the update guide</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
-            {isLatest && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="inline-flex items-center rounded-md border bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">
-                    Latest
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>You&apos;re running the latest release</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
+        <div className="flex items-center gap-2 group-data-[collapsible=icon]:flex-col group-data-[collapsible=icon]:gap-1">
+          <div className="min-w-0 flex-1 group-data-[collapsible=icon]:w-full group-data-[collapsible=icon]:flex-none">
+            <OrgSwitcher side={sidebarSide} isSuperuser={isSuperuser} />
           </div>
-
-          <SidebarTrigger className={cn("hover:bg-accent", isCollapsed && "mx-auto")}>
+          <SidebarTrigger className="hover:bg-accent shrink-0">
             {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 rtl:rotate-180" />
             ) : (
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
             )}
           </SidebarTrigger>
         </div>
@@ -334,7 +393,7 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className={cn("notranslate", isCollapsed && "px-0")} translate="no">
-        {NAV_SECTIONS.map((section, index) => (
+        {navSections.map((section, index) => (
           <SidebarGroup
             key={section.label ?? "overview"}
             className={index === 0 ? "mt-2" : "mt-6"}
@@ -347,7 +406,7 @@ export function AppSidebar() {
                 )}
                 translate="no"
               >
-                {section.label}
+                {t(section.label)}
               </SidebarGroupLabel>
             )}
             <SidebarMenu>
@@ -361,122 +420,149 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter
-        className={cn("border-t p-4 notranslate", isCollapsed && "p-2")}
-        translate="no"
-      >
-        <div className="space-y-2">
-          {provider !== "stack" && (
-            <div className={cn("flex", isCollapsed ? "justify-center" : "justify-start")}>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer rounded-full">
-                    <span className="text-xs font-medium">
-                      {(user?.displayName || (user as LocalUser | undefined)?.email || "")
-                        .split(/[\s@]/)
-                        .filter(Boolean)
-                        .slice(0, 2)
-                        .map((s: string) => s[0]?.toUpperCase())
-                        .join("")
-                        || "U"}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="top" align="start" className="w-56">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      {(user as LocalUser | undefined)?.email && (
-                        <p className="text-xs text-muted-foreground">{(user as LocalUser).email}</p>
-                      )}
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-
-          {provider === "stack" && (
-            <div className={cn("flex", isCollapsed ? "justify-center" : "justify-start")}>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer rounded-full">
-                    <span className="text-xs font-medium">
-                      {(user?.displayName || (user as { primaryEmail?: string })?.primaryEmail || "")
-                        .split(/[\s@]/)
-                        .filter(Boolean)
-                        .slice(0, 2)
-                        .map((s: string) => s[0]?.toUpperCase())
-                        .join("")
-                        || "U"}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent side="top" align="start" className="w-56">
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      {user?.displayName && (
-                        <p className="text-sm font-medium">{user.displayName}</p>
-                      )}
-                      {(user as { primaryEmail?: string })?.primaryEmail && (
-                        <p className="text-xs text-muted-foreground">{(user as { primaryEmail?: string }).primaryEmail}</p>
-                      )}
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push("/handler/account-settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Account settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Platform Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push("/usage")} className="cursor-pointer">
-                    <CircleDollarSign className="mr-2 h-4 w-4" />
-                    Usage
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-
-          <div className={cn("mt-2 border-t pt-2", isCollapsed && "flex justify-center")}>
-            {isCollapsed ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="notranslate" translate="no">
-                    <ThemeToggle
-                      showLabel={false}
-                      className="hover:bg-accent hover:text-accent-foreground"
-                    />
+      <SidebarFooter className="notranslate" translate="no">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  tooltip={{ children: <span className="notranslate" translate="no">{displayName}</span> }}
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                >
+                  <span className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground">
+                    {userInitials}
+                  </span>
+                  <div className="grid flex-1 text-start text-sm leading-tight">
+                    <span className="truncate font-semibold">{displayName}</span>
+                    {userEmail && (
+                      <span className="truncate text-xs text-muted-foreground">{userEmail}</span>
+                    )}
                   </div>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>Toggle theme</p>
-                </TooltipContent>
-              </Tooltip>
-            ) : (
-              <div className="notranslate" translate="no">
-                <ThemeToggle
-                  showLabel={true}
-                  className="hover:bg-accent hover:text-accent-foreground"
-                />
-              </div>
+                  <ChevronsUpDown className="ms-auto size-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="min-w-64 rounded-lg"
+                side={isMobile ? "bottom" : sidebarSide === "right" ? "left" : "right"}
+                align="end"
+                sideOffset={4}
+              >
+                <DropdownMenuLabel className="p-0 font-normal">
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+                    <span className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground">
+                      {userInitials}
+                    </span>
+                    <div className="grid flex-1 text-start text-sm leading-tight">
+                      <span className="truncate font-semibold">{displayName}</span>
+                      {userEmail && (
+                        <span className="truncate text-xs text-muted-foreground">{userEmail}</span>
+                      )}
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  {isStack && (
+                    <DropdownMenuItem onClick={() => router.push("/handler/account-settings")} className="cursor-pointer">
+                      <Settings className="me-2 h-4 w-4" />
+                      {t("accountSettings")}
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem onClick={() => router.push("/settings")} className="cursor-pointer">
+                    <Settings className="me-2 h-4 w-4" />
+                    {t("platformSettings")}
+                  </DropdownMenuItem>
+                  {isStack && (
+                    <DropdownMenuItem onClick={() => router.push("/usage")} className="cursor-pointer">
+                      <CircleDollarSign className="me-2 h-4 w-4" />
+                      {t("usage")}
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5">
+                  <div className="mb-1.5 text-xs text-muted-foreground">{t("theme")}</div>
+                  <div className="flex items-center gap-1 rounded-md bg-muted p-1">
+                    {([
+                      { value: "light", icon: Sun, label: t("themeLight") },
+                      { value: "dark", icon: Moon, label: t("themeDark") },
+                      { value: "system", icon: Monitor, label: t("themeSystem") },
+                    ] as const).map(({ value, icon: Icon, label }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        aria-label={label}
+                        title={label}
+                        aria-pressed={themePref === value}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          applyTheme(value);
+                        }}
+                        className={cn(
+                          "flex flex-1 items-center justify-center rounded-sm py-1.5 transition-colors",
+                          themePref === value
+                            ? "bg-background text-foreground shadow-sm"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => logout()} className="cursor-pointer">
+                  <LogOut className="me-2 h-4 w-4" />
+                  {t("signOut")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <div className={cn("flex items-center gap-2 px-2 pb-1", isCollapsed && "hidden")}>
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
+            translate="no"
+          >
+            mudabbir
+            {versionInfo && (
+              <span className="text-xs font-normal text-muted-foreground">
+                v{versionInfo.ui}
+              </span>
             )}
-          </div>
+          </Link>
+          {isBehind && latestRelease && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <a
+                  href="https://docs.dograh.com/deployment/update"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-md border bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-amber-900 transition-opacity hover:opacity-80 dark:bg-amber-950 dark:text-amber-200"
+                >
+                  <ArrowUpCircle className="h-3 w-3" />
+                  {t("update")}
+                </a>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                <p>{t("updateTooltip", { version: latestRelease })}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+          {isLatest && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="inline-flex items-center rounded-md border bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium leading-none text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">
+                  {t("latest")}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                <p>{t("latestTooltip")}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </SidebarFooter>
       <SidebarRail />

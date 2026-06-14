@@ -131,9 +131,9 @@ export function JsonEditor({
                             type="button"
                         >
                             {copied ? (
-                                <Check className="h-4 w-4 mr-1" />
+                                <Check className="h-4 w-4 me-1" />
                             ) : (
-                                <Copy className="h-4 w-4 mr-1" />
+                                <Copy className="h-4 w-4 me-1" />
                             )}
                             Copy
                         </Button>

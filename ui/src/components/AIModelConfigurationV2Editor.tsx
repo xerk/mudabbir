@@ -1,6 +1,7 @@
 "use client";
 
 import { KeyRound, Save } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
 import type { OrganizationAiModelConfigurationV2 } from "@/client/types.gen";
@@ -215,6 +216,7 @@ function requireByokService(
     config: Record<string, unknown>,
     service: ServiceSegment,
     defaults: ServiceConfigurationDefaults,
+    requiredMessage: (service: ServiceSegment) => string,
 ): Record<string, unknown> {
     const serviceConfiguration = asRecord(config[service]);
     if (
@@ -223,7 +225,7 @@ function requireByokService(
         || serviceConfiguration.provider === "dograh"
         || !hasRequiredApiKey(service, serviceConfiguration, defaults)
     ) {
-        throw new Error(`${service} configuration is required`);
+        throw new Error(requiredMessage(service));
     }
     return serviceConfiguration;
 }
@@ -239,8 +241,10 @@ export function AIModelConfigurationV2Editor({
     configuration,
     effectiveConfiguration,
     onSave,
-    submitLabel = "Save Configuration",
+    submitLabel: submitLabelProp,
 }: AIModelConfigurationV2EditorProps) {
+    const t = useTranslations("models");
+    const submitLabel = submitLabelProp ?? t("actions.saveConfiguration");
     const defaultsForByok = useMemo(() => byokDefaults(defaults), [defaults]);
     const [mode, setMode] = useState<ModelMode>("dograh");
     const [dograh, setDograh] = useState<DograhFormState>(() => ({
@@ -276,7 +280,7 @@ export function AIModelConfigurationV2Editor({
                 },
             });
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to save configuration");
+            setError(err instanceof Error ? err.message : t("messages.saveConfigurationFailed"));
         } finally {
             setIsSavingDograh(false);
         }
@@ -284,8 +288,9 @@ export function AIModelConfigurationV2Editor({
 
     const saveByokConfiguration = async (config: Record<string, unknown>) => {
         setError(null);
+        const requiredMessage = (service: ServiceSegment) => t("byok.serviceRequired", { service });
         const isRealtime = Boolean(config.is_realtime);
-        const llm = requireByokService(config, "llm", defaultsForByok);
+        const llm = requireByokService(config, "llm", defaultsForByok, requiredMessage);
         const embeddings = optionalByokService(config, "embeddings");
         const body: OrganizationAiModelConfigurationV2 = {
             version: 2,
@@ -294,7 +299,7 @@ export function AIModelConfigurationV2Editor({
                 ? {
                     mode: "realtime",
                     realtime: {
-                        realtime: requireByokService(config, "realtime", defaultsForByok) as never,
+                        realtime: requireByokService(config, "realtime", defaultsForByok, requiredMessage) as never,
                         llm: llm as never,
                         ...(embeddings ? { embeddings: embeddings as never } : {}),
                     },
@@ -303,8 +308,8 @@ export function AIModelConfigurationV2Editor({
                     mode: "pipeline",
                     pipeline: {
                         llm: llm as never,
-                        tts: requireByokService(config, "tts", defaultsForByok) as never,
-                        stt: requireByokService(config, "stt", defaultsForByok) as never,
+                        tts: requireByokService(config, "tts", defaultsForByok, requiredMessage) as never,
+                        stt: requireByokService(config, "stt", defaultsForByok, requiredMessage) as never,
                         ...(embeddings ? { embeddings: embeddings as never } : {}),
                     },
                 },
@@ -324,31 +329,31 @@ export function AIModelConfigurationV2Editor({
             <Tabs value={mode} onValueChange={(value) => setMode(value as ModelMode)} className="space-y-6">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="dograh">Dograh</TabsTrigger>
-                    <TabsTrigger value="byok">BYOK</TabsTrigger>
+                    <TabsTrigger value="byok">{t("byok.tab")}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="dograh" className="mt-0">
                     <div className="rounded-lg border p-5">
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="space-y-2 sm:col-span-2">
-                                <Label htmlFor="dograh-api-key">API Key</Label>
+                                <Label htmlFor="dograh-api-key">{t("fields.apiKey")}</Label>
                                 <div className="relative">
-                                    <KeyRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                    <KeyRound className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                     <Input
                                         id="dograh-api-key"
-                                        className="pl-9"
+                                        className="ps-9"
                                         value={dograh.api_key}
                                         onChange={(event) => setDograh({ ...dograh, api_key: event.target.value })}
-                                        placeholder="Enter API key"
+                                        placeholder={t("fields.apiKeyPlaceholder")}
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Voice</Label>
+                                <Label>{t("fields.voice")}</Label>
                                 <Select value={dograh.voice} onValueChange={(voice) => setDograh({ ...dograh, voice })}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select voice" />
+                                        <SelectValue placeholder={t("fields.voicePlaceholder")} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {defaults.dograh.voices.map((voice) => (
@@ -361,13 +366,13 @@ export function AIModelConfigurationV2Editor({
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Speed</Label>
+                                <Label>{t("fields.speed")}</Label>
                                 <Select
                                     value={String(dograh.speed)}
                                     onValueChange={(speed) => setDograh({ ...dograh, speed: Number(speed) })}
                                 >
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select speed" />
+                                        <SelectValue placeholder={t("fields.speedPlaceholder")} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {defaults.dograh.speeds.map((speed) => (
@@ -380,10 +385,10 @@ export function AIModelConfigurationV2Editor({
                             </div>
 
                             <div className="space-y-2 sm:col-span-2">
-                                <Label>Language</Label>
+                                <Label>{t("fields.language")}</Label>
                                 <Select value={dograh.language} onValueChange={(language) => setDograh({ ...dograh, language })}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select language" />
+                                        <SelectValue placeholder={t("fields.languagePlaceholder")} />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {defaults.dograh.languages.map((language) => (
@@ -397,8 +402,8 @@ export function AIModelConfigurationV2Editor({
                         </div>
 
                         <Button type="button" className="mt-6 w-full" onClick={saveDograhConfiguration} disabled={isSavingDograh}>
-                            <Save className="mr-2 h-4 w-4" />
-                            {isSavingDograh ? "Saving..." : submitLabel}
+                            <Save className="me-2 h-4 w-4" />
+                            {isSavingDograh ? t("actions.saving") : submitLabel}
                         </Button>
                     </div>
                 </TabsContent>

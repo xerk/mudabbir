@@ -1,0 +1,95 @@
+{
+  "title": "Members",
+  "subtitle": "Manage who has access to this organization.",
+  "nav": {
+    "heading": "Settings",
+    "general": "General",
+    "members": "Members",
+    "teams": "Teams",
+    "regional": "Regional",
+    "security": "Security"
+  },
+  "table": {
+    "email": "Email",
+    "role": "Role",
+    "joined": "Joined",
+    "actions": "Actions",
+    "you": "You",
+    "unknownEmail": "Unknown",
+    "empty": "No members yet."
+  },
+  "roles": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "member": "Member"
+  },
+  "actions": {
+    "invite": "Invite member",
+    "remove": "Remove",
+    "changeRole": "Change role",
+    "copyLink": "Copy invite link",
+    "revoke": "Revoke",
+    "cancel": "Cancel"
+  },
+  "invite": {
+    "title": "Invite member",
+    "description": "Send an invitation to join this organization.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@example.com",
+    "roleLabel": "Role",
+    "teamLabel": "Team (optional)",
+    "teamPlaceholder": "No team",
+    "noTeam": "No team",
+    "submit": "Send invite",
+    "submitting": "Sending…",
+    "successTitle": "Invitation created",
+    "successDescription": "Share this link with the invitee. They can accept it to join.",
+    "linkLabel": "Invite link",
+    "done": "Done"
+  },
+  "remove": {
+    "title": "Remove member?",
+    "description": "This removes {email} from the organization. They will lose access immediately.",
+    "confirm": "Remove member",
+    "selfBlocked": "You cannot remove yourself from the organization."
+  },
+  "invitations": {
+    "title": "Pending invitations",
+    "description": "Invitations that have not been accepted yet.",
+    "empty": "No pending invitations.",
+    "sentTo": "Invited",
+    "status": "Status",
+    "expires": "Expires",
+    "noExpiry": "No expiry"
+  },
+  "toast": {
+    "linkCopied": "Invite link copied to clipboard",
+    "copyFailed": "Could not copy link",
+    "roleUpdated": "Role updated",
+    "memberRemoved": "Member removed",
+    "invitationRevoked": "Invitation revoked",
+    "invited": "Invitation sent"
+  },
+  "errors": {
+    "load": "Failed to load members.",
+    "invite": "Failed to send invitation.",
+    "updateRole": "Failed to update role.",
+    "remove": "Failed to remove member.",
+    "revoke": "Failed to revoke invitation.",
+    "emailRequired": "Email is required."
+  },
+  "accept": {
+    "title": "You've been invited",
+    "heading": "You've been invited to join {org}",
+    "description": "Accept the invitation to join the organization.",
+    "accept": "Accept invitation",
+    "accepting": "Accepting…",
+    "successTitle": "Invitation accepted",
+    "successDescription": "Welcome to {org}.",
+    "goHome": "Go to dashboard",
+    "invalidTitle": "Invitation unavailable",
+    "invalidDescription": "This invitation is invalid, expired, or has already been accepted.",
+    "missingToken": "No invitation token was provided.",
+    "backHome": "Back to home"
+  }
+}

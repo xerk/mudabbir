@@ -1,0 +1,110 @@
+{
+  "nav": {
+    "heading": "Admin",
+    "dashboard": "Dashboard",
+    "organizations": "Organizations",
+    "users": "Users",
+    "runs": "Runs",
+    "security": "Security"
+  },
+  "dashboard": {
+    "title": "Superadmin Dashboard",
+    "subtitle": "Manage users and view system-wide data"
+  },
+  "stats": {
+    "totalOrganizations": "Total organizations",
+    "totalUsers": "Total users"
+  },
+  "recentSignups": {
+    "title": "Recent signups",
+    "description": "The latest users to join the platform",
+    "empty": "No recent signups.",
+    "noEmail": "No email"
+  },
+  "quickLinks": {
+    "open": "Open",
+    "organizations": {
+      "title": "Organizations",
+      "description": "Manage all organizations on the platform"
+    },
+    "users": {
+      "title": "Users",
+      "description": "View and manage all platform users"
+    },
+    "mail": {
+      "title": "Mail configuration",
+      "description": "Configure the SMTP server for platform emails"
+    },
+    "mailLog": {
+      "title": "Mail log",
+      "description": "Review recently sent platform emails"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Configure platform-wide security policy"
+    }
+  },
+  "impersonation": {
+    "title": "User Impersonation",
+    "description": "Impersonate a user account for debugging or support purposes",
+    "providerUserId": "Provider User ID",
+    "providerUserIdPlaceholder": "Enter provider user ID",
+    "processing": "Processing...",
+    "submit": "Impersonate User"
+  },
+  "runsCard": {
+    "title": "Workflow Runs",
+    "description": "View and manage all workflow runs across organizations",
+    "detail": "Access detailed information about all workflow runs, including status, recordings, transcripts, and usage data.",
+    "viewAll": "View All Runs"
+  },
+  "errors": {
+    "notAuthenticated": "User not authenticated. Please log in and try again.",
+    "impersonateFailed": "Failed to impersonate user. Please try again."
+  },
+  "runs": {
+    "title": "Workflow Runs",
+    "subtitle": "View and manage all workflow runs across organizations",
+    "loading": "Loading workflow runs...",
+    "allRuns": "All Workflow Runs",
+    "showingCount": "Showing {shown} of {total} total runs",
+    "refreshing": "Refreshing...",
+    "empty": "No workflow runs found.",
+    "unknownWorkflow": "Unknown Workflow",
+    "idLabel": "ID:",
+    "gatheredContext": "Gathered Context",
+    "usageInfo": "Usage Info",
+    "table": {
+      "id": "ID",
+      "workflow": "Workflow",
+      "status": "Status",
+      "disposition": "Disposition",
+      "tags": "Tags",
+      "duration": "Duration",
+      "details": "Details",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "actions": {
+      "axiomTraces": "Traces",
+      "langfuseTraces": "Langfuse Traces",
+      "openWorkflowAsUser": "Open workflow as user"
+    },
+    "pagination": {
+      "pageOf": "Page {current} of {total} ({count} total runs)",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "errors": {
+      "fetchFailed": "Failed to fetch workflow runs. Please try again.",
+      "impersonateFailed": "Failed to impersonate the user. Please try again."
+    }
+  },
+  "securityCard": {
+    "title": "Security",
+    "description": "Platform-wide security policy for all users",
+    "detail": "Configure global security: require two-factor authentication, session timeout, and allowed email domains.",
+    "manage": "Manage security"
+  },
+  "backToApp": "Back to app"
+}

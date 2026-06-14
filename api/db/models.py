@@ -49,6 +49,14 @@ organization_users_association = Table(
     Column(
         "organization_id", Integer, ForeignKey("organizations.id"), primary_key=True
     ),
+    # Membership role within the organization: owner | admin | member
+    Column("role", String, nullable=False, server_default=text("'member'")),
+    Column(
+        "created_at",
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    ),
 )
 
 
@@ -117,6 +125,12 @@ class OrganizationModel(Base):
 
     price_per_second_usd = Column(Float, nullable=True)
 
+    # Workspace/tenant display + branding
+    name = Column(String, nullable=True)
+    logo_url = Column(String, nullable=True)
+    # URL slug for /{slug}/* multi-tenant routing
+    slug = Column(String, unique=True, nullable=True, index=True)
+
     # Relationships
     users = relationship(
         "UserModel",
@@ -131,6 +145,112 @@ class OrganizationModel(Base):
         "OrganizationConfigurationModel", back_populates="organization"
     )
     api_keys = relationship("APIKeyModel", back_populates="organization")
+    teams = relationship(
+        "TeamModel", back_populates="organization", cascade="all, delete-orphan"
+    )
+
+
+class TeamModel(Base):
+    """A team is a grouping of members within an organization (people only —
+    resources stay org-scoped)."""
+
+    __tablename__ = "teams"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(
+        Integer, ForeignKey("organizations.id"), nullable=False, index=True
+    )
+    name = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=lambda: datetime.now(UTC),
+    )
+
+    organization = relationship("OrganizationModel", back_populates="teams")
+    members = relationship(
+        "TeamMemberModel", back_populates="team", cascade="all, delete-orphan"
+    )
+
+
+class TeamMemberModel(Base):
+    __tablename__ = "team_members"
+
+    id = Column(Integer, primary_key=True, index=True)
+    team_id = Column(Integer, ForeignKey("teams.id"), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    role = Column(String, nullable=False, server_default=text("'member'"))
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    team = relationship("TeamModel", back_populates="members")
+
+    __table_args__ = (UniqueConstraint("team_id", "user_id", name="uq_team_member"),)
+
+
+class OrganizationInvitationModel(Base):
+    """A pending invitation to join an organization (optionally a team)."""
+
+    __tablename__ = "organization_invitations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    organization_id = Column(
+        Integer, ForeignKey("organizations.id"), nullable=False, index=True
+    )
+    email = Column(String, nullable=False, index=True)
+    role = Column(String, nullable=False, server_default=text("'member'"))
+    team_id = Column(Integer, ForeignKey("teams.id"), nullable=True)
+    token = Column(String, unique=True, nullable=False, index=True)
+    # pending | accepted | revoked | expired
+    status = Column(String, nullable=False, server_default=text("'pending'"))
+    invited_by_user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    expires_at = Column(DateTime(timezone=True), nullable=True)
+    accepted_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+
+class AppSettingModel(Base):
+    """Platform-wide (global) settings stored as key -> JSON. Super-admin
+    managed (e.g. global security policy)."""
+
+    __tablename__ = "app_settings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    key = Column(String, unique=True, nullable=False, index=True)
+    value = Column(JSON, nullable=False, default=dict)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=lambda: datetime.now(UTC),
+    )
+
+
+class MailLogModel(Base):
+    """A record of an outbound email send, for the admin mail log."""
+
+    __tablename__ = "mail_log"
+
+    id = Column(Integer, primary_key=True, index=True)
+    to_email = Column(String, nullable=False, index=True)
+    subject = Column(String, nullable=True)
+    template = Column(String, nullable=True)
+    # sent | failed | skipped
+    status = Column(String, nullable=False, server_default=text("'sent'"))
+    error = Column(Text, nullable=True)
+    provider_message_id = Column(String, nullable=True)
+    created_at = Column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False, index=True
+    )
 
 
 class APIKeyModel(Base):

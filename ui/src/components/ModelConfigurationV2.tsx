@@ -1,6 +1,7 @@
 "use client";
 
 import { ExternalLink, RefreshCw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -38,6 +39,7 @@ export default function ModelConfigurationV2({
     docsUrl?: string;
     initialAction?: string;
 }) {
+    const t = useTranslations("models");
     const auth = useAuth();
     const { refreshConfig, saveUserConfig } = useUserConfig();
     const hasFetched = useRef(false);
@@ -68,19 +70,19 @@ export default function ModelConfigurationV2({
             ]);
 
             if (defaultsResult.error) {
-                setError(detailFromError(defaultsResult.error, "Failed to load model configuration defaults"));
+                setError(detailFromError(defaultsResult.error, t("messages.loadDefaultsFailed")));
                 setLoading(false);
                 return;
             }
             if (configResult.error) {
-                setError(detailFromError(configResult.error, "Failed to load model configuration"));
+                setError(detailFromError(configResult.error, t("messages.loadFailed")));
                 setLoading(false);
                 return;
             }
 
             const nextDefaults = defaultsResult.data as ModelConfigurationDefaultsV2;
             if (!nextDefaults || !configResult.data) {
-                setError("Failed to load model configuration");
+                setError(t("messages.loadFailed"));
                 setLoading(false);
                 return;
             }
@@ -111,15 +113,15 @@ export default function ModelConfigurationV2({
         });
 
         if (result.error) {
-            throw new Error(detailFromError(result.error, "Failed to save model configuration"));
+            throw new Error(detailFromError(result.error, t("messages.saveFailed")));
         }
         if (!result.data) {
-            throw new Error("Failed to save model configuration");
+            throw new Error(t("messages.saveFailed"));
         }
 
         applyResponse(result.data);
         await refreshConfig();
-        setNotice("Model configuration saved");
+        setNotice(t("messages.saved"));
     };
 
     const migrateConfiguration = async () => {
@@ -130,13 +132,13 @@ export default function ModelConfigurationV2({
 
         const result = await migrateModelConfigurationV2ApiV1OrganizationsModelConfigurationsV2MigratePost();
         if (result.error) {
-            setError(detailFromError(result.error, "Failed to migrate model configuration"));
+            setError(detailFromError(result.error, t("messages.migrateFailed")));
         } else if (!result.data) {
-            setError("Failed to migrate model configuration");
+            setError(t("messages.migrateFailed"));
         } else {
             applyResponse(result.data);
             await refreshConfig();
-            setNotice("Configuration migrated to v2");
+            setNotice(t("messages.migrated"));
             setMigrationDialogOpen(false);
         }
         setMigrating(false);
@@ -146,15 +148,15 @@ export default function ModelConfigurationV2({
         <AlertDialog open={migrationDialogOpen} onOpenChange={setMigrationDialogOpen}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Migrate model configuration to v2?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("migration.dialogTitle")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Your configurations will be migrated to v2. After migration, check your global configuration and workflow model overrides, then run a test call to make sure everything is working.
+                        {t("migration.dialogDescription")}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={migrating}>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel disabled={migrating}>{t("actions.cancel")}</AlertDialogCancel>
                     <Button type="button" onClick={migrateConfiguration} disabled={migrating}>
-                        {migrating ? "Migrating..." : "Migrate to v2"}
+                        {migrating ? t("migration.migrating") : t("migration.migrateToV2")}
                     </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
@@ -179,24 +181,24 @@ export default function ModelConfigurationV2({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <h1 className="text-3xl font-bold">AI Models Configuration</h1>
+                            <h1 className="text-3xl font-bold">{t("title")}</h1>
                             <Badge variant="outline">
-                                {source === "legacy_user_v1" ? "legacy" : "v1"}
+                                {source === "legacy_user_v1" ? t("badge.legacy") : t("badge.v1")}
                             </Badge>
                         </div>
                         <p className="mt-2 text-sm text-muted-foreground">
-                            Configure your AI model, voice, and transcription services.{" "}
+                            {t("legacyDescription")}{" "}
                             {docsUrl && (
                                 <a href={docsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 underline">
-                                    Learn more <ExternalLink className="h-3 w-3" />
+                                    {t("learnMore")} <ExternalLink className="h-3 w-3" />
                                 </a>
                             )}
                         </p>
                     </div>
                     {source === "legacy_user_v1" && (
                         <Button type="button" variant="outline" onClick={() => setMigrationDialogOpen(true)} disabled={migrating}>
-                            <RefreshCw className="mr-2 h-4 w-4" />
-                            {migrating ? "Migrating..." : "Migrate to v2"}
+                            <RefreshCw className="me-2 h-4 w-4" />
+                            {migrating ? t("migration.migrating") : t("migration.migrateToV2")}
                         </Button>
                     )}
                 </div>
@@ -225,7 +227,7 @@ export default function ModelConfigurationV2({
                                 applyResponse(configResult.data);
                             }
                         }
-                        setNotice("Configuration saved");
+                        setNotice(t("messages.configurationSaved"));
                     }}
                 />
                 {migrationWarningDialog}
@@ -237,12 +239,12 @@ export default function ModelConfigurationV2({
         <div className="w-full max-w-4xl mx-auto space-y-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold">AI Models Configuration</h1>
+                    <h1 className="text-3xl font-bold">{t("title")}</h1>
                     <p className="mt-2 text-sm text-muted-foreground">
-                        Organization-scoped model settings.{" "}
+                        {t("orgDescription")}{" "}
                         {docsUrl && (
                             <a href={docsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 underline">
-                                Learn more <ExternalLink className="h-3 w-3" />
+                                {t("learnMore")} <ExternalLink className="h-3 w-3" />
                             </a>
                         )}
                     </p>

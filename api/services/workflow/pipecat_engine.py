@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Awaitable, Callable, Dict, Literal, Optional, Union
 
-from pipecat.adapters.schemas.tools_schema import ToolsSchema
+from pipecat.adapters.schemas.tools_schema import AdapterType, ToolsSchema
 from pipecat.frames.frames import (
     BotStartedSpeakingFrame,
     BotStoppedSpeakingFrame,
@@ -78,6 +78,7 @@ class PipecatEngine:
         embeddings_api_version: Optional[str] = None,
         has_recordings: bool = False,
         context_compaction_enabled: bool = False,
+        web_search_enabled: bool = False,
     ):
         self.task = task
         self.llm = llm
@@ -149,6 +150,9 @@ class PipecatEngine:
 
         # Background context summarization on node transitions
         self._context_compaction_enabled: bool = context_compaction_enabled
+        # Google Search grounding for Gemini agents (adapter-gated custom tool,
+        # so non-Gemini providers ignore it).
+        self._web_search_enabled: bool = web_search_enabled
         self._context_summarization_manager: Optional[ContextSummarizationManager] = (
             None
         )
@@ -205,8 +209,18 @@ class PipecatEngine:
     async def _update_llm_context(self, system_prompt: str, functions: list[dict]):
         """Update LLM settings with the composed system prompt and tool list."""
 
-        if functions:
-            tools_schema = ToolsSchema(standard_tools=functions)
+        # Google Search grounding is an adapter-gated custom tool: only the
+        # Gemini adapter consumes it, so it coexists with the node's function
+        # tools and is ignored by non-Gemini providers.
+        custom_tools = (
+            {AdapterType.GEMINI: [{"google_search": {}}]}
+            if self._web_search_enabled
+            else None
+        )
+        if functions or custom_tools:
+            tools_schema = ToolsSchema(
+                standard_tools=functions or [], custom_tools=custom_tools
+            )
             self.context.set_tools(tools_schema)
 
         # For Gemini Live, set context on the LLM before _update_settings so that

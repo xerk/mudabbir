@@ -544,6 +544,11 @@ async def _run_pipeline(
         logger.info("Disabling context_compaction_enabled for realtime workflow run")
         context_compaction_enabled = False
 
+    # Opt-in Google Search grounding (adapter-gated to Gemini in the engine).
+    web_search_enabled = (workflow.workflow_configurations or {}).get(
+        "web_search_enabled", False
+    )
+
     engine = PipecatEngine(
         llm=llm,
         inference_llm=inference_llm,
@@ -559,6 +564,7 @@ async def _run_pipeline(
         embeddings_api_version=embeddings_api_version,
         has_recordings=has_recordings,
         context_compaction_enabled=context_compaction_enabled,
+        web_search_enabled=web_search_enabled,
     )
 
     # Create pipeline components

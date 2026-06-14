@@ -1,0 +1,10 @@
+{
+  "appName": "mudabbir",
+  "language": "Language",
+  "loading": "Loading...",
+  "save": "Save",
+  "cancel": "Cancel",
+  "backendConnectionFailed": "Backend connection failed",
+  "backendNotReachable": "Backend is not reachable at {backendUrl}.",
+  "retry": "Retry"
+}

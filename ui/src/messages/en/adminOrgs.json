@@ -1,0 +1,58 @@
+{
+  "title": "Organizations",
+  "subtitle": "Manage every workspace on the platform.",
+  "searchPlaceholder": "Search organizations by name",
+  "createButton": "Create organization",
+  "columns": {
+    "name": "Name",
+    "members": "Members",
+    "created": "Created",
+    "actions": "Actions"
+  },
+  "workspaceFallback": "Workspace {id}",
+  "membersCount": "{count, plural, one {# member} other {# members}}",
+  "actions": {
+    "open": "Open menu",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "empty": {
+    "title": "No organizations yet",
+    "description": "Create the first organization to get started.",
+    "noResults": "No organizations match your search."
+  },
+  "createDialog": {
+    "title": "Create organization",
+    "description": "Give the new organization a name.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Acme Inc.",
+    "cancel": "Cancel",
+    "submit": "Create"
+  },
+  "editDialog": {
+    "title": "Edit organization",
+    "description": "Update the organization name and logo.",
+    "nameLabel": "Name",
+    "namePlaceholder": "Acme Inc.",
+    "logoLabel": "Logo URL",
+    "logoPlaceholder": "https://example.com/logo.png",
+    "cancel": "Cancel",
+    "submit": "Save changes"
+  },
+  "deleteDialog": {
+    "title": "Delete organization",
+    "description": "This will permanently delete \"{name}\". This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "toasts": {
+    "loadError": "Failed to load organizations.",
+    "nameRequired": "A name is required.",
+    "createSuccess": "Organization created.",
+    "createError": "Failed to create organization.",
+    "updateSuccess": "Organization updated.",
+    "updateError": "Failed to update organization.",
+    "deleteSuccess": "Organization deleted.",
+    "deleteError": "Failed to delete organization."
+  }
+}
