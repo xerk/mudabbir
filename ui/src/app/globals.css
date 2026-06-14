@@ -172,3 +172,14 @@
 *::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+/* Hide the Chatwoot help-chat widget visually — it stays loaded, but the
+   bubble/launcher and chat window are not displayed. */
+.woot-widget-bubble,
+.woot-widget-bubble.woot-widget--expanded,
+.woot--bubble-holder,
+.woot-widget-holder,
+#cw-bubble-holder,
+#cw-widget-holder {
+  display: none !important;
+}
